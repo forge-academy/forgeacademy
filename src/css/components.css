@@ -1,0 +1,279 @@
+/* ==========================================================================
+   Forge Academy — Components
+   ========================================================================== */
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1.5px solid transparent;
+  transition: transform 0.15s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease), color .15s var(--ease);
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary {
+  background: var(--color-teal-700);
+  color: #fff;
+}
+.btn--primary:hover { background: var(--color-teal-900); }
+
+.btn--outline {
+  background: transparent;
+  border-color: var(--color-line);
+  color: var(--color-ink);
+}
+.btn--outline:hover { border-color: var(--color-ink); }
+
+.btn--outline-light {
+  background: transparent;
+  border-color: rgba(255,255,255,0.4);
+  color: #fff;
+}
+.btn--outline-light:hover { border-color: #fff; }
+
+.btn--accent {
+  background: var(--color-orange-600);
+  color: #fff;
+}
+.btn--accent:hover { background: var(--color-orange-700); }
+
+/* ---- Logo ---- */
+.logo {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+.logo span { color: var(--color-orange-600); }
+
+/* ---- Badge chips (hero floating cards) ---- */
+.floating-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #fff;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-float);
+  font-size: 0.85rem;
+}
+
+.floating-badge__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.floating-badge__icon--orange { background: var(--color-orange-100); color: var(--color-orange-600); }
+.floating-badge__icon--teal { background: var(--color-teal-100); color: var(--color-teal-700); }
+
+.floating-badge strong { display: block; color: var(--color-ink); font-size: 0.9rem; }
+.floating-badge span { color: var(--color-muted); font-size: 0.78rem; }
+
+.floating-badge--duration { left: -1rem; bottom: 1.5rem; }
+.floating-badge--curriculum { right: -0.5rem; top: 0.5rem; }
+
+@media (max-width: 640px) {
+  .floating-badge { position: static; margin-top: var(--space-2); }
+}
+
+/* ---- Skill cards ---- */
+.skill-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-card);
+}
+
+.skill-card__art {
+  height: 150px;
+  border-radius: var(--radius-md);
+  background: var(--color-teal-50);
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.skill-card__art img { width: 100%; height: 100%; object-fit: cover; }
+
+.skill-card h3 { margin-bottom: 0.5rem; }
+.skill-card p { font-size: 0.92rem; }
+
+.skill-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: var(--space-2);
+  font-weight: 600;
+  color: var(--color-teal-700);
+  font-size: 0.9rem;
+}
+
+/* ---- Bento cards ---- */
+.bento-card {
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.bento-card h3 { margin-bottom: 0.4rem; }
+.bento-card p { font-size: 0.9rem; }
+
+.bento-card--mint { background: var(--color-teal-100); }
+.bento-card--dark { background: var(--color-teal-900); color: rgba(255,255,255,0.85); }
+.bento-card--dark h3 { color: #fff; }
+.bento-card--orange { background: var(--color-orange-600); color: rgba(255,255,255,0.9); }
+.bento-card--orange h3 { color: #fff; }
+
+.bento-card__avatars {
+  display: flex;
+  margin-bottom: var(--space-3);
+}
+.bento-card__avatars img {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 3px solid var(--color-teal-100);
+  margin-left: -12px;
+  object-fit: cover;
+}
+.bento-card__avatars img:first-child { margin-left: 0; }
+
+/* ---- Process steps ---- */
+.process-badge {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 2px solid var(--color-orange-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-orange-600);
+  background: var(--color-bg);
+  margin-inline: auto;
+  margin-bottom: var(--space-2);
+}
+
+.process-badge--filled {
+  background: var(--color-orange-600);
+  color: #fff;
+}
+
+.process__step h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
+.process__step p { font-size: 0.88rem; max-width: 200px; margin-inline: auto; }
+
+/* ---- Testimonials ---- */
+.testimonial-card {
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  max-width: 340px;
+}
+
+.testimonial-card--active {
+  background: var(--color-teal-700);
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: var(--shadow-float);
+}
+
+.testimonial-card--side {
+  background: #fff;
+  color: var(--color-muted);
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+.testimonial-card__quote { font-size: 0.95rem; line-height: 1.6; }
+
+.testimonial-card__person {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: var(--space-3);
+}
+
+.testimonial-card__person img {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-card__person strong { display: block; font-size: 0.88rem; }
+.testimonial-card__person span { font-size: 0.78rem; opacity: 0.75; }
+
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-line);
+  border: none;
+  padding: 0;
+}
+.dot[aria-current="true"] { background: var(--color-teal-700); width: 22px; border-radius: var(--radius-pill); transition: width .2s var(--ease); }
+
+/* ---- FAQ accordion ---- */
+.faq-item {
+  background: #fff;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.faq-item__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 1.15rem 1.4rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  font-size: 0.98rem;
+}
+
+.faq-item__icon {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--color-teal-100);
+  color: var(--color-teal-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: transform 0.2s var(--ease);
+}
+
+.faq-item[data-open="true"] .faq-item__icon { transform: rotate(45deg); }
+
+.faq-item__panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s var(--ease);
+}
+
+.faq-item__panel p {
+  padding: 0 1.4rem 1.15rem;
+  font-size: 0.92rem;
+  color: var(--color-muted);
+}
