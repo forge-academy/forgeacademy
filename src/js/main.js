@@ -11,7 +11,6 @@ function initFaq() {
     trigger.addEventListener('click', () => {
       const isOpen = item.getAttribute('data-open') === 'true';
 
-      // close all others
       items.forEach((other) => {
         if (other !== item) {
           other.setAttribute('data-open', 'false');
@@ -27,7 +26,6 @@ function initFaq() {
     });
   });
 
-  // open first item by default
   if (items[0]) {
     items[0].setAttribute('data-open', 'true');
     const panel = items[0].querySelector('.faq-item__panel');
@@ -36,28 +34,76 @@ function initFaq() {
   }
 }
 
-// ---- Testimonial carousel (dot navigation only, single active card shown on mobile) ----
+// ---- Testimonial carousel ----
+const forgeTestimonials = [
+  { quote: "I came in with very little coding experience, but the classes were easy to follow and the instructors were supportive.", name: "Tobi A.", role: "Software Engineering Student" },
+  { quote: "The mentorship made all the difference — I finally understood how real projects come together.", name: "Chiamaka N.", role: "Data Analytics Student" },
+  { quote: "Forge Academy gave me the confidence to start my journey in UI/UX Design. The practical projects made learning easier, and I loved being able to apply what I learned.", name: "Amaka O.", role: "UI/UX Design Student" },
+  { quote: "Hands-on projects from week one. I left with a portfolio, not just certificates.", name: "David E.", role: "Software Engineering Student" },
+  { quote: "The community kept me accountable. I never felt like I was learning alone.", name: "Ifeoma K.", role: "AI & Automation Student" },
+];
+
 function initTestimonials() {
-  const dots = document.querySelectorAll('.testimonial-dots .dot');
-  const quote = document.querySelector('[data-testimonial-quote]');
-  const name = document.querySelector('[data-testimonial-name]');
-  const role = document.querySelector('[data-testimonial-role]');
+  const dotsWrap = document.querySelector('.testimonial-dots');
+  const track = document.querySelector('.testimonial-track');
+  const prevBtn = document.querySelector('[data-testimonial-prev]');
+  const nextBtn = document.querySelector('[data-testimonial-next]');
 
-  if (!dots.length || !window.forgeTestimonials) return;
+  if (!dotsWrap || !track) return;
 
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      dots.forEach((d) => d.setAttribute('aria-current', 'false'));
-      dot.setAttribute('aria-current', 'true');
+  let activeIndex = 2;
 
-      const data = window.forgeTestimonials[i];
-      if (data && quote) {
-        quote.textContent = data.quote;
-        name.textContent = data.name;
-        role.textContent = data.role;
-      }
+  function render() {
+    const total = forgeTestimonials.length;
+    const prevIndex = (activeIndex - 1 + total) % total;
+    const nextIndex = (activeIndex + 1) % total;
+
+    const active = forgeTestimonials[activeIndex];
+    const prev = forgeTestimonials[prevIndex];
+    const next = forgeTestimonials[nextIndex];
+
+    track.innerHTML = `
+      <div class="testimonial-card testimonial-card--side">
+        <p class="testimonial-card__quote">${prev.quote}</p>
+      </div>
+      <div class="testimonial-card testimonial-card--active">
+        <p class="testimonial-card__quote">${active.quote}</p>
+        <div class="testimonial-card__person">
+          <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="" />
+          <span>
+            <strong>${active.name}</strong>
+            <span>${active.role}</span>
+          </span>
+        </div>
+      </div>
+      <div class="testimonial-card testimonial-card--side">
+        <p class="testimonial-card__quote">${next.quote}</p>
+      </div>
+    `;
+
+    dotsWrap.innerHTML = forgeTestimonials
+      .map((_, i) => `<button class="dot" aria-current="${i === activeIndex}" data-index="${i}"></button>`)
+      .join('');
+
+    dotsWrap.querySelectorAll('.dot').forEach((dot) => {
+      dot.addEventListener('click', () => {
+        activeIndex = Number(dot.dataset.index);
+        render();
+      });
     });
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    activeIndex = (activeIndex - 1 + forgeTestimonials.length) % forgeTestimonials.length;
+    render();
   });
+
+  nextBtn?.addEventListener('click', () => {
+    activeIndex = (activeIndex + 1) % forgeTestimonials.length;
+    render();
+  });
+
+  render();
 }
 
 // ---- Mobile nav toggle ----

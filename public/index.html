@@ -14,13 +14,22 @@
 
   <header class="site-header">
     <div class="container site-header__bar">
-      <a href="#" class="logo">Forge<span>.</span>Academy</a>
+      <a href="#" class="logo">
+        <svg class="logo__mark" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2L2 28H9L14 16L19 28H26L14 2Z" fill="#0A7E78"/>
+          <path d="M14 2L20 15H10L14 2Z" fill="#F97316"/>
+        </svg>
+        <span class="logo__text">
+          <strong>FORGE</strong>
+          <span>ACADEMY</span>
+        </span>
+      </a>
 
       <nav class="site-nav" aria-label="Primary">
         <a href="#programmes">Programmes</a>
         <a href="#why">Why Forge</a>
-        <a href="#how">How it works</a>
-        <a href="#faq">FAQ</a>
+        <a href="#how">How It Works</a>
+        <a href="#community">Community</a>
       </nav>
 
       <div class="header-actions">
@@ -37,11 +46,18 @@
       <div class="hero__rays" aria-hidden="true"></div>
       <div class="container">
         <div class="hero__intro">
-          <h1>Learn Tech. Build Skills.<br /><span style="color: var(--color-teal-700)">Create Your Future</span></h1>
+          <h1>
+            Learn Tech. Build Skills.<br />
+            <span class="highlight">
+              <span class="highlight__bar highlight__bar--start"></span>
+              Create Your Future
+              <span class="highlight__bar highlight__bar--end"></span>
+            </span>
+          </h1>
           <p>Forge Academy helps aspiring digital professionals develop practical skills through live learning, real projects, and mentorship.</p>
           <div class="hero__actions">
-            <a href="#programmes" class="btn btn--outline">View programme</a>
-            <a href="#register" class="btn btn--primary">Register →</a>
+            <a href="#programmes" class="btn btn--outline btn--hero">View programme</a>
+            <a href="#register" class="btn btn--primary btn--hero">Register →</a>
           </div>
         </div>
 
@@ -52,14 +68,14 @@
             <li><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500&q=80" alt="Student working at a desk near a window" /></li>
           </ul>
 
-          <div class="floating-badge floating-badge--duration">
-            <span class="floating-badge__icon floating-badge__icon--orange">📅</span>
-            <span><strong>8 Weeks</strong><span>Duration</span></span>
+          <div class="floating-badge floating-badge--curriculum">
+            <span class="floating-badge__icon">📈</span>
+            <span><strong>Industry-Relevant</strong><span>Curriculum</span></span>
           </div>
 
-          <div class="floating-badge floating-badge--curriculum">
-            <span class="floating-badge__icon floating-badge__icon--teal">📈</span>
-            <span><strong>Industry-Relevant</strong><span>Curriculum</span></span>
+          <div class="floating-badge floating-badge--duration">
+            <span class="floating-badge__icon">📅</span>
+            <span><strong>8 Weeks</strong><span>Duration</span></span>
           </div>
         </div>
       </div>
@@ -69,36 +85,48 @@
     <section class="section section--tint" id="programmes">
       <div class="container">
         <div class="section-head">
-          <h2>Choose the Skill That Builds Your Future</h2>
+          <h2>Choose the Skill That Build Your Future</h2>
           <p>Gain practical, industry-ready skills through hands-on training designed to help you build, create and advance your career.</p>
         </div>
 
         <div class="skills-grid">
           <article class="skill-card">
-            <div class="skill-card__art"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80" alt="UI/UX design mockups" /></div>
+            <div class="skill-card__art">
+              <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&q=80" alt="UI/UX design mockups" />
+              <span class="skill-card__chip" title="Swap for the Figma icon">🎨</span>
+            </div>
             <h3>UI/UX Design</h3>
             <p>Learn to design intuitive digital experiences, from user research and wireframes to high-fidelity prototypes and design systems.</p>
             <a href="#register" class="skill-card__link">Register →</a>
           </article>
 
           <article class="skill-card">
-            <div class="skill-card__art"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80" alt="Code editor showing software" /></div>
+            <div class="skill-card__art">
+              <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80" alt="Code editor showing software" />
+              <span class="skill-card__chip" title="Swap for a code icon">💻</span>
+            </div>
             <h3>Software Engineering</h3>
-            <p>Build modern web and software applications while developing strong frontend, backend, database and API skills.</p>
+            <p>Build modern web and software application while developing strong frontend, backend, database and API skills.</p>
             <a href="#register" class="skill-card__link">Register →</a>
           </article>
 
           <article class="skill-card">
-            <div class="skill-card__art"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80" alt="Data analytics dashboard" /></div>
+            <div class="skill-card__art">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80" alt="Data analytics dashboard" />
+              <span class="skill-card__chip" title="Swap for an Excel icon">📊</span>
+            </div>
             <h3>Data Analytics</h3>
             <p>Turn raw data into meaningful insights using tools and techniques for analysis, visualization and data-driven decision-making.</p>
             <a href="#register" class="skill-card__link">Register →</a>
           </article>
 
           <article class="skill-card">
-            <div class="skill-card__art"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&q=80" alt="AI and automation concept" /></div>
-            <h3>AI &amp; Automation</h3>
-            <p>Learn how to use AI and automation tools to streamline workflows, solve business problems, and build intelligent solutions.</p>
+            <div class="skill-card__art">
+              <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&q=80" alt="AI and automation concept" />
+              <span class="skill-card__chip" title="Swap for a sparkle/AI icon">✨</span>
+            </div>
+            <h3>AI & Automation</h3>
+            <p>Learn how to use AI and automation tools to streamline workflow, solve business problems, and build intelligent solutions.</p>
             <a href="#register" class="skill-card__link">Register →</a>
           </article>
         </div>
@@ -151,6 +179,11 @@
         </div>
 
         <div class="process">
+          <svg class="process__curve" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M110,60 C220,150 260,150 360,90 C460,30 500,10 620,60 C740,110 780,110 870,150"
+                  fill="none" stroke="#F97316" stroke-width="2" stroke-dasharray="6 8" />
+          </svg>
+
           <div class="process__step">
             <div class="process-badge">01</div>
             <h3>Choose Your Programme</h3>
@@ -176,22 +209,25 @@
     </section>
 
     <!-- Community banner -->
-    <section class="section">
+    <section class="community" id="community">
       <div class="container">
-        <div class="community">
-          <div class="community__text">
-            <h2>You don't forge alone.</h2>
-            <p>Forge Academy is more than classes. It's a community of people learning, building, sharing feedback and growing together — from day one and long after graduation.</p>
-            <div class="community__actions">
-              <a href="#register" class="btn btn--accent">Join Community →</a>
-              <a href="#programmes" class="btn btn--outline-light">See Programmes</a>
-            </div>
-          </div>
-          <div class="community__photo">
-            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80" alt="A group of Forge Academy students laughing together" />
+        <div class="community__text">
+          <h2>You don't forge alone.</h2>
+          <p>Forge Academy is more than classes. It's a community of people learning, building, sharing feedback and growing together — from day one and long after graduation.</p>
+          <div class="community__actions">
+            <a href="#register" class="btn btn--accent">Join Community →</a>
+            <a href="#programmes" class="btn btn--outline-light">See Programmes</a>
           </div>
         </div>
       </div>
+
+      <ul class="community__photos">
+        <li><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80" alt="Student portrait" /></li>
+        <li><img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&q=80" alt="Student portrait" /></li>
+        <li><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Student portrait" /></li>
+        <li><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&q=80" alt="Two students looking at a phone" /></li>
+        <li><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500&q=80" alt="Two students laughing" /></li>
+      </ul>
     </section>
 
     <!-- Testimonials -->
@@ -202,33 +238,12 @@
           <p>See how Forge Academy is helping aspiring digital professionals build practical skills, create real projects, and take confident steps toward their goals.</p>
         </div>
 
-        <div class="testimonial-track">
-          <div class="testimonial-card testimonial-card--side">
-            <p class="testimonial-card__quote">I came in with very little coding experience, but the classes were easy to follow and the instructors were supportive.</p>
-          </div>
+        <div class="testimonial-track"><!-- rendered by main.js --></div>
 
-          <div class="testimonial-card testimonial-card--active">
-            <p class="testimonial-card__quote" data-testimonial-quote>Forge Academy gave me the confidence to start my journey in UI/UX Design. The practical projects made learning easier, and I loved being able to apply what I learned.</p>
-            <div class="testimonial-card__person">
-              <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="" />
-              <span>
-                <strong data-testimonial-name>Amaka O.</strong>
-                <span data-testimonial-role>UI/UX Design Student</span>
-              </span>
-            </div>
-          </div>
-
-          <div class="testimonial-card testimonial-card--side">
-            <p class="testimonial-card__quote">I came in with very little coding experience, but the classes were easy to follow and the instructors were supportive.</p>
-          </div>
-        </div>
-
-        <div class="testimonial-dots" role="tablist" aria-label="Testimonials">
-          <button class="dot" aria-current="false"></button>
-          <button class="dot" aria-current="false"></button>
-          <button class="dot" aria-current="true"></button>
-          <button class="dot" aria-current="false"></button>
-          <button class="dot" aria-current="false"></button>
+        <div class="testimonial-nav">
+          <button class="testimonial-arrow" data-testimonial-prev aria-label="Previous testimonial">←</button>
+          <div class="testimonial-dots" role="tablist" aria-label="Testimonials"><!-- rendered by main.js --></div>
+          <button class="testimonial-arrow" data-testimonial-next aria-label="Next testimonial">→</button>
         </div>
       </div>
     </section>
@@ -268,7 +283,7 @@
               <span class="faq-item__icon">+</span>
             </button>
             <div class="faq-item__panel">
-              <p>We currently offer UI/UX Design, Software Engineering, Data Analytics, and AI &amp; Automation.</p>
+              <p>We currently offer UI/UX Design, Software Engineering, Data Analytics, and AI & Automation.</p>
             </div>
           </div>
 
@@ -305,72 +320,93 @@
       </div>
     </section>
 
-    <!-- Final CTA -->
-    <section class="section" id="register">
-      <div class="container">
-        <div class="final-cta">
-          <div class="final-cta__ghost" aria-hidden="true">FORGE</div>
-          <div class="final-cta__content">
-            <h2 style="color:#fff">Your next chapter starts here.</h2>
-            <p>Choose a skill. Build something real. Become the professional you want to be.</p>
-            <div class="final-cta__actions">
-              <a href="#programmes" class="btn btn--accent">Explore programmes</a>
-              <a href="#" class="btn btn--outline-light">Register →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <footer class="site-footer">
+  <!-- Footer block: CTA card + link columns share one continuous teal surface -->
+  <div class="footer-block" id="register">
     <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo" style="color:#fff">Forge<span style="color:var(--color-teal-900)">.</span>Academy</a>
-          <p>A digital skills academy forging Africa's next generation of designers, analysts and engineers through live learning, real projects and community.</p>
-        </div>
-
-        <div>
-          <h4>Learn</h4>
-          <ul>
-            <li><a href="#programmes">Programmes</a></li>
-            <li><a href="#how">How it works</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4>Forge</h4>
-          <ul>
-            <li><a href="#why">About us</a></li>
-            <li><a href="#why">Community</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#">Testimonials</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4>Contact</h4>
-          <ul>
-            <li><a href="mailto:hello@forgeacademy.ng">hello@forgeacademy.ng</a></li>
-            <li><a href="#">WhatsApp community</a></li>
-            <li><a href="#">Lagos, Nigeria</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <span>© 2026 Forge Academy. Forged in Nigeria.</span>
-        <div class="social-links" aria-label="Social media">
-          <a href="#" aria-label="Instagram">IG</a>
-          <a href="#" aria-label="X (Twitter)">X</a>
-          <a href="#" aria-label="LinkedIn">in</a>
-          <a href="#" aria-label="TikTok">TT</a>
+      <div class="final-cta">
+        <h2 style="color:#fff">Your next chapter starts here.</h2>
+        <p>Choose a skill. Build something real. Become the professional you want to be.</p>
+        <div class="final-cta__actions">
+          <a href="#programmes" class="btn btn--accent">Explore programme</a>
+          <a href="#" class="btn btn--outline-light">Register →</a>
         </div>
       </div>
     </div>
-  </footer>
+
+    <footer class="footer-links">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="#" class="logo">
+              <svg class="logo__mark" width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2L2 28H9L14 16L19 28H26L14 2Z" fill="#fff"/>
+                <path d="M14 2L20 15H10L14 2Z" fill="#F97316"/>
+              </svg>
+              <span class="logo__text">
+                <strong style="color:#fff">FORGE</strong>
+                <span style="color:rgba(255,255,255,0.7)">ACADEMY</span>
+              </span>
+            </a>
+            <p>A digital skills academy forging Africa's next generation of designers, analysts and engineers through live learning, real projects and community.</p>
+          </div>
+
+          <div>
+            <h4>Learn</h4>
+            <ul>
+              <li><a href="#programmes">Programmes</a></li>
+              <li><a href="#how">How It Works</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Forge</h4>
+            <ul>
+              <li><a href="#why">About Us</a></li>
+              <li><a href="#community">Community</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#">Testimonial</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:hello@forgeacademy.ng">hello@forgeacademy.ng</a></li>
+              <li><a href="#">Whatsapp community</a></li>
+              <li><a href="#">Lagos, Nigeria</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="footer-block__ghost" aria-hidden="true">FORGE</div>
+  </div>
+
+  <div class="footer-bottom-bar">
+    <div class="container footer-bottom">
+      <span>2026 Forgeacademy. Forge in Nigeria.</span>
+      <div class="social-links" aria-label="Social media">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.07 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.25.07-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 5.6 1.8c.46-.16 1.26-.35 2.43-.4C9.28 1.34 9.68 1.33 12 1.33Zm0 1.8c-3.15 0-3.53 0-4.77.07-.96.04-1.48.2-1.83.34a3.1 3.1 0 0 0-1.14.74 3.1 3.1 0 0 0-.74 1.14c-.14.35-.3.87-.34 1.83C3.11 8.16 3.1 8.53 3.1 12s0 3.53.07 4.77c.04.96.2 1.48.34 1.83.16.42.37.78.74 1.14.36.36.72.58 1.14.74.35.14.87.3 1.83.34 1.24.06 1.61.07 4.77.07s3.53 0 4.77-.07c.96-.04 1.48-.2 1.83-.34a3.1 3.1 0 0 0 1.14-.74c.36-.36.58-.72.74-1.14.14-.35.3-.87.34-1.83.06-1.24.07-1.61.07-4.77s0-3.53-.07-4.77c-.04-.96-.2-1.48-.34-1.83a3.1 3.1 0 0 0-.74-1.14 3.1 3.1 0 0 0-1.14-.74c-.35-.14-.87-.3-1.83-.34C15.53 3.1 15.15 3.1 12 3.1Zm0 3.66a5.24 5.24 0 1 1 0 10.48 5.24 5.24 0 0 1 0-10.48Zm0 1.8a3.44 3.44 0 1 0 0 6.88 3.44 3.44 0 0 0 0-6.88Zm5.44-1.98a1.22 1.22 0 1 1-2.45 0 1.22 1.22 0 0 1 2.45 0Z"/></svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg viewBox="0 0 24 24"><path d="M18.9 2H22l-7.5 8.57L23.3 22h-6.9l-5.4-7.06L4.8 22H1.7l8.02-9.17L1 2h7.1l4.88 6.45L18.9 2Zm-1.2 18h1.9L7.4 4H5.4l12.3 16Z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.83v1.64h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.15 1.46-2.15 2.96V21h-4V9Z"/></svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M14.5 2h3.2c.2 1.9 1.4 3.5 3.3 4v3.2c-1.5-.05-2.9-.5-4.1-1.3v6.6a6.1 6.1 0 1 1-6.1-6.1c.3 0 .6.02.9.06v3.3a2.8 2.8 0 1 0 2 2.7V2Z"/></svg>
+        </a>
+        <a href="#" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.36A10 10 0 1 0 12 2Zm0 1.8a8.2 8.2 0 0 1 6.98 12.5l-.24.4.55 2.02-2.07-.54-.4.24A8.2 8.2 0 1 1 12 3.8Zm-3.1 3.9c-.2 0-.5.07-.77.36-.26.28-1 .98-1 2.4 0 1.4 1.02 2.76 1.17 2.95.14.2 2 3.14 4.9 4.28 2.4.95 2.9.76 3.42.71.53-.05 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.2-.55-.34-.28-.14-1.72-.85-1.98-.94-.27-.1-.46-.14-.65.14-.19.28-.75.94-.92 1.13-.17.2-.34.22-.62.08-.28-.14-1.19-.44-2.27-1.4-.84-.75-1.4-1.67-1.57-1.95-.16-.28-.02-.43.13-.57.13-.13.28-.34.42-.5.14-.18.19-.3.28-.5.1-.19.05-.36-.02-.5-.07-.14-.63-1.58-.88-2.16-.23-.55-.47-.48-.65-.48h-.55Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <script src="../src/js/main.js"></script>
 </body>
