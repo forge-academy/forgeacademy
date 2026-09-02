@@ -51,6 +51,15 @@
 }
 .btn--outline-light:hover { border-color: #fff; }
 
+.btn--outline-teal {
+  background: transparent;
+  border-color: #06534F;
+  color: #06534F;
+}
+.btn--outline-teal:hover { 
+  border-color: #fff;
+  color:#fff;
+}
 .btn--accent {
   background: var(--color-orange-600);
   color: #fff;
@@ -130,7 +139,7 @@
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  background: var(--color-orange-600);
+  background: var(--color-surface);
   padding: 16px;
   border-radius: 12px;
   box-shadow: var(--shadow-float);
@@ -148,11 +157,11 @@
   justify-content: center;
   font-size: 1rem;
   flex-shrink: 0;
-  color: #fff;
+  color: var(--color-orange-600);
 }
 
-.floating-badge strong { display: block; color: #fff; font-size: 0.9rem; }
-.floating-badge span { color: rgba(255,255,255,0.85); font-size: 0.78rem; }
+.floating-badge strong { display: block; color: var(--color-orange-600); font-size: 0.9rem; }
+.floating-badge span { color: var(--color-ink); font-size: 0.78rem; }
 
 /* positions relative to .hero__stage using the Figma frame:
    collage box = top 496 / left 285 / w 870.44 / h 425.11 */

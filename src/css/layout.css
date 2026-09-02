@@ -44,6 +44,7 @@
   align-items: center;
   justify-content: space-between;
   padding-block: 0.65rem;
+  
 }
 
 .site-nav {
@@ -329,7 +330,7 @@
 /* ---- Footer block (CTA + links share one teal surface) ---- */
 .footer-block {
   position: relative;
-  background: var(--color-teal-900);
+  background: var(--color-teal-700);
   overflow: hidden;
   padding-top: var(--space-6);
 }
@@ -337,7 +338,7 @@
 .final-cta {
   position: relative;
   z-index: 2;
-  background: rgba(255,255,255,0.06);
+  background: #d0f0eed2;
   border: 1px solid rgba(255,255,255,0.25);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-3);
@@ -345,7 +346,7 @@
   color: #fff;
 }
 
-.final-cta p { color: rgba(255,255,255,0.75); margin-top: var(--space-2); }
+.final-cta p { color: rgba(0, 0, 0, 0.75); margin-top: var(--space-2); }
 
 .final-cta__actions {
   display: flex;
