@@ -140,7 +140,7 @@
   height: 91.06%;
   top: 4.27%;
   left: 0%;
-  transform: rotate(4deg);
+  transform: rotate(-8deg);
 }
 
 /* Middle image: 300 x 400, top 0, left 32.89% */
@@ -150,6 +150,7 @@
   top: 0%;
   left: 32.89%;
   transform: none;
+  z-index: 2;
 }
 
 /* Right image: 300 x 387, top 4.24%, left 62.55%, rotate -4deg */
@@ -158,7 +159,7 @@
   height: 91.06%;
   top: 4.24%;
   left: 62.55%;
-  transform: rotate(-4deg);
+  transform: rotate(8deg);
 }
 
 @media (max-width: 640px) {
