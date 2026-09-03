@@ -186,14 +186,23 @@
 }
 
 /* ---- Why bento ---- */
+
 .bento-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.bento-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
 }
 
 @media (max-width: 720px) {
-  .bento-grid { grid-template-columns: 1fr; }
+  .bento-grid { flex-direction: column; }
 }
 
 /* ---- How it works ---- */
@@ -241,9 +250,14 @@
 }
 
 /* ---- Community banner ---- */
+/* ============================================================
+   COMMUNITY BANNER — Image 1 layout
+   ============================================================ */
+
 .community {
-  background: var(--color-teal-900);
-  padding-top: var(--space-5);
+  position: relative;
+  background: var(--color-teal-700);
+  padding-top: 42px;
   overflow: hidden;
 }
 
@@ -254,45 +268,267 @@
   color: #fff;
 }
 
-.community__text h2 { color: #fff; }
-.community__text p { color: rgba(255,255,255,0.75); margin-top: var(--space-2); }
+.community__text h2 {
+  color: #fff;
+  font-size: clamp(1.8rem, 3vw, 2.15rem);
+  line-height: 1.15;
+}
+
+.community__text p {
+  max-width: 620px;
+  margin: 14px auto 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
 
 .community__actions {
   display: flex;
-  gap: var(--space-2);
   justify-content: center;
-  margin-top: var(--space-3);
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
   flex-wrap: wrap;
 }
 
+.community__actions .btn {
+  height: 42px;
+  padding: 0 25px;
+  font-size: 0.72rem;
+  border-radius: 50px;
+}
+
+/* ------------------------------------------------------------
+   PEOPLE
+   ------------------------------------------------------------ */
+
 .community__photos {
-  margin-top: var(--space-5);
+  position: relative;
+  width: 100%;
+  height: 250px;
+
+  margin-top: 34px;
+  padding: 0;
+
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 0.5rem;
-  padding-inline: var(--space-3);
+
+  overflow: visible;
 }
 
+/* Every image is a transparent cutout.
+   Do NOT crop it into a box. */
 .community__photos img {
-  width: 100%;
-  object-fit: cover;
-  border-radius: 20px 20px 0 0;
+  display: block;
+  width: auto;
+  max-width: none;
+  height: auto;
+
+  object-fit: contain;
+
+  border: none;
+  border-radius: 0;
+
+  flex-shrink: 0;
 }
 
-.community__photos li:nth-child(1) img { height: 220px; }
-.community__photos li:nth-child(2) img { height: 260px; }
-.community__photos li:nth-child(3) img { height: 220px; }
-.community__photos li:nth-child(4) img { height: 300px; }
-.community__photos li:nth-child(5) img { height: 300px; }
+/* ------------------------------------------------------------
+   PERSON 1 — far left
+   ------------------------------------------------------------ */
 
-.community__photos li { flex: 1; min-width: 0; }
-.community__photos li:nth-child(4),
-.community__photos li:nth-child(5) { flex: 1.4; }
+.community__photos__item--1 {
+  position: relative;
+  z-index: 2;
+
+  width: 190px;
+  height: 250px;
+
+  margin: 0 -18px 0 0;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.community__photos__item--1 img {
+  width: auto;
+  height: 275px;
+  max-width: none;
+}
+
+/* ------------------------------------------------------------
+   PERSON 2 — overlaps person 1
+   ------------------------------------------------------------ */
+
+.community__photos__item--2 {
+  position: relative;
+  z-index: 3;
+
+  margin: 0 -18px 0 -18px;
+
+  display: flex;
+  align-items: flex-end;
+}
+
+.community__photos__item--2 img {
+  width: auto;
+  height: 295px;
+  max-width: none;
+}
+
+/* ------------------------------------------------------------
+   PERSON 3 — center/right
+   ------------------------------------------------------------ */
+
+.community__photos__item--3 {
+  position: relative;
+  z-index: 2;
+
+  width: 190px;
+  height: 250px;
+
+  margin: 0 0 0 -18px;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.community__photos__item--3 img {
+  width: auto;
+  height: 320px;
+  max-width: none;
+}
+
+/* ------------------------------------------------------------
+   TWO PEOPLE — far right
+   ------------------------------------------------------------ */
+
+.community__photos__item--4 {
+  position: relative;
+  z-index: 4;
+
+  margin: 0 0 0 80px;
+
+  display: flex;
+  align-items: flex-end;
+}
+
+.community__photos__item--4 img {
+  width: auto;
+  height: 425px;
+  max-width: none;
+}
+
+/* ------------------------------------------------------------
+   DESKTOP SCALE
+   Keeps Image 1's zoomed-out composition while allowing
+   the people to become larger on wider screens.
+   ------------------------------------------------------------ */
+
+@media (min-width: 1000px) {
+  .community__photos {
+    height: 270px;
+    margin-top: 28px;
+  }
+
+  .community__photos__item--1 {
+    width: 205px;
+    height: 270px;
+  }
+
+  .community__photos__item--1 img {
+    height: 295px;
+  }
+
+  .community__photos__item--2 img {
+    height: 315px;
+  }
+
+  .community__photos__item--3 {
+    width: 205px;
+    height: 270px;
+  }
+
+  .community__photos__item--3 img {
+    height: 340px;
+  }
+
+  .community__photos__item--4 {
+    margin-left: 70px;
+  }
+
+  .community__photos__item--4 img {
+    height: 455px;
+  }
+}
+
+/* ------------------------------------------------------------
+   MOBILE
+   ------------------------------------------------------------ */
 
 @media (max-width: 780px) {
-  .community__photos { flex-wrap: wrap; }
-  .community__photos li { flex: 1 1 30%; }
+  .community {
+    padding-top: 34px;
+  }
+
+  .community__text {
+    padding-inline: 20px;
+  }
+
+  .community__text h2 {
+    font-size: 1.7rem;
+  }
+
+  .community__text p {
+    font-size: 0.75rem;
+  }
+
+  .community__photos {
+    height: 190px;
+    margin-top: 28px;
+  }
+
+  .community__photos__item--1 {
+    width: 125px;
+    height: 190px;
+    margin-right: -15px;
+  }
+
+  .community__photos__item--1 img {
+    height: 210px;
+  }
+
+  .community__photos__item--2 {
+    margin-inline: -15px;
+  }
+
+  .community__photos__item--2 img {
+    height: 225px;
+  }
+
+  .community__photos__item--3 {
+    width: 125px;
+    height: 190px;
+    margin-left: -15px;
+  }
+
+  .community__photos__item--3 img {
+    height: 200px;
+  }
+
+  .community__photos__item--4 {
+    margin-left: 15px;
+  }
+
+  .community__photos__item--4 img {
+    height: 465px;
+  }
 }
 
 /* ---- Testimonials ---- */

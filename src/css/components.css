@@ -194,27 +194,38 @@
 
 .skill-card__art {
   position: relative;
-  height: 150px;
+  height: 200px;
   border-radius: var(--radius-md);
-  background: var(--color-teal-50);
+  background: var(--color-surface);
   margin-bottom: var(--space-3);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  overflow: hidden;
+  padding: 10px;
 }
 
-.skill-card__art img {
-  width: 100%; height: 100%;
+/* Software Engineering & Data Analytics — zoomed screenshot effect */
+.skills-grid .skill-card:nth-child(2) .skill-card__art img,
+.skills-grid .skill-card:nth-child(3) .skill-card__art img {
   object-fit: cover;
-  border-radius: var(--radius-md);
+  transform: scale(1);
+  object-position: center top;
 }
 
-/* floating rotated icon chip — placeholder, swap the emoji for a real icon/image later */
+.skill-card__art svg,
+.skill-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+/* floating rotated icon chip — nests inside the art's top-right corner */
 .skill-card__chip {
   position: absolute;
-  top: -12px;
-  right: -12px;
+  top: 12px;
+  right: 12px;
   width: 40px;
   height: 40px;
   background: var(--color-ink);
@@ -242,26 +253,36 @@
 
 /* ---- Bento cards ---- */
 .bento-card {
+  position: relative;
   border-radius: var(--radius-lg);
   padding: var(--space-3);
-  min-height: 220px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  overflow: hidden;
 }
 
-.bento-card h3 { margin-bottom: 0.4rem; }
-.bento-card p { font-size: 0.9rem; }
+.bento-card--h-lg { min-height: 260px; }
+.bento-card--h-sm { min-height: 180px; }
+
+.bento-card h3 { margin-bottom: 0.4rem; position: relative; z-index: 1; }
+.bento-card p { font-size: 0.9rem; position: relative; z-index: 1; }
 
 .bento-card--mint { background: var(--color-teal-100); }
 .bento-card--dark { background: var(--color-teal-900); color: rgba(255,255,255,0.85); }
 .bento-card--dark h3 { color: #fff; }
 .bento-card--orange { background: var(--color-orange-600); color: rgba(255,255,255,0.9); }
 .bento-card--orange h3 { color: #fff; }
+.bento-card--mint-fade {
+  background: linear-gradient(135deg, var(--color-teal-500), var(--color-teal-100));
+  color: var(--color-ink);
+}
 
 .bento-card__avatars {
   display: flex;
   margin-bottom: var(--space-3);
+  position: relative;
+  z-index: 1;
 }
 .bento-card__avatars img {
   width: 44px; height: 44px;
@@ -272,6 +293,21 @@
 }
 .bento-card__avatars img:first-child { margin-left: 0; }
 
+/* single, consistent image treatment: rotated photo peeking top-right */
+.bento-card__art {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 46%;
+  max-width: 160px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 4px solid rgba(255,255,255,0.9);
+  box-shadow: var(--shadow-float);
+  transform: rotate(9deg);
+  z-index: 0;
+}
 /* ---- Process steps ---- */
 .process-badge {
   width: 88px;
@@ -281,9 +317,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: var(--color-orange-600);
+  color: var(--color-bg);
+  -webkit-text-stroke: 1.5px var(--color-orange-600);
+  paint-order: stroke fill;
   background: var(--color-bg);
   margin-inline: auto;
   margin-bottom: var(--space-2);
@@ -293,8 +331,9 @@
   width: 120px;
   height: 120px;
   background: var(--color-orange-600);
-  color: #fff;
-  font-size: 1.85rem;
+  color: var(--color-orange-600);
+  -webkit-text-stroke: 1.5px #fff;
+  font-size: 2rem;
   border-color: var(--color-orange-600);
 }
 
