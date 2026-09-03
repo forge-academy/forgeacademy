@@ -109,8 +109,8 @@
 
 .highlight__bar {
   position: absolute;
-  top: -16px;
-  bottom: -16px;
+  top: -4px;
+  bottom: -4px;
   width: 2px;
   background: var(--color-teal-700);
 }
@@ -130,8 +130,8 @@
 }
 
 /* one dot sits at the top, the other (inverted) sits at the bottom */
-.highlight__bar--start::before { top: -4px; }
-.highlight__bar--end::before { bottom: -4px; }
+.highlight__bar--start::before { top: -3px; }
+.highlight__bar--end::before { bottom: -3px; }
 
 /* ---- Badge chips (hero floating cards) ---- */
 .floating-badge {
