@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register — Forge Academy</title>
+  <meta name="description" content="Choose your programme, fill in your details and complete your enrollment at Forge Academy." />
+  <link rel="icon" href="../../public/favicon.ico" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/register.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container site-header__bar">
+      <a href="../../public/index.html" class="logo">
+        <svg class="logo__mark" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2L2 28H9L14 16L19 28H26L14 2Z" fill="#0A7E78"/>
+          <path d="M14 2L20 15H10L14 2Z" fill="#F97316"/>
+        </svg>
+        <span class="logo__text">
+          <strong>FORGE</strong>
+          <span>ACADEMY</span>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../../public/index.html#programmes">Programmes</a>
+        <a href="../../public/index.html#why">Why Forge</a>
+        <a href="../../public/index.html#how">How It Works</a>
+        <a href="../../public/index.html#community">Community</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="../../public/index.html" class="btn btn--outline-teal">Back to site</a>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="reg-hero">
+      <div class="container">
+        <div class="reg-hero__intro">
+          <h1>Let's get you forged.</h1>
+          <p>Three quick steps, you'll see your final price before you pay.</p>
+        </div>
+
+        <ol class="stepper" id="stepper">
+          <li class="stepper__step" data-step-indicator="1">
+            <span class="stepper__circle">1</span>
+            <span class="stepper__label">Programme<small>Step 1</small></span>
+          </li>
+          <li class="stepper__line"><span></span></li>
+          <li class="stepper__step" data-step-indicator="2">
+            <span class="stepper__circle">2</span>
+            <span class="stepper__label">Your details<small>Step 2</small></span>
+          </li>
+          <li class="stepper__line"><span></span></li>
+          <li class="stepper__step" data-step-indicator="3">
+            <span class="stepper__circle">3</span>
+            <span class="stepper__label">Referral &amp; price<small>Step 3</small></span>
+          </li>
+        </ol>
+
+        <div class="reg-grid">
+
+          <!-- ============ MAIN PANEL ============ -->
+          <div class="reg-main">
+
+            <!-- STEP 1: Programme -->
+            <div class="reg-card" data-step="1">
+              <div class="reg-card__head">
+                <h2>Choose your programme</h2>
+                <p>You can change this any time before you pay.</p>
+              </div>
+
+              <ul class="programme-list" id="programme-list">
+                <li class="programme-option" data-programme="uiux" data-price="20000" data-label="UI/UX Design" data-tags="8 weeks • Live online • Beginner friendly">
+                  <span class="programme-option__icon" style="background:var(--color-teal-100); color:var(--color-teal-700);">🎨</span>
+                  <span class="programme-option__meta">
+                    <strong>UI/UX Design</strong>
+                    <span class="programme-option__tags">8 weeks • Live online • Beginner friendly</span>
+                  </span>
+                  <span class="programme-option__price">₦20,000</span>
+                  <span class="programme-option__radio" aria-hidden="true"></span>
+                </li>
+
+                <li class="programme-option" data-programme="data" data-price="20000" data-label="Data Analysis" data-tags="6 weeks • Live online • Beginner friendly">
+                  <span class="programme-option__icon" style="background:var(--color-orange-100); color:var(--color-orange-600);">📊</span>
+                  <span class="programme-option__meta">
+                    <strong>Data Analysis</strong>
+                    <span class="programme-option__tags">6 weeks • Live online • Beginner friendly</span>
+                  </span>
+                  <span class="programme-option__price">₦20,000</span>
+                  <span class="programme-option__radio" aria-hidden="true"></span>
+                </li>
+
+                <li class="programme-option" data-programme="swe" data-price="25000" data-label="Software Engineering" data-tags="12 weeks • Live online • Beginner friendly">
+                  <span class="programme-option__icon" style="background:var(--color-teal-100); color:var(--color-teal-900);">💻</span>
+                  <span class="programme-option__meta">
+                    <strong>Software Engineering</strong>
+                    <span class="programme-option__tags">12 weeks • Live online • Beginner friendly</span>
+                  </span>
+                  <span class="programme-option__price">₦25,000</span>
+                  <span class="programme-option__radio" aria-hidden="true"></span>
+                </li>
+              </ul>
+
+              <div class="reg-actions reg-actions--end">
+                <button type="button" class="btn btn--primary" data-action="next" disabled>Continue →</button>
+              </div>
+            </div>
+
+            <!-- STEP 2: Your details -->
+            <div class="reg-card" data-step="2" hidden>
+              <div class="reg-card__head">
+                <h2>Your details</h2>
+                <p>We use these to personalise your onboarding and class updates.</p>
+              </div>
+
+              <form id="details-form" class="form-grid" novalidate>
+                <label class="field">
+                  <span>Full name *</span>
+                  <input type="text" name="fullName" placeholder="e.g. Ada Chukwuemeka" required />
+                </label>
+
+                <label class="field">
+                  <span>Email *</span>
+                  <input type="email" name="email" placeholder="you@email.com" required />
+                </label>
+
+                <label class="field">
+                  <span>Phone / WhatsApp *</span>
+                  <input type="tel" name="phone" placeholder="080X XXX XXXX" required />
+                </label>
+
+                <label class="field">
+                  <span>Current status</span>
+                  <select name="status">
+                    <option value="student">Student</option>
+                    <option value="employed">Employed</option>
+                    <option value="self-employed">Self-employed</option>
+                    <option value="unemployed">Unemployed</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span>Experience level</span>
+                  <select name="experience">
+                    <option value="complete-beginner">Complete beginner</option>
+                    <option value="some-experience">Some experience</option>
+                    <option value="intermediate">Intermediate</option>
+                  </select>
+                </label>
+
+                <label class="field field--full">
+                  <span>What do you want to achieve?</span>
+                  <textarea name="goal" rows="3" placeholder="e.g. Land my first design/dev job, build a startup MVP, switch careers..."></textarea>
+                </label>
+              </form>
+
+              <div class="reg-actions">
+                <button type="button" class="btn btn--outline-teal" data-action="back">Back</button>
+                <button type="button" class="btn btn--primary" data-action="next">Continue →</button>
+              </div>
+            </div>
+
+            <!-- STEP 3: Referral & price -->
+            <div class="reg-card" data-step="3" hidden>
+              <div class="reg-card__head">
+                <h2>Referral code</h2>
+                <p>Have a referral code? Apply it to see your final price.</p>
+              </div>
+
+              <div class="referral-form">
+                <label class="field field--full">
+                  <span>Referral code</span>
+                  <div class="referral-input-row">
+                    <input type="text" id="referral-code" placeholder="e.g. FCYW612" autocomplete="off" />
+                    <button type="button" class="btn btn--outline-teal" id="apply-referral">Apply</button>
+                  </div>
+                  <p class="referral-success" id="referral-success" hidden>
+                    ✓ Code applied — 25% off, courtesy of a Forge partner.
+                  </p>
+                </label>
+              </div>
+
+              <div class="price-breakdown">
+                <div class="price-breakdown__row">
+                  <span>Programme price</span>
+                  <span id="pb-programme-price">₦0</span>
+                </div>
+                <div class="price-breakdown__row price-breakdown__row--discount" id="pb-discount-row" hidden>
+                  <span>Referral discount (25%)</span>
+                  <span id="pb-discount">−₦0</span>
+                </div>
+                <div class="price-breakdown__row price-breakdown__row--total">
+                  <span>You pay</span>
+                  <span id="pb-total">₦0</span>
+                </div>
+              </div>
+
+              <div class="reg-actions">
+                <button type="button" class="btn btn--outline-teal" data-action="back">Back</button>
+                <button type="button" class="btn btn--primary" data-action="next">Continue to checkout →</button>
+              </div>
+            </div>
+
+            <!-- STEP 4: Complete enrollment -->
+            <div class="reg-card" data-step="4" hidden>
+              <div class="reg-card__head reg-card__head--split">
+                <div>
+                  <h2>Complete your enrollment.</h2>
+                  <p>One more step and your seat is confirmed.</p>
+                </div>
+              </div>
+
+              <div class="student-summary">
+                <div class="student-summary__head">
+                  <h3>Student information</h3>
+                  <button type="button" class="link-btn" data-action="edit-details">Edit</button>
+                </div>
+                <div class="student-summary__grid">
+                  <div><span>Name</span><strong id="sum-name">—</strong></div>
+                  <div><span>Email</span><strong id="sum-email">—</strong></div>
+                  <div><span>Phone</span><strong id="sum-phone">—</strong></div>
+                  <div><span>Status</span><strong id="sum-status">—</strong></div>
+                </div>
+              </div>
+
+              <div class="payment-methods">
+                <h3>Payment method</h3>
+
+                <label class="payment-method">
+                  <input type="radio" name="payment" value="card" checked />
+                  <span class="payment-method__icon">💳</span>
+                  <span class="payment-method__label">
+                    <strong>Debit / credit card</strong>
+                    <small>Visa, Mastercard, Verve</small>
+                  </span>
+                </label>
+
+                <div class="card-fields" id="card-fields">
+                  <label class="field field--full">
+                    <span>Name on card</span>
+                    <input type="text" placeholder="Ada Chi" />
+                  </label>
+                  <label class="field field--full">
+                    <span>Card number</span>
+                    <input type="text" placeholder="0000 0000 0000 0000" />
+                  </label>
+                  <div class="field-row">
+                    <label class="field">
+                      <span>Expiry</span>
+                      <input type="text" placeholder="MM/YY" />
+                    </label>
+                    <label class="field">
+                      <span>CVV</span>
+                      <input type="text" placeholder="123" />
+                    </label>
+                  </div>
+                  <p class="field-note">🔒 This is a design demo — no real payment is processed or card details are stored.</p>
+                </div>
+
+                <label class="payment-method">
+                  <input type="radio" name="payment" value="bank" />
+                  <span class="payment-method__icon">🏦</span>
+                  <span class="payment-method__label">
+                    <strong>Bank transfer</strong>
+                    <small>Pay via bank transfer</small>
+                  </span>
+                </label>
+
+                <label class="payment-method">
+                  <input type="radio" name="payment" value="paystack" />
+                  <span class="payment-method__icon">⚡</span>
+                  <span class="payment-method__label">
+                    <strong>Paystack</strong>
+                    <small>Card, transfer or USSD</small>
+                  </span>
+                </label>
+              </div>
+
+              <div class="reg-actions">
+                <button type="button" class="btn btn--outline-teal" data-action="back">Back</button>
+                <button type="button" class="btn btn--accent" id="pay-btn">Pay ₦0 →</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ============ ORDER SUMMARY (persists across steps) ============ -->
+          <aside class="order-summary" id="order-summary">
+            <h3>Order summary</h3>
+            <div class="order-summary__item" id="os-empty">
+              <p class="field-note">Choose a programme to see your order summary.</p>
+            </div>
+            <div class="order-summary__item" id="os-filled" hidden>
+              <span class="order-summary__icon" id="os-icon">🎨</span>
+              <span class="order-summary__meta">
+                <strong id="os-label">—</strong>
+                <small id="os-tags">—</small>
+              </span>
+            </div>
+            <div class="order-summary__row">
+              <span>Programme</span>
+              <span id="os-price">₦0</span>
+            </div>
+            <div class="order-summary__row" id="os-discount-row" hidden>
+              <span>Referral discount</span>
+              <span id="os-discount">−₦0</span>
+            </div>
+            <div class="order-summary__row order-summary__row--total">
+              <span>Total</span>
+              <span id="os-total">₦0</span>
+            </div>
+            <ul class="order-summary__notes">
+              <li>Secure enrollment, your spot is guaranteed once paid</li>
+              <li>One-time payment, no recurring fees</li>
+              <li>7-day refund policy</li>
+            </ul>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer-block">
+    <div class="container">
+      <div class="final-cta">
+        <h2 style="color:black">Your next chapter starts here.</h2>
+        <p>Choose a skill. Build something real. Become the professional you want to be.</p>
+        <div class="final-cta__actions">
+          <a href="../../public/index.html#programmes" class="btn btn--accent">Explore programme</a>
+          <a href="../../public/index.html" class="btn btn--outline-teal">Back to site →</a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer-links">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="../../public/index.html" class="logo">
+              <svg class="logo__mark" width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2L2 28H9L14 16L19 28H26L14 2Z" fill="#fff"/>
+                <path d="M14 2L20 15H10L14 2Z" fill="#F97316"/>
+              </svg>
+              <span class="logo__text">
+                <strong style="color:#fff">FORGE</strong>
+                <span style="color:rgba(255,255,255,0.7)">ACADEMY</span>
+              </span>
+            </a>
+            <p>A digital skills academy forging Africa's next generation of designers, analysts and engineers through live learning, real projects and community.</p>
+          </div>
+          <div>
+            <h4>Learn</h4>
+            <ul>
+              <li><a href="../../public/index.html#programmes">Programmes</a></li>
+              <li><a href="../../public/index.html#how">How It Works</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Forge</h4>
+            <ul>
+              <li><a href="../../public/index.html#why">About Us</a></li>
+              <li><a href="../../public/index.html#community">Community</a></li>
+              <li><a href="../../public/index.html#faq">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:hello@forgeacademy.ng">hello@forgeacademy.ng</a></li>
+              <li><a href="#">Whatsapp community</a></li>
+              <li><a href="#">Lagos, Nigeria</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="footer-block__ghost" aria-hidden="true">FORGE</div>
+  </div>
+
+  <div class="footer-bottom-bar">
+    <div class="container footer-bottom">
+      <span>2026 Forgeacademy. Forge in Nigeria.</span>
+    </div>
+  </div>
+
+  <script src="../js/pages/register.js"></script>
+</body>
+</html>

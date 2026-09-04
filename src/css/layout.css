@@ -537,6 +537,12 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+}
+
+.testimonial-track.is-transitioning {
+  opacity: 0;
+  transform: translateY(6px) scale(0.99);
 }
 
 .testimonial-nav {

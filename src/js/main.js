@@ -52,6 +52,8 @@ function initTestimonials() {
   if (!dotsWrap || !track) return;
 
   let activeIndex = 2;
+  let isAnimating = false;
+  const TRANSITION_MS = 220; // keep in sync with the CSS transition duration
 
   function render() {
     const total = forgeTestimonials.length;
@@ -86,24 +88,37 @@ function initTestimonials() {
       .join('');
 
     dotsWrap.querySelectorAll('.dot').forEach((dot) => {
-      dot.addEventListener('click', () => {
-        activeIndex = Number(dot.dataset.index);
-        render();
-      });
+      dot.addEventListener('click', () => goTo(Number(dot.dataset.index)));
     });
   }
 
+  // Fades the track out, swaps the DOM, fades it back in.
+  function goTo(newIndex) {
+    if (isAnimating || newIndex === activeIndex) return;
+    isAnimating = true;
+
+    track.classList.add('is-transitioning');
+
+    window.setTimeout(() => {
+      activeIndex = newIndex;
+      render();
+
+      requestAnimationFrame(() => {
+        track.classList.remove('is-transitioning');
+        isAnimating = false;
+      });
+    }, TRANSITION_MS);
+  }
+
   prevBtn?.addEventListener('click', () => {
-    activeIndex = (activeIndex - 1 + forgeTestimonials.length) % forgeTestimonials.length;
-    render();
+    goTo((activeIndex - 1 + forgeTestimonials.length) % forgeTestimonials.length);
   });
 
   nextBtn?.addEventListener('click', () => {
-    activeIndex = (activeIndex + 1) % forgeTestimonials.length;
-    render();
+    goTo((activeIndex + 1) % forgeTestimonials.length);
   });
 
-  render();
+  render(); // initial paint, no animation needed
 }
 
 // ---- Mobile nav toggle ----
