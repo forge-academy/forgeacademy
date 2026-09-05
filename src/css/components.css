@@ -71,10 +71,16 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
 }
 
-.logo__mark { flex-shrink: 0; }
+.logo__mark {
+  flex-shrink: 0;
+  object-fit: contain;
+  height: 100px;
+  width: auto;
+ margin-block: -24px; /* pulls the box back so it overflows the pill instead of stretching it */
+
+}
 
 .logo__text {
   display: flex;
@@ -96,27 +102,40 @@
   letter-spacing: 0.08em;
 }
 
+
+.footer-wordmark {
+  display: inline-block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 /* ---- Hero heading highlight ("Create Your Future") ---- */
 .highlight {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
   background: var(--color-teal-50);
   color: var(--color-body);
   padding: 0.12em 0.5em;
   border-radius: 6px;
   margin: 0 0.35em;
+  max-width: 100%;
 }
 
 .highlight__bar {
   position: absolute;
-  top: -4px;
-  bottom: -4px;
+  top: -0.11em;
+  bottom: -0.11em;
   width: 2px;
   background: var(--color-teal-700);
 }
 
-.highlight__bar--start { left: -14px; }
-.highlight__bar--end { right: -14px; }
+.highlight__bar--start { left: -0.39em; }
+.highlight__bar--end { right: -0.39em; }
 
 .highlight__bar::before {
   content: "";
@@ -132,6 +151,23 @@
 /* one dot sits at the top, the other (inverted) sits at the bottom */
 .highlight__bar--start::before { top: -3px; }
 .highlight__bar--end::before { bottom: -3px; }
+
+.highlight__text { display: inline; }
+
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--color-teal-700);
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  animation: typing-blink 0.9s step-end infinite;
+}
+
+@keyframes typing-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
 
 /* ---- Badge chips (hero floating cards) ---- */
 .floating-badge {

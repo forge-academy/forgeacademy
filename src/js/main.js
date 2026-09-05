@@ -121,6 +121,117 @@ function initTestimonials() {
   render(); // initial paint, no animation needed
 }
 
+// ---- Typing effect (hero highlight) ----
+function initTypingEffect() {
+  const el = document.getElementById('typing-text');
+  if (!el) return;
+
+  const phrases = [
+    'Create Your Future',
+    'Launch Your Career',
+    'Master In-Demand Skills',
+    'Build Real Projects',
+    'Join a Thriving Community',
+    'Get Forged',
+  ];
+
+  // Respect users who've asked for less motion — just show the first phrase, static.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = phrases[0];
+    return;
+  }
+
+  const TYPE_SPEED = 65;    // ms per character while typing
+  const DELETE_SPEED = 35;  // ms per character while deleting
+  const HOLD_TIME = 1600;   // pause once a phrase is fully typed
+  const GAP_TIME = 300;     // pause after deleting, before the next phrase starts
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+
+  function tick() {
+    const current = phrases[phraseIndex];
+
+    if (!isDeleting) {
+      charIndex++;
+      el.textContent = current.slice(0, charIndex);
+      fitHighlightWidth();
+
+      if (charIndex === current.length) {
+        isDeleting = true;
+        setTimeout(tick, HOLD_TIME);
+        return;
+      }
+      setTimeout(tick, TYPE_SPEED);
+    } else {
+      charIndex--;
+      el.textContent = current.slice(0, charIndex);
+      fitHighlightWidth();
+
+      if (charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        setTimeout(tick, GAP_TIME);
+        return;
+      }
+      setTimeout(tick, DELETE_SPEED);
+    }
+  }
+
+  tick();
+  window.addEventListener('resize', fitHighlightWidth);
+}
+
+
+function fitHighlightWidth() {
+  const highlight = document.querySelector('.highlight');
+  const intro = document.querySelector('.hero__intro');
+  if (!highlight || !intro) return;
+
+  highlight.style.fontSize = ''; // reset to CSS default before measuring
+  const available = intro.clientWidth;
+  const natural = highlight.scrollWidth;
+
+  if (natural > available) {
+    const base = parseFloat(getComputedStyle(highlight).fontSize);
+    highlight.style.fontSize = (base * (available / natural)) + 'px';
+  }
+}
+
+// ---- Process zigzag line (measures actual circle positions, no guessing) ----
+function initProcessCurve() {
+  const container = document.getElementById('process');
+  const svg = document.getElementById('process-curve');
+  const badges = container ? Array.from(container.querySelectorAll('.process-badge')) : [];
+  if (!container || !svg || badges.length < 2) return;
+
+  function draw() {
+    // Mobile switches to a stacked column layout — no diagonal line needed there
+    if (window.innerWidth <= 780) {
+      svg.innerHTML = '';
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${containerRect.width} ${containerRect.height}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+
+    const points = badges.map((badge) => {
+      const r = badge.getBoundingClientRect();
+      const x = r.left - containerRect.left + r.width / 2;
+      const y = r.top - containerRect.top + r.height / 2;
+      return `${x},${y}`;
+    });
+
+    svg.innerHTML = `<path d="M ${points.join(' L ')}" fill="none" stroke="#F97316" stroke-width="2" />`;
+  }
+
+  draw();
+  window.addEventListener('resize', draw);
+  window.addEventListener('load', draw); // re-measure once fonts/images finish settling
+}
+
 // ---- Mobile nav toggle ----
 function initNav() {
   const toggle = document.querySelector('.nav-toggle');
@@ -137,4 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaq();
   initTestimonials();
   initNav();
+  initTypingEffect(); //
+  initProcessCurve(); // 
+
 });

@@ -232,10 +232,10 @@
   text-align: center;
 }
 
-.process__step:nth-child(1) { margin-top: 0.5rem; }
-.process__step:nth-child(2) { margin-top: 3.5rem; }
+.process__step:nth-child(1) { margin-top: 1.25rem; }
+.process__step:nth-child(2) { margin-top: 5.5rem; }
 .process__step:nth-child(3) { margin-top: 0; }
-.process__step:nth-child(4) { margin-top: 2.75rem; }
+.process__step:nth-child(4) { margin-top: 3.25rem; }
 
 @media (max-width: 780px) {
   .process {

@@ -15,14 +15,7 @@
   <header class="site-header">
     <div class="container site-header__bar">
       <a href="#" class="logo">
-        <svg class="logo__mark" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 2L2 28H9L14 16L19 28H26L14 2Z" fill="#0A7E78"/>
-          <path d="M14 2L20 15H10L14 2Z" fill="#F97316"/>
-        </svg>
-        <span class="logo__text">
-          <strong>FORGE</strong>
-          <span>ACADEMY</span>
-        </span>
+        <img class="logo__mark" src="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" alt="Forge Academy logo" width="30" height="30" />
       </a>
 
       <nav class="site-nav" aria-label="Primary">
@@ -50,7 +43,8 @@
             Learn Tech. Build Skills.<br />
             <span class="highlight">
               <span class="highlight__bar highlight__bar--start"></span>
-              Create Your Future
+              <span class="highlight__text" id="typing-text" aria-hidden="true"></span><span class="typing-cursor" aria-hidden="true"></span>
+              <span class="sr-only">Create Your Future</span>
               <span class="highlight__bar highlight__bar--end"></span>
             </span>
           </h1>
@@ -195,10 +189,8 @@
           <p>A proven, structured pathway from absolute beginner to confident, portfolio-backed digital professional.</p>
         </div>
 
-        <div class="process">
-          <svg class="process__curve" viewBox="0 0 1000 200" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M110,70 L360,155 L620,15 L870,125" fill="none" stroke="#F97316" stroke-width="2" />
-          </svg>
+        <div class="process" id="process">
+           <svg class="process__curve" id="process-curve" aria-hidden="true"></svg>
 
           <div class="process__step">
             <div class="process-badge">01</div>
@@ -377,17 +369,7 @@
         <div class="footer-grid">
 
           <div class="footer-brand">
-            <a href="#" class="logo">
-              <svg class="logo__mark" width="26" height="26" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2L2 28H9L14 16L19 28H26L14 2Z" fill="#fff"/>
-                <path d="M14 2L20 15H10L14 2Z" fill="#F97316"/>
-              </svg>
-
-              <span class="logo__text">
-                <strong style="color:#fff">FORGE</strong>
-                <span style="color:rgba(255,255,255,0.7)">ACADEMY</span>
-              </span>
-            </a>
+            <a href="#" class="footer-wordmark">FORGE ACADEMY</a>
 
             <p>A digital skills academy forging Africa's next generation of designers, analysts and engineers through live learning, real projects and community.</p>
           </div>
