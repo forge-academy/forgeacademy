@@ -261,6 +261,18 @@
   overflow: hidden;
 }
 
+.community--bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  margin-top: -3rem;   /* pulls it up into the "How it works" section's bottom padding */
+  position: relative;
+  z-index: 1;
+}
+
 .community__text {
   max-width: 640px;
   margin-inline: auto;

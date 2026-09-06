@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Register — Forge Academy</title>
   <meta name="description" content="Choose your programme, fill in your details and complete your enrollment at Forge Academy." />
-  <link rel="icon" href="../../public/favicon.ico" />
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" />
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/layout.css" />
   <link rel="stylesheet" href="../css/components.css" />
@@ -72,7 +72,14 @@
 
               <ul class="programme-list" id="programme-list">
                 <li class="programme-option" data-programme="uiux" data-price="20000" data-label="UI/UX Design" data-tags="8 weeks • Live online • Beginner friendly">
-                  <span class="programme-option__icon" style="background:var(--color-teal-100); color:var(--color-teal-700);">🎨</span>
+                 <span class="programme-option__icon" style="background:var(--color-teal-100); color:var(--color-teal-700);">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 19l7-7 3 3-7 7-3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 2l7.586 7.586" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="11" cy="11" r="2" stroke="currentColor" stroke-width="2"/>
+  </svg>
+</span>
                   <span class="programme-option__meta">
                     <strong>UI/UX Design</strong>
                     <span class="programme-option__tags">8 weeks • Live online • Beginner friendly</span>
@@ -82,7 +89,12 @@
                 </li>
 
                 <li class="programme-option" data-programme="data" data-price="20000" data-label="Data Analysis" data-tags="6 weeks • Live online • Beginner friendly">
-                  <span class="programme-option__icon" style="background:var(--color-orange-100); color:var(--color-orange-600);">📊</span>
+                  <span class="programme-option__icon" style="background:var(--color-orange-100); color:var(--color-orange-600);">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 3v18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7 16v-4M12 16V8M17 16v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
                   <span class="programme-option__meta">
                     <strong>Data Analysis</strong>
                     <span class="programme-option__tags">6 weeks • Live online • Beginner friendly</span>
@@ -92,7 +104,12 @@
                 </li>
 
                 <li class="programme-option" data-programme="swe" data-price="25000" data-label="Software Engineering" data-tags="12 weeks • Live online • Beginner friendly">
-                  <span class="programme-option__icon" style="background:var(--color-teal-100); color:var(--color-teal-900);">💻</span>
+                  <span class="programme-option__icon" style="background:var(--color-teal-100); color:var(--color-teal-900);">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 6L2 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
                   <span class="programme-option__meta">
                     <strong>Software Engineering</strong>
                     <span class="programme-option__tags">12 weeks • Live online • Beginner friendly</span>
@@ -175,9 +192,12 @@
                     <input type="text" id="referral-code" placeholder="e.g. FCYW612" autocomplete="off" />
                     <button type="button" class="btn btn--outline-teal" id="apply-referral">Apply</button>
                   </div>
-                  <p class="referral-success" id="referral-success" hidden>
-                    ✓ Code applied — 25% off, courtesy of a Forge partner.
-                  </p>
+                 <p class="referral-success" id="referral-success" hidden>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-2px; margin-right:4px;">
+    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  Code applied — 25% off, courtesy of a Forge partner.
+</p>
                 </label>
               </div>
 
@@ -229,7 +249,12 @@
 
                 <label class="payment-method">
                   <input type="radio" name="payment" value="card" checked />
-                  <span class="payment-method__icon">💳</span>
+                  <span class="payment-method__icon">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+    <path d="M2 10H22" stroke="currentColor" stroke-width="2"/>
+  </svg>
+</span>
                   <span class="payment-method__label">
                     <strong>Debit / credit card</strong>
                     <small>Visa, Mastercard, Verve</small>
@@ -255,12 +280,24 @@
                       <input type="text" placeholder="123" />
                     </label>
                   </div>
-                  <p class="field-note">🔒 This is a design demo — no real payment is processed or card details are stored.</p>
+                  <p class="field-note">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-2px; margin-right:4px;">
+    <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/>
+    <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  This is a design demo — no real payment is processed or card details are stored.
+</p>
                 </div>
 
                 <label class="payment-method">
                   <input type="radio" name="payment" value="bank" />
-                  <span class="payment-method__icon">🏦</span>
+                  <span class="payment-method__icon">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 21h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M4 21V10M9 21V10M15 21V10M20 21V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M2 10l10-6 10 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
                   <span class="payment-method__label">
                     <strong>Bank transfer</strong>
                     <small>Pay via bank transfer</small>
@@ -269,7 +306,11 @@
 
                 <label class="payment-method">
                   <input type="radio" name="payment" value="paystack" />
-                  <span class="payment-method__icon">⚡</span>
+                  <span class="payment-method__icon">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
                   <span class="payment-method__label">
                     <strong>Paystack</strong>
                     <small>Card, transfer or USSD</small>
@@ -292,7 +333,14 @@
               <p class="field-note">Choose a programme to see your order summary.</p>
             </div>
             <div class="order-summary__item" id="os-filled" hidden>
-              <span class="order-summary__icon" id="os-icon">🎨</span>
+              <span class="order-summary__icon" id="os-icon">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 19l7-7 3 3-7 7-3-3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 2l7.586 7.586" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="11" cy="11" r="2" stroke="currentColor" stroke-width="2"/>
+  </svg>
+</span>
               <span class="order-summary__meta">
                 <strong id="os-label">—</strong>
                 <small id="os-tags">—</small>

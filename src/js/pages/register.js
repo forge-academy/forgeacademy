@@ -61,7 +61,7 @@
         label: option.dataset.label,
         tags: option.dataset.tags,
         price: Number(option.dataset.price),
-        icon: $(".programme-option__icon", option).textContent,
+        icon: $(".programme-option__icon", option).innerHTML,
       };
 
       $('[data-step="1"] [data-action="next"]').disabled = false;
@@ -96,7 +96,7 @@
 
     empty.hidden = true;
     filled.hidden = false;
-    $("#os-icon").textContent = state.programme.icon;
+    $("#os-icon").innerHTML = state.programme.icon;
     $("#os-label").textContent = state.programme.label;
     $("#os-tags").textContent = state.programme.tags;
     $("#os-price").textContent = nairaFmt(state.programme.price);
