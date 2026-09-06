@@ -189,6 +189,20 @@
   white-space: nowrap;
 }
 
+.programme-option__price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-weight: 700;
+}
+
+.programme-option__price-original {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
 .programme-option__radio {
   width: 20px;
   height: 20px;
@@ -211,6 +225,46 @@
   background: var(--color-teal-700);
 }
 
+
+.price-strike {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-decoration: line-through;
+  margin-right: 6px;
+  font-weight: 500;
+}
+
+.payment-method--disabled { opacity: 0.5; cursor: not-allowed; }
+.payment-method--disabled input { cursor: not-allowed; }
+ 
+.bank-fields {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-2);
+  background: var(--color-teal-50);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin: var(--space-2) 0;
+}
+.bank-fields.is-visible { display: flex; }
+ 
+.transfer-details__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.92rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.transfer-details__row:last-child { border-bottom: none; }
+ 
+.transfer-status {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm);
+}
+.transfer-status--pending { background: var(--color-orange-100); color: var(--color-orange-700); }
+.transfer-status--error { background: #FDE8E8; color: #C0392B; }
 /* ---- Form fields ---- */
 .form-grid {
   display: grid;

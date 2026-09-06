@@ -84,7 +84,10 @@
                     <strong>UI/UX Design</strong>
                     <span class="programme-option__tags">8 weeks • Live online • Beginner friendly</span>
                   </span>
-                  <span class="programme-option__price">₦20,000</span>
+                  <span class="programme-option__price">
+                    ₦30,000
+                    <s class="programme-option__price-original">₦100,000</s>
+                  </span>
                   <span class="programme-option__radio" aria-hidden="true"></span>
                 </li>
 
@@ -99,7 +102,10 @@
                     <strong>Data Analysis</strong>
                     <span class="programme-option__tags">6 weeks • Live online • Beginner friendly</span>
                   </span>
-                  <span class="programme-option__price">₦20,000</span>
+                  <span class="programme-option__price">
+                    ₦30,000
+                    <s class="programme-option__price-original">₦100,000</s>
+                  </span>
                   <span class="programme-option__radio" aria-hidden="true"></span>
                 </li>
 
@@ -114,7 +120,10 @@
                     <strong>Software Engineering</strong>
                     <span class="programme-option__tags">12 weeks • Live online • Beginner friendly</span>
                   </span>
-                  <span class="programme-option__price">₦25,000</span>
+                  <span class="programme-option__price">
+                    ₦35,000
+                    <s class="programme-option__price-original">₦100,000</s>
+                  </span>
                   <span class="programme-option__radio" aria-hidden="true"></span>
                 </li>
               </ul>
@@ -196,7 +205,7 @@
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-2px; margin-right:4px;">
     <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-  Code applied — 25% off, courtesy of a Forge partner.
+  Code applied — 6.7% off, courtesy of a Forge partner.
 </p>
                 </label>
               </div>
@@ -207,12 +216,15 @@
                   <span id="pb-programme-price">₦0</span>
                 </div>
                 <div class="price-breakdown__row price-breakdown__row--discount" id="pb-discount-row" hidden>
-                  <span>Referral discount (25%)</span>
+                  <span>Referral discount (6.7%)</span>
                   <span id="pb-discount">−₦0</span>
                 </div>
                 <div class="price-breakdown__row price-breakdown__row--total">
                   <span>You pay</span>
-                  <span id="pb-total">₦0</span>
+                  <span>
+                    <s id="pb-original-total" class="price-strike" hidden></s>
+                    <span id="pb-total">₦0</span>
+                  </span>
                 </div>
               </div>
 
@@ -247,80 +259,76 @@
               <div class="payment-methods">
                 <h3>Payment method</h3>
 
-                <label class="payment-method">
-                  <input type="radio" name="payment" value="card" checked />
+                <label class="payment-method payment-method--disabled">
+                  <input type="radio" name="payment" value="card" disabled />
                   <span class="payment-method__icon">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
-    <path d="M2 10H22" stroke="currentColor" stroke-width="2"/>
-  </svg>
-</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M2 10H22" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                  </span>
                   <span class="payment-method__label">
                     <strong>Debit / credit card</strong>
-                    <small>Visa, Mastercard, Verve</small>
+                    <small>Coming soon</small>
                   </span>
                 </label>
 
-                <div class="card-fields" id="card-fields">
-                  <label class="field field--full">
-                    <span>Name on card</span>
-                    <input type="text" placeholder="Ada Chi" />
-                  </label>
-                  <label class="field field--full">
-                    <span>Card number</span>
-                    <input type="text" placeholder="0000 0000 0000 0000" />
-                  </label>
-                  <div class="field-row">
-                    <label class="field">
-                      <span>Expiry</span>
-                      <input type="text" placeholder="MM/YY" />
-                    </label>
-                    <label class="field">
-                      <span>CVV</span>
-                      <input type="text" placeholder="123" />
-                    </label>
-                  </div>
-                  <p class="field-note">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-2px; margin-right:4px;">
-    <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/>
-    <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-  This is a design demo — no real payment is processed or card details are stored.
-</p>
-                </div>
-
                 <label class="payment-method">
-                  <input type="radio" name="payment" value="bank" />
+                  <input type="radio" name="payment" value="bank" checked />
                   <span class="payment-method__icon">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 21h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M4 21V10M9 21V10M15 21V10M20 21V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M2 10l10-6 10 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3 21h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M4 21V10M9 21V10M15 21V10M20 21V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M2 10l10-6 10 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
                   <span class="payment-method__label">
                     <strong>Bank transfer</strong>
                     <small>Pay via bank transfer</small>
                   </span>
                 </label>
 
-                <label class="payment-method">
-                  <input type="radio" name="payment" value="paystack" />
+                <div class="bank-fields is-visible" id="bank-fields">
+                  <div class="transfer-details">
+                    <div class="transfer-details__row"><span>Bank name</span><strong>8107522288</strong></div>
+                    <div class="transfer-details__row"><span>Account name</span><strong>Forge Academy</strong></div>
+                    <div class="transfer-details__row"><span>Account number</span><strong>Owoade Opeyemi Ismail</strong></div>
+                    <div class="transfer-details__row"><span>Amount to send</span><strong id="transfer-amount">₦0</strong></div>
+                  </div>
+
+                  <label class="field field--full">
+                    <span>Transfer reference / sender's name *</span>
+                    <input type="text" id="transfer-reference" placeholder="e.g. name used on the transfer" required />
+                  </label>
+
+                  <p class="field-note">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:-2px; margin-right:4px;">
+                      <rect x="5" y="11" width="14" height="9" rx="2" stroke="currentColor" stroke-width="2"/>
+                      <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    We'll confirm your transfer manually and email you once your seat is secured.
+                  </p>
+
+                  <p class="transfer-status" id="transfer-status" hidden></p>
+                </div>
+
+                <label class="payment-method payment-method--disabled">
+                  <input type="radio" name="payment" value="paystack" disabled />
                   <span class="payment-method__icon">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
                   <span class="payment-method__label">
                     <strong>Paystack</strong>
-                    <small>Card, transfer or USSD</small>
+                    <small>Coming soon</small>
                   </span>
                 </label>
               </div>
 
               <div class="reg-actions">
                 <button type="button" class="btn btn--outline-teal" data-action="back">Back</button>
-                <button type="button" class="btn btn--accent" id="pay-btn">Pay ₦0 →</button>
+                <button type="button" class="btn btn--accent" id="confirm-transfer-btn">I've made this transfer →</button>
               </div>
             </div>
 
@@ -356,7 +364,10 @@
             </div>
             <div class="order-summary__row order-summary__row--total">
               <span>Total</span>
-              <span id="os-total">₦0</span>
+              <span>
+                <s id="os-original-total" class="price-strike" hidden></s>
+                <span id="os-total">₦0</span>
+              </span>
             </div>
             <ul class="order-summary__notes">
               <li>Secure enrollment, your spot is guaranteed once paid</li>

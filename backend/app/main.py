@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import init_db
-from app.routers import users
+from app.routers import users, enrollments
 
 app = FastAPI(title="ForgeAcademy API", version="0.1.0")
 
@@ -22,7 +22,7 @@ def startup():
 
 
 app.include_router(users.router)
-
+app.include_router(enrollments.router)
 
 @app.get("/health")
 def health():

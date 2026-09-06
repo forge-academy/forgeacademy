@@ -3,7 +3,8 @@
    ========================================================================== */
 
 (function () {
-  const VALID_REFERRAL_CODES = { "FCYW612": 0.25 }; // code -> discount %
+  const VALID_REFERRAL_CODES = { "VICTORIA": 0.067, "OYIN22": 0.067 }; // code -> discount %
+  const API_BASE = "http://localhost:8000"; // TODO: swap to your deployed backend URL
 
   const state = {
     step: 1,
@@ -91,6 +92,7 @@
       $("#os-price").textContent = "₦0";
       $("#os-total").textContent = "₦0";
       $("#os-discount-row").hidden = true;
+      $("#os-original-total").hidden = true;
       return;
     }
 
@@ -105,9 +107,13 @@
     $("#os-discount-row").hidden = discount <= 0;
     if (discount > 0) $("#os-discount").textContent = "−" + nairaFmt(discount);
 
+    const osOriginal = $("#os-original-total");
+    osOriginal.hidden = discount <= 0;
+    if (discount > 0) osOriginal.textContent = nairaFmt(state.programme.price);
+
     $("#os-total").textContent = nairaFmt(currentTotal());
 
-    // keep step-3 price breakdown and step-4 pay button in sync too
+    // keep step-3 price breakdown and step-4 transfer amount in sync too
     updatePriceBreakdown();
     updatePayButton();
   }
@@ -118,12 +124,17 @@
     const discount = currentDiscountAmount();
     $("#pb-discount-row").hidden = discount <= 0;
     if (discount > 0) $("#pb-discount").textContent = "−" + nairaFmt(discount);
+
+    const pbOriginal = $("#pb-original-total");
+    pbOriginal.hidden = discount <= 0;
+    if (discount > 0) pbOriginal.textContent = nairaFmt(state.programme.price);
+
     $("#pb-total").textContent = nairaFmt(currentTotal());
   }
 
   function updatePayButton() {
-    const btn = $("#pay-btn");
-    if (btn) btn.textContent = `Pay ${nairaFmt(currentTotal())} →`;
+    const amountEl = $("#transfer-amount");
+    if (amountEl) amountEl.textContent = nairaFmt(currentTotal());
   }
 
   /* ---------------- Step 3: Referral code ---------------- */
@@ -172,16 +183,72 @@
 
   function initPaymentMethods() {
     const radios = $$('input[name="payment"]');
-    const cardFields = $("#card-fields");
-    if (!radios.length) return;
+    const bankFields = $("#bank-fields");
+    if (!radios.length || !bankFields) return;
 
     function sync() {
       const selected = radios.find((r) => r.checked);
-      cardFields.classList.toggle("is-visible", selected?.value === "card");
+      bankFields.classList.toggle("is-visible", selected?.value === "bank");
     }
 
     radios.forEach((r) => r.addEventListener("change", sync));
     sync();
+  }
+
+  /* ---------------- Step 4: submit bank transfer claim ---------------- */
+
+  function initTransferSubmit() {
+    const btn = $("#confirm-transfer-btn");
+    if (!btn) return;
+
+    btn.addEventListener("click", async () => {
+      const statusEl = $("#transfer-status");
+      const referenceInput = $("#transfer-reference");
+      const reference = referenceInput.value.trim();
+
+      statusEl.hidden = true;
+
+      if (!state.programme) return;
+      if (!reference) {
+        referenceInput.style.borderColor = "var(--color-orange-600)";
+        referenceInput.focus();
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Submitting…";
+
+      try {
+        const res = await fetch(`${API_BASE}/api/enrollments`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            full_name: state.details.fullName,
+            email: state.details.email,
+            phone: state.details.phone,
+            programme_key: state.programme.key,
+            programme_label: state.programme.label,
+            amount_expected: currentTotal(),
+            referral_code: state.referralCode,
+            discount_pct: state.discountPct,
+            transfer_reference: reference,
+          }),
+        });
+
+        if (!res.ok) throw new Error("Request failed");
+
+        statusEl.textContent = "✓ Submitted — we'll confirm your transfer and email you shortly.";
+        statusEl.className = "transfer-status transfer-status--pending";
+        statusEl.hidden = false;
+        btn.textContent = "Submitted ✓";
+      } catch (err) {
+        statusEl.textContent = "Something went wrong submitting this — please try again or contact support.";
+        statusEl.className = "transfer-status transfer-status--error";
+        statusEl.hidden = false;
+        btn.disabled = false;
+        btn.textContent = "I've made this transfer →";
+      }
+    });
   }
 
   /* ---------------- Generic next/back buttons ---------------- */
@@ -199,11 +266,6 @@
       if (backBtn) goToStep(state.step - 1);
       if (editBtn) goToStep(2);
     });
-
-    $("#pay-btn")?.addEventListener("click", () => {
-      // Hook this up to your real payment/checkout endpoint.
-      alert(`Demo checkout — would charge ${nairaFmt(currentTotal())} for ${state.programme?.label}.`);
-    });
   }
 
   function validateDetailsForm() {
@@ -218,6 +280,7 @@
     initProgrammeList();
     initReferral();
     initPaymentMethods();
+    initTransferSubmit();
     initNav();
     updateStepper();
     updateOrderSummary();
