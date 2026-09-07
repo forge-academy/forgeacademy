@@ -4,7 +4,7 @@
 
 (function () {
   const VALID_REFERRAL_CODES = { "VICTORIA": 0.067, "OYIN22": 0.067 }; // code -> discount %
-  const API_BASE = "http://localhost:8000"; // TODO: swap to your deployed backend URL
+  const API_BASE = "https://turbo-halibut-7v9q5gx9wxxqcp9rr-8000.app.github.dev";
 
   const state = {
     step: 1,
