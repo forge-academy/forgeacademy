@@ -4,7 +4,7 @@
 
 (function () {
   const VALID_REFERRAL_CODES = { "VICTORIA": 0.067, "OYIN22": 0.067 }; // code -> discount %
-  const API_BASE = "https://turbo-halibut-7v9q5gx9wxxqcp9rr-8000.app.github.dev";
+  const API_BASE = "https://forgeacademy.onrender.com";
 
   const state = {
     step: 1,

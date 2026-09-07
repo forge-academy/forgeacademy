@@ -10,7 +10,7 @@ app = FastAPI(title="ForgeAcademy API", version="0.1.0")
 # instead of "*" — e.g. ["https://forgeacademy.com"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://forgeacademy.name.ng"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
