@@ -4,6 +4,7 @@ from psycopg2.extras import RealDictCursor
 from app.database import get_connection
 from app.schemas import EnrollmentCreateRequest, EnrollmentResponse
 from app.config import ADMIN_KEY
+from app.services.email_service import send_enrollment_received_email, send_enrollment_verified_email
 
 router = APIRouter(prefix="/api", tags=["enrollments"])
 
@@ -39,6 +40,11 @@ def create_enrollment(payload: EnrollmentCreateRequest):
         cur.close()
         conn.close()
 
+    send_enrollment_received_email(
+        row["full_name"], row["email"], row["programme_label"],
+        row["amount_expected"], payload.transfer_reference,
+    )
+
     return row
 
 
@@ -66,4 +72,7 @@ def verify_enrollment(enrollment_id: int, x_admin_key: str = Header(...)):
     conn.close()
     if not row:
         raise HTTPException(status_code=404, detail="Enrollment not found.")
+
+    send_enrollment_verified_email(row["full_name"], row["email"], row["programme_label"])
+
     return row
