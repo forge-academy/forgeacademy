@@ -11,19 +11,20 @@
   --color-teal-700: #0A7E78;
   --color-teal-500: #12A199;
   --color-teal-100: #D0F0EE;
-  --color-teal-50:  #EEF7F6;
-  --color-teal-tint: #F4F6F8; /* #D0F0EE99 */
+  --color-teal-50: #EEF7F6;
+  --color-teal-tint: #F4F6F8;
+  /* #D0F0EE99 */
 
   --color-orange-700: #DC5F0E;
   --color-orange-600: #F97316;
   --color-orange-100: #FFE9DA;
 
-  --color-ink:      #0F1A19;
-  --color-body:     #4A5957;
-  --color-muted:    #6E7C7A;
-  --color-line:     #DCE6E4;
-  --color-surface:  #FFFFFF;
-  --color-bg:       #FAFBFA;
+  --color-ink: #0F1A19;
+  --color-body: #4A5957;
+  --color-muted: #6E7C7A;
+  --color-line: #DCE6E4;
+  --color-surface: #FFFFFF;
+  --color-bg: #FAFBFA;
 
   /* Type */
   --font-base: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -55,14 +56,22 @@
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 .sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
@@ -70,8 +79,13 @@ html { scroll-behavior: smooth; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -88,9 +102,15 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img { max-width: 100%; display: block; }
+img {
+  max-width: 100%;
+  display: block;
+}
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-base);
   color: var(--color-ink);
   margin: 0;
@@ -99,20 +119,41 @@ h1, h2, h3, h4 {
   letter-spacing: -0.01em;
 }
 
-h1 { font-size: var(--fs-h1); font-weight: 800; letter-spacing: -0.02em; }
-h2 { font-size: var(--fs-h2); font-weight: 700; }
-h3 { font-size: var(--fs-h3); font-weight: 700; }
+h1 {
+  font-size: var(--fs-h1);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
 
-p { margin: 0; }
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+}
 
-a { color: inherit; text-decoration: none; }
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
 button {
   font-family: var(--font-base);
   cursor: pointer;
 }
 
-ul { margin: 0; padding: 0; list-style: none; }
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
 :focus-visible {
   outline: 2px solid var(--color-teal-500);
