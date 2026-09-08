@@ -74,10 +74,34 @@
 }
 
 @media (max-width: 860px) {
-  .site-nav { display: none; }
-  .nav-toggle { display: block; }
-}
+  .site-nav {
+    display: none;
+  }
 
+  .nav-toggle {
+    display: block;
+  }
+}
+@media (max-width: 860px) {
+  .site-nav.site-nav--open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-2);
+    gap: var(--space-1);
+    z-index: 50;
+  }
+
+  .site-header__bar {
+    position: relative;
+  }
+}
 /* ---- Hero ---- */
 .hero {
   position: relative;
@@ -189,7 +213,9 @@
 }
 
 @media (max-width: 720px) {
-  .skills-grid { grid-template-columns: 1fr; }
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---- Why bento ---- */
@@ -209,7 +235,9 @@
 }
 
 @media (max-width: 720px) {
-  .bento-grid { flex-direction: column; }
+  .bento-grid {
+    flex-direction: column;
+  }
 }
 
 /* ---- How it works ---- */
@@ -239,21 +267,38 @@
   text-align: center;
 }
 
-.process__step:nth-child(1) { margin-top: 1.25rem; }
-.process__step:nth-child(2) { margin-top: 5.5rem; }
-.process__step:nth-child(3) { margin-top: 0; }
-.process__step:nth-child(4) { margin-top: 3.25rem; }
+.process__step:nth-child(1) {
+  margin-top: 1.25rem;
+}
+
+.process__step:nth-child(2) {
+  margin-top: 5.5rem;
+}
+
+.process__step:nth-child(3) {
+  margin-top: 0;
+}
+
+.process__step:nth-child(4) {
+  margin-top: 3.25rem;
+}
 
 @media (max-width: 780px) {
   .process {
     flex-direction: column;
     gap: var(--space-4);
   }
-  .process__curve { display: none; }
+
+  .process__curve {
+    display: none;
+  }
+
   .process__step:nth-child(1),
   .process__step:nth-child(2),
   .process__step:nth-child(3),
-  .process__step:nth-child(4) { margin-top: 0; }
+  .process__step:nth-child(4) {
+    margin-top: 0;
+  }
 }
 
 /* ---- Community banner ---- */
@@ -275,11 +320,17 @@
   min-height: 480px;
   display: flex;
   align-items: center;
-  margin-top: -3rem;   /* pulls it up into the "How it works" section's bottom padding */
+  justify-content: center;
+  margin-top: -3rem;
+  /* pulls it up into the "How it works" section's bottom padding */
   position: relative;
   z-index: 1;
 }
-
+.community--bg .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .community__text {
   max-width: 640px;
   margin-inline: auto;
@@ -316,6 +367,7 @@
   font-size: 0.9rem;
   border-radius: 50px;
 }
+
 /* ------------------------------------------------------------
    PEOPLE
    ------------------------------------------------------------ */
@@ -450,7 +502,9 @@
 }
 
 @media (max-width: 780px) {
-  .testimonial-track .testimonial-card--side { display: none; }
+  .testimonial-track .testimonial-card--side {
+    display: none;
+  }
 }
 
 /* ---- FAQ ---- */
@@ -474,14 +528,17 @@
   position: relative;
   z-index: 2;
   background: #d0f0eed2;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-3);
   text-align: center;
   color: #fff;
 }
 
-.final-cta p { color: rgba(0, 0, 0, 0.75); margin-top: var(--space-2); }
+.final-cta p {
+  color: rgba(0, 0, 0, 0.75);
+  margin-top: var(--space-2);
+}
 
 .final-cta__actions {
   display: flex;
@@ -498,7 +555,7 @@
   transform: translateX(-50%);
   font-size: clamp(4rem, 15vw, 11rem);
   font-weight: 800;
-  color: rgba(255,255,255,0.06);
+  color: rgba(255, 255, 255, 0.06);
   white-space: nowrap;
   z-index: 0;
   letter-spacing: 0.02em;
@@ -523,11 +580,17 @@
   margin-bottom: var(--space-2);
 }
 
-.footer-grid ul li { margin-bottom: 0.6rem; }
-.footer-grid a { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+.footer-grid ul li {
+  margin-bottom: 0.6rem;
+}
+
+.footer-grid a {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
 
 .footer-brand p {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   margin-top: var(--space-1);
   max-width: 320px;
   font-size: 0.9rem;
@@ -556,8 +619,19 @@
   gap: 0.9rem;
 }
 
-.social-links svg { width: 18px; height: 18px; fill: #fff; }
+.social-links svg {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+}
 
 @media (max-width: 780px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
 }

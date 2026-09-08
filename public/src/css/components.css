@@ -29,7 +29,13 @@
   border: 1px solid;
   max-width: 100%;
 }
-
+@media (max-width: 360px) {
+  .btn--hero {
+    height: auto;
+    min-height: 52px;
+    padding: 14px 12px;
+  }
+}
 .btn--primary {
   background: var(--color-teal-700);
   color: #fff;
@@ -80,6 +86,12 @@
   width: auto;
  margin-block: -24px; /* pulls the box back so it overflows the pill instead of stretching it */
 
+}
+@media (max-width: 640px) {
+  .logo__mark {
+    height: 60px;
+    margin-block: -14px;
+  }
 }
 
 .logo__text {
