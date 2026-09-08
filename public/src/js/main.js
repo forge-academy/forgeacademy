@@ -36,11 +36,11 @@ function initFaq() {
 
 // ---- Testimonial carousel ----
 const forgeTestimonials = [
-  { quote: "I came in with very little coding experience, but the classes were easy to follow and the instructors were supportive.", name: "Tobi A.", role: "Software Engineering Student" },
-  { quote: "The mentorship made all the difference — I finally understood how real projects come together.", name: "Chiamaka N.", role: "Data Analytics Student" },
+  { quote: "I came in with very little coding experience, but the classes were easy to follow and the instructors were supportive.", name: "Tobi A.", role: "UI/UX Design Student" },
+  { quote: "The mentorship made all the difference — I finally understood how real projects come together.", name: "Chiamaka N.", role: "UI/UX Design Student" },
   { quote: "Forge Academy gave me the confidence to start my journey in UI/UX Design. The practical projects made learning easier, and I loved being able to apply what I learned.", name: "Amaka O.", role: "UI/UX Design Student" },
-  { quote: "Hands-on projects from week one. I left with a portfolio, not just certificates.", name: "David E.", role: "Software Engineering Student" },
-  { quote: "The community kept me accountable. I never felt like I was learning alone.", name: "Ifeoma K.", role: "AI & Automation Student" },
+  { quote: "Hands-on projects from week one. I left with a portfolio, not just certificates.", name: "David E.", role: "UI/UX Design Student" },
+  { quote: "The community kept me accountable. I never felt like I was learning alone.", name: "Ifeoma K.", role: "UI/UX Design Student" },
 ];
 
 function initTestimonials() {

@@ -315,7 +315,7 @@
 .community {
   position: relative;
   background: var(--color-teal-700);
-  padding-top: 42px;
+  padding-top: 0;
   overflow: hidden;
 }
 
@@ -606,10 +606,9 @@
   position: relative;
   z-index: 2;
   background: var(--color-orange-600);
-  margin-top: var(--space-5);
+  margin-top: 0;
   padding: var(--space-2) 0;
 }
-
 .footer-bottom {
   display: flex;
   align-items: center;
