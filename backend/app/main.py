@@ -10,7 +10,14 @@ app = FastAPI(title="ForgeAcademy API", version="0.1.0")
 # instead of "*" — e.g. ["https://forgeacademy.com"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://forgeacademy.name.ng"],
+    allow_origins=[
+        "https://forgeacademy.name.ng",
+        # Admin dashboard served locally via VS Code Live Server (see .vscode/settings.json)
+        "http://localhost:5501",
+        "http://127.0.0.1:5501",
+        "http://localhost:5502",
+        "http://127.0.0.1:5502",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )

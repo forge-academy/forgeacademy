@@ -1,7 +1,9 @@
 # ForgeAcademy Backend
 
-FastAPI service handling user registration: stores registered users in Neon
-Postgres and sends a welcome email via Resend.
+FastAPI service for ForgeAcademy: newsletter-style user registration plus the
+paid-enrollment funnel. Stores data in Neon Postgres and sends transactional
+email via Resend. Payment is reconciled manually by an admin through the admin
+dashboard (`public/src/pages/admin.html`).
 
 ## Setup
 
@@ -15,6 +17,24 @@ python -m uvicorn app.main:app --reload
 ```
 
 Runs at `http://localhost:8000` by default.
+
+### Environment variables
+
+| Var | Required | Notes |
+|---|---|---|
+| `DATABASE_URL` | yes | Neon pooled connection string. App refuses to start without it. |
+| `RESEND_API_KEY` | no | Resend API key. Unset → all emails are skipped (logged, not raised). |
+| `FROM_EMAIL` | no | Sender address. Default `onboarding@resend.dev`. |
+| `ADMIN_KEY` | no | Shared secret for the admin endpoints (`GET /api/enrollments`, `PATCH .../verify`), sent as the `X-Admin-Key` header. Default `""`. |
+| `ACADEMY_NOTIFICATION_EMAIL` | no | Recipient of the "new enrollment" heads-up email. Unset → that email is skipped. |
+| `WHATSAPP_LINK_UIUX` / `WHATSAPP_LINK_DATA` / `WHATSAPP_LINK_SWE` | no | Per-programme paid-students WhatsApp group links. The confirmation email uses the one matching the enrollment's `programme_key`. |
+| `PAID_STUDENTS_WHATSAPP_LINK` | no | Fallback group link used when the enrollment's programme has no link of its own. If neither applies, the link line is omitted. |
+
+### Database schema
+
+`init_db()` runs on startup and creates `users` and `enrollments` **only if they
+don't already exist** — it never `ALTER`s an existing table. This change adds no
+new columns, so no manual migration is needed on Neon.
 
 ---
 
@@ -70,6 +90,111 @@ soft warning if `email_sent` is `false`.
 **Error - `422 Unprocessable Entity`** (validation failure, for example a
 missing field or malformed email) - standard FastAPI validation error shape.
 
+---
+
+## Enrollments (paid funnel)
+
+### `POST /api/enrollments`
+
+Public. Records a pending enrollment together with the bank-transfer reference
+the student supplies. Sends two emails (both best-effort): a "we've received it"
+email to the student, and a heads-up to `ACADEMY_NOTIFICATION_EMAIL`.
+
+**Request body**
+
+```json
+{
+  "full_name": "Jane Doe",
+  "email": "jane@example.com",
+  "phone": "08012345678",
+  "programme_key": "swe",
+  "programme_label": "Software Engineering",
+  "amount_expected": 35000,
+  "referral_code": "VICTORIA",
+  "discount_pct": 0.067,
+  "transfer_reference": "TRF-8842"
+}
+```
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| full_name | string | yes | |
+| email | string | yes | Valid email address |
+| phone | string | no | |
+| programme_key | string | yes | Machine key, e.g. `swe` |
+| programme_label | string | yes | Display name, e.g. `Software Engineering` |
+| amount_expected | number | yes | Naira, after any discount |
+| referral_code | string | no | |
+| discount_pct | number | no | Fraction (e.g. `0.067`), defaults to `0` |
+| transfer_reference | string | yes | The student's bank transfer reference/narration |
+
+**Success response - `200 OK`**
+
+```json
+{
+  "id": 10,
+  "full_name": "Jane Doe",
+  "email": "jane@example.com",
+  "programme_label": "Software Engineering",
+  "amount_expected": 35000.0,
+  "status": "pending_verification",
+  "created_at": "2026-09-10T09:52:00.123456"
+}
+```
+
+New rows always start at `status: "pending_verification"`.
+
+### `GET /api/enrollments`
+
+**Admin only.** Requires header `X-Admin-Key: <ADMIN_KEY>`. Returns every
+enrollment, newest first. Used by the admin dashboard; not called by the public
+site.
+
+**Headers**
+
+| Header | Required | Notes |
+|---|---|---|
+| X-Admin-Key | yes | Must equal the server's `ADMIN_KEY` |
+
+**Success response - `200 OK`** — JSON array of:
+
+```json
+{
+  "id": 10,
+  "full_name": "Jane Doe",
+  "email": "jane@example.com",
+  "phone": "08012345678",
+  "programme_key": "swe",
+  "programme_label": "Software Engineering",
+  "amount_expected": 35000.0,
+  "referral_code": "VICTORIA",
+  "discount_pct": 0.067,
+  "transfer_reference": "TRF-8842",
+  "status": "pending_verification",
+  "created_at": "2026-09-10T09:52:00.123456",
+  "verified_at": null
+}
+```
+
+**Error - `403 Forbidden`** — key missing/wrong: `{"detail": "Not authorized."}`
+(a missing `X-Admin-Key` header is `422` — standard FastAPI missing-header shape).
+
+### `PATCH /api/enrollments/{id}/verify`
+
+**Admin only.** Requires header `X-Admin-Key: <ADMIN_KEY>`. The admin calls this
+after eyeballing the bank account and seeing the transfer land. Flips `status`
+to `paid`, stamps `verified_at`, and sends the student the confirmation email
+(which includes the WhatsApp group link for their `programme_key`, falling back
+to `PAID_STUDENTS_WHATSAPP_LINK`).
+
+**Success response - `200 OK`** — same shape as `POST /api/enrollments`, with
+`status: "paid"`.
+
+**Error - `403 Forbidden`** — key missing/wrong.
+**Error - `404 Not Found`** — no enrollment with that id: `{"detail": "Enrollment not found."}`
+
+---
+
 ### `GET /health`
 
 Health check. No auth, no params.
@@ -86,11 +211,12 @@ Health check. No auth, no params.
 
 ## Notes for frontend integration
 
-- CORS is currently open (`*`) for local development. This will be locked
-  down to the production frontend origin before launch - flag if you need a
-  specific dev origin whitelisted in the meantime.
-- There is no authentication on `/api/register` yet. This is registration-only,
-  not login. Auth is a separate, later piece.
-- Payment confirmation and the paid-status flag on a user are not yet
-  implemented in this service. That is the next piece being built (Monnify
-  webhook integration), not part of this initial handoff.
+- CORS `allow_origins` is an explicit allowlist in `app/main.py`:
+  `https://forgeacademy.name.ng` (prod) plus `http://localhost:5501` /
+  `http://127.0.0.1:5501` for the admin dashboard under VS Code Live Server.
+  Add any other origin you serve the frontend from.
+- The only auth is the `X-Admin-Key` shared secret on the two admin enrollment
+  endpoints. `/api/register` and `POST /api/enrollments` are unauthenticated.
+- Payment verification is **manual**: an admin confirms each transfer via the
+  admin dashboard / `PATCH .../verify`. Automated confirmation (Monnify webhook)
+  is still a future piece.

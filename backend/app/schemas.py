@@ -40,3 +40,20 @@ class EnrollmentResponse(BaseModel):
     amount_expected: float
     status: str
     created_at: datetime
+
+
+class EnrollmentAdminItem(BaseModel):
+    """Full enrollment row for the admin dashboard."""
+    id: int
+    full_name: str
+    email: EmailStr
+    phone: Optional[str] = None
+    programme_key: str
+    programme_label: str
+    amount_expected: float
+    referral_code: Optional[str] = None
+    discount_pct: float = 0
+    transfer_reference: str
+    status: str
+    created_at: datetime
+    verified_at: Optional[datetime] = None

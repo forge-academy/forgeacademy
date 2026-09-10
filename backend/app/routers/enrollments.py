@@ -1,12 +1,24 @@
+from typing import List
+
 from fastapi import APIRouter, HTTPException, Header
 from psycopg2.extras import RealDictCursor
 
 from app.database import get_connection
-from app.schemas import EnrollmentCreateRequest, EnrollmentResponse
+from app.schemas import EnrollmentAdminItem, EnrollmentCreateRequest, EnrollmentResponse
 from app.config import ADMIN_KEY
-from app.services.email_service import send_enrollment_received_email, send_enrollment_verified_email
+from app.services.email_service import (
+    send_academy_notification_email,
+    send_enrollment_received_email,
+    send_enrollment_verified_email,
+)
 
 router = APIRouter(prefix="/api", tags=["enrollments"])
+
+
+def require_admin(x_admin_key: str) -> None:
+    """Same gate the verify endpoint uses — the X-Admin-Key header must match ADMIN_KEY."""
+    if x_admin_key != ADMIN_KEY:
+        raise HTTPException(status_code=403, detail="Not authorized.")
 
 
 @router.post("/enrollments", response_model=EnrollmentResponse)
@@ -44,8 +56,38 @@ def create_enrollment(payload: EnrollmentCreateRequest):
         row["full_name"], row["email"], row["programme_label"],
         row["amount_expected"], payload.transfer_reference,
     )
+    send_academy_notification_email(
+        row["full_name"], row["email"], row["programme_label"],
+        row["amount_expected"], payload.transfer_reference,
+    )
 
     return row
+
+
+@router.get("/enrollments", response_model=List[EnrollmentAdminItem])
+def list_enrollments(x_admin_key: str = Header(...)):
+    """Admin dashboard feed — every enrollment, newest first. Admin-key gated,
+    same as the verify endpoint. Not called by the public site."""
+    require_admin(x_admin_key)
+
+    conn = get_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cur.execute(
+            """
+            SELECT id, full_name, email, phone, programme_key, programme_label,
+                   amount_expected, referral_code, discount_pct, transfer_reference,
+                   status, created_at, verified_at
+            FROM enrollments
+            ORDER BY created_at DESC
+            """
+        )
+        rows = cur.fetchall()
+    finally:
+        cur.close()
+        conn.close()
+
+    return rows
 
 
 @router.patch("/enrollments/{enrollment_id}/verify", response_model=EnrollmentResponse)
@@ -62,7 +104,7 @@ def verify_enrollment(enrollment_id: int, x_admin_key: str = Header(...)):
         UPDATE enrollments
         SET status = 'paid', verified_at = now()
         WHERE id = %s
-        RETURNING id, full_name, email, programme_label, amount_expected, status, created_at
+        RETURNING id, full_name, email, programme_key, programme_label, amount_expected, status, created_at
         """,
         (enrollment_id,),
     )
@@ -73,6 +115,8 @@ def verify_enrollment(enrollment_id: int, x_admin_key: str = Header(...)):
     if not row:
         raise HTTPException(status_code=404, detail="Enrollment not found.")
 
-    send_enrollment_verified_email(row["full_name"], row["email"], row["programme_label"])
+    send_enrollment_verified_email(
+        row["full_name"], row["email"], row["programme_label"], row["programme_key"]
+    )
 
     return row
