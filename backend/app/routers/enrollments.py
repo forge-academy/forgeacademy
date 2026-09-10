@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, HTTPException, Header
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Header
 from psycopg2.extras import RealDictCursor
 
 from app.database import get_connection
@@ -22,7 +22,7 @@ def require_admin(x_admin_key: str) -> None:
 
 
 @router.post("/enrollments", response_model=EnrollmentResponse)
-def create_enrollment(payload: EnrollmentCreateRequest):
+def create_enrollment(payload: EnrollmentCreateRequest, background_tasks: BackgroundTasks):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
     try:
@@ -52,11 +52,17 @@ def create_enrollment(payload: EnrollmentCreateRequest):
         cur.close()
         conn.close()
 
-    send_enrollment_received_email(
+    # Both emails go out after the response is returned, one after the other.
+    # BackgroundTasks runs them sequentially, and _send_via_resend retries on
+    # Resend's free-tier 429, so the academy heads-up isn't dropped just
+    # because it followed the student email too closely.
+    background_tasks.add_task(
+        send_enrollment_received_email,
         row["full_name"], row["email"], row["programme_label"],
         row["amount_expected"], payload.transfer_reference,
     )
-    send_academy_notification_email(
+    background_tasks.add_task(
+        send_academy_notification_email,
         row["full_name"], row["email"], row["programme_label"],
         row["amount_expected"], payload.transfer_reference,
     )

@@ -97,8 +97,11 @@ missing field or malformed email) - standard FastAPI validation error shape.
 ### `POST /api/enrollments`
 
 Public. Records a pending enrollment together with the bank-transfer reference
-the student supplies. Sends two emails (both best-effort): a "we've received it"
-email to the student, and a heads-up to `ACADEMY_NOTIFICATION_EMAIL`.
+the student supplies. Sends two emails (both best-effort, dispatched as
+background tasks after the response): a "we've received it" email to the
+student, then a heads-up to `ACADEMY_NOTIFICATION_EMAIL`. The Resend call
+retries on `429` (free tier is ~2 req/s), so the second email isn't dropped for
+following the first too closely.
 
 **Request body**
 
