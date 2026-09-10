@@ -170,15 +170,16 @@
       ? `<button type="button" class="btn btn--primary confirm-btn" data-confirm-id="${r.id}">Confirm</button>`
       : "";
 
+    // data-label drives the stacked "card" layout on narrow screens (admin.css)
     return `
       <tr data-row-id="${r.id}">
-        <td>${escapeHtml(r.full_name)}</td>
-        <td>${escapeHtml(r.email)}</td>
-        <td>${escapeHtml(r.programme_label)}</td>
-        <td>${naira(r.amount_expected)}</td>
-        <td class="admin-ref">${escapeHtml(r.transfer_reference)}</td>
-        <td><span class="status-badge status-badge--${escapeHtml(r.status)}">${escapeHtml(prettyStatus(r.status))}</span></td>
-        <td>${formatDate(r.created_at)}</td>
+        <td data-label="Name">${escapeHtml(r.full_name)}</td>
+        <td data-label="Email">${escapeHtml(r.email)}</td>
+        <td data-label="Programme">${escapeHtml(r.programme_label)}</td>
+        <td data-label="Amount">${naira(r.amount_expected)}</td>
+        <td data-label="Transfer reference" class="admin-ref">${escapeHtml(r.transfer_reference)}</td>
+        <td data-label="Status"><span class="status-badge status-badge--${escapeHtml(r.status)}">${escapeHtml(prettyStatus(r.status))}</span></td>
+        <td data-label="Date">${formatDate(r.created_at)}</td>
         <td data-cell="action">${action}</td>
       </tr>`;
   }

@@ -210,13 +210,134 @@
   margin-bottom: 1rem;
 }
 
-@media (max-width: 560px) {
+/* ==========================================================================
+   Responsive — tablet & phone
+   ========================================================================== */
+
+@media (max-width: 640px) {
   .admin-header__bar {
+    padding: 0.85rem 1rem;
     flex-wrap: wrap;
   }
 
   .admin-header__actions {
     width: 100%;
     margin-left: 0;
+  }
+
+  .admin-header__actions .btn {
+    flex: 1;
+  }
+
+  .admin-main {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .admin-gate {
+    padding-top: 1.5rem;
+  }
+
+  .admin-gate__card {
+    padding: 1.5rem;
+  }
+
+  .admin-dashboard__head h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Table -> stacked cards. Each row becomes a labelled card so nothing needs
+   a horizontal scroll on a phone. `data-label` is emitted by admin.js. */
+@media (max-width: 760px) {
+  .admin-table-wrap {
+    overflow-x: visible;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .admin-table {
+    white-space: normal;
+  }
+
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table,
+  .admin-table tbody,
+  .admin-table tr,
+  .admin-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .admin-table tr {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: 0.35rem 1rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .admin-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: 0.6rem 0;
+    text-align: right;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  /* every field inside a card gets a divider... */
+  .admin-table tbody tr:last-child td {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  /* ...except the last field of each card */
+  .admin-table tr td:last-child,
+  .admin-table tbody tr:last-child td:last-child {
+    border-bottom: none;
+  }
+
+  .admin-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--color-muted);
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  .admin-ref {
+    word-break: break-word;
+  }
+
+  .admin-table td[data-cell="action"] {
+    display: block;
+    text-align: center;
+    padding-top: 0.8rem;
+  }
+
+  .admin-table td[data-cell="action"]::before {
+    content: none;
+  }
+
+  .admin-table td[data-cell="action"]:empty {
+    display: none;
+  }
+
+  .confirm-btn {
+    width: 100%;
+  }
+
+  .admin-table td.admin-table__empty {
+    display: block;
+    text-align: center;
+  }
+
+  .admin-table td.admin-table__empty::before {
+    content: none;
   }
 }

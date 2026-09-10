@@ -126,6 +126,9 @@ function initTypingEffect() {
   const el = document.getElementById('typing-text');
   if (!el) return;
 
+  const highlight = el.closest('.highlight');
+  const intro = document.querySelector('.hero__intro');
+
   const phrases = [
     'Create Your Future',
     'Launch Your Career',
@@ -134,6 +137,36 @@ function initTypingEffect() {
     'Join a Thriving Community',
     'Get Forged',
   ];
+
+  const longest = phrases.reduce((a, b) => (b.length >= a.length ? b : a));
+
+  // Size the highlight to the LONGEST phrase once (and on resize), so its
+  // font-size is fixed for the whole animation and the text just flows
+  // horizontally. The old code re-fitted on every keystroke, so a short
+  // phrase rendered big and a long one rendered small — that changing line
+  // height is what made the page bounce up and down while typing.
+  function fitHighlight() {
+    if (!highlight || !intro) return;
+
+    const typed = el.textContent;
+    highlight.style.fontSize = '';
+    el.textContent = longest;
+
+    const available = intro.clientWidth;
+    const natural = highlight.scrollWidth;
+    if (natural > available) {
+      const base = parseFloat(getComputedStyle(highlight).fontSize);
+      highlight.style.fontSize = (base * (available / natural)) + 'px';
+    }
+
+    el.textContent = typed;
+  }
+
+  fitHighlight();
+  window.addEventListener('resize', fitHighlight);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fitHighlight);
+  }
 
   // Respect users who've asked for less motion — just show the first phrase, static.
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -156,7 +189,6 @@ function initTypingEffect() {
     if (!isDeleting) {
       charIndex++;
       el.textContent = current.slice(0, charIndex);
-      fitHighlightWidth();
 
       if (charIndex === current.length) {
         isDeleting = true;
@@ -167,7 +199,6 @@ function initTypingEffect() {
     } else {
       charIndex--;
       el.textContent = current.slice(0, charIndex);
-      fitHighlightWidth();
 
       if (charIndex === 0) {
         isDeleting = false;
@@ -180,23 +211,6 @@ function initTypingEffect() {
   }
 
   tick();
-  window.addEventListener('resize', fitHighlightWidth);
-}
-
-
-function fitHighlightWidth() {
-  const highlight = document.querySelector('.highlight');
-  const intro = document.querySelector('.hero__intro');
-  if (!highlight || !intro) return;
-
-  highlight.style.fontSize = ''; // reset to CSS default before measuring
-  const available = intro.clientWidth;
-  const natural = highlight.scrollWidth;
-
-  if (natural > available) {
-    const base = parseFloat(getComputedStyle(highlight).fontSize);
-    highlight.style.fontSize = (base * (available / natural)) + 'px';
-  }
 }
 
 // ---- Process zigzag line (measures actual circle positions, no guessing) ----

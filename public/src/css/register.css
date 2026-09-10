@@ -144,8 +144,13 @@
     min-width: 0;
   }
 
+  /* Put the form first on small screens; the summary follows it. */
+  .reg-main {
+    order: 0;
+  }
+
   .order-summary {
-    order: -1;
+    order: 1;
   }
 }
 
@@ -700,4 +705,132 @@
 .card-fields .field-row {
   display: flex;
   gap: var(--space-2);
+}
+/* ---- Submit button loading spinner ---- */
+.btn__spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  vertical-align: -0.15em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+}
+
+.btn.is-loading {
+  opacity: 0.85;
+  cursor: progress;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn__spinner {
+    animation-duration: 1.5s;
+  }
+}
+
+/* ==========================================================================
+   Responsive — tablet & phone
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .reg-hero {
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-5);
+  }
+
+  .reg-card {
+    padding: var(--space-3);
+  }
+}
+
+@media (max-width: 640px) {
+  .stepper {
+    margin-block: var(--space-3) var(--space-4);
+  }
+
+  .stepper__step {
+    min-width: 72px;
+  }
+
+  .stepper__label {
+    font-size: 0.74rem;
+    line-height: 1.25;
+  }
+
+  .reg-card__head h2 {
+    font-size: 1.3rem;
+  }
+
+  /* price breakdown / summary totals stay on one line */
+  .price-breakdown__row--total {
+    font-size: 1.05rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .reg-card {
+    padding: var(--space-3) var(--space-2);
+  }
+
+  /* Programme option: let the price drop to its own line under the title
+     instead of squeezing four columns into ~280px. */
+  .programme-option {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .programme-option__meta {
+    flex: 1 1 auto;
+  }
+
+  .programme-option__price {
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    padding-left: calc(40px + var(--space-2));
+  }
+
+  .programme-option__radio {
+    order: 2;
+  }
+
+  .student-summary__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .transfer-details__row {
+    gap: var(--space-2);
+  }
+
+  .transfer-details__row strong {
+    text-align: right;
+    word-break: break-word;
+  }
+
+  .referral-input-row {
+    flex-wrap: wrap;
+  }
+
+  .referral-input-row .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .stepper__circle {
+    width: 26px;
+    height: 26px;
+    font-size: 0.78rem;
+  }
 }

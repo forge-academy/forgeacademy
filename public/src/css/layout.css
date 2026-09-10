@@ -10,6 +10,12 @@
   padding-inline: var(--space-3);
 }
 
+@media (max-width: 480px) {
+  .container {
+    padding-inline: var(--space-2);
+  }
+}
+
 .section {
   padding-block: var(--space-6);
 }
@@ -71,6 +77,9 @@
   background: none;
   border: none;
   padding: 0.4rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--color-ink);
 }
 
 @media (max-width: 860px) {
@@ -102,6 +111,34 @@
     position: relative;
   }
 }
+
+@media (max-width: 600px) {
+  .site-header {
+    padding-top: 0.6rem;
+  }
+
+  .site-header__bar {
+    padding: 0.5rem 0.9rem;
+    gap: var(--space-1);
+  }
+
+  .header-actions {
+    gap: 0.5rem;
+  }
+
+  .header-actions .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .header-actions .btn {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8rem;
+  }
+}
+
 /* ---- Hero ---- */
 .hero {
   position: relative;
@@ -186,29 +223,89 @@
   left: 62.55%;
   transform: rotate(8deg);
 }
+/* On phones the wide absolute-positioned collage collapses. Instead of
+   stacking the three photos in a tall vertical column, fan them into a
+   single overlapping row that fits the screen, then let the two badges
+   flow underneath as a centered pair. */
 @media (max-width: 640px) {
   .hero__stage {
     aspect-ratio: auto;
     height: auto;
+    max-width: 460px;
+    margin-block: var(--space-4) var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
   }
-  
+
+  .hero__collage {
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero__collage li {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
   .hero__collage li:nth-child(1) img,
   .hero__collage li:nth-child(2) img,
   .hero__collage li:nth-child(3) img {
     position: static;
     width: 100%;
-    height: 220px;
-    transform: none;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-width: 3px;
+    border-radius: 18px;
   }
 
-
   .hero__collage li:nth-child(1) img {
+    transform: rotate(-6deg);
     object-position: center 75%;
+  }
+
+  .hero__collage li:nth-child(2) img {
+    position: relative;
+    z-index: 2;
+    transform: scale(1.09);
+  }
+
+  .hero__collage li:nth-child(3) img {
+    transform: rotate(6deg);
+  }
+
+  .hero__collage li:nth-child(1) {
+    margin-right: -5%;
+  }
+
+  .hero__collage li:nth-child(3) {
+    margin-left: -5%;
   }
 
   .floating-badge {
     position: static;
-    margin-top: var(--space-2);
+    flex: 0 1 auto;
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__actions .btn--hero {
+    width: 100%;
   }
 }
 /* ---- Skills grid ---- */
@@ -289,14 +386,51 @@
   margin-top: 3.25rem;
 }
 
+/* Tablet: tighten the zigzag so the staggered steps don't sprawl, and drop
+   the oversized finale badge down to match the rest. */
+@media (max-width: 960px) and (min-width: 781px) {
+  .process {
+    gap: var(--space-1);
+  }
+
+  .process__step:nth-child(1) { margin-top: 0.75rem; }
+  .process__step:nth-child(2) { margin-top: 3.5rem; }
+  .process__step:nth-child(4) { margin-top: 2rem; }
+
+  .process__step p {
+    max-width: 180px;
+  }
+
+  .process__step .process-badge--filled {
+    width: 88px;
+    height: 88px;
+    font-size: 1.6rem;
+  }
+}
+
+/* Phone: the diagonal collapses into a left-aligned vertical timeline —
+   numbered badges on a connector line, step text beside each. */
 @media (max-width: 780px) {
   .process {
     flex-direction: column;
-    gap: var(--space-4);
+    align-items: stretch;
+    gap: 0;
+    padding-top: 0;
   }
 
   .process__curve {
     display: none;
+  }
+
+  .process__step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    grid-template-rows: minmax(52px, auto) auto;
+    column-gap: var(--space-3);
+    row-gap: 0.3rem;
+    flex: none;
+    text-align: left;
+    padding-bottom: var(--space-4);
   }
 
   .process__step:nth-child(1),
@@ -304,6 +438,62 @@
   .process__step:nth-child(3),
   .process__step:nth-child(4) {
     margin-top: 0;
+  }
+
+  .process__step:last-child {
+    padding-bottom: 0;
+  }
+
+  /* connector line — dead-centre of the 52px badge column (26px), and the
+     2px stroke is pulled back half its width so it's centred on that point */
+  .process__step::before {
+    content: "";
+    position: absolute;
+    left: 26px;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-line);
+    z-index: 0;
+  }
+
+  .process__step:first-child::before {
+    top: 26px;
+  }
+
+  .process__step:last-child::before {
+    display: none;
+  }
+
+  /* higher specificity so it beats components.css .process-badge--filled */
+  .process__step .process-badge,
+  .process__step .process-badge--filled {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    width: 52px;
+    height: 52px;
+    font-size: 1.15rem;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* title shares row 1 with the badge and centres against it */
+  .process__step h3 {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    margin: 0;
+  }
+
+  .process__step p {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: none;
+    margin: 0;
   }
 }
 
@@ -372,6 +562,31 @@
   padding: 0 32px;
   font-size: 0.9rem;
   border-radius: 50px;
+}
+
+@media (max-width: 600px) {
+  .community--bg {
+    min-height: 0;
+    margin-top: -1.5rem;
+    padding-block: var(--space-5);
+  }
+
+  .community__text h2 {
+    font-size: 1.9rem;
+  }
+
+  .community__text p {
+    font-size: 1rem;
+  }
+
+  .community__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .community__actions .btn {
+    width: 100%;
+  }
 }
 
 /* ------------------------------------------------------------
@@ -511,6 +726,17 @@
   .testimonial-track .testimonial-card--side {
     display: none;
   }
+
+  .testimonial-track .testimonial-card--active {
+    transform: none;
+    width: min(360px, 100%);
+    height: auto;
+    min-height: 220px;
+  }
+
+  .testimonial-nav {
+    gap: var(--space-2);
+  }
 }
 
 /* ---- FAQ ---- */
@@ -635,8 +861,46 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+@media (max-width: 600px) {
+  .footer-block {
+    padding-top: var(--space-5);
+  }
+
+  .final-cta {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .final-cta__actions {
+    flex-direction: column;
+  }
+
+  .final-cta__actions .btn {
+    width: 100%;
+  }
+
+  .footer-links {
+    padding-top: var(--space-4);
+  }
+}
+
 @media (max-width: 480px) {
   .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 380px) {
+  .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .footer-bottom {
+    justify-content: center;
+    text-align: center;
   }
 }

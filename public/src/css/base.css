@@ -64,6 +64,10 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  /* belt-and-braces guard against sideways scroll on small screens;
+     `clip` (not `hidden`) so it doesn't turn <html> into a scroll
+     container and break the sticky header */
 }
 
 .sr-only {

@@ -216,7 +216,8 @@
       }
 
       btn.disabled = true;
-      btn.textContent = "Submitting…";
+      btn.classList.add("is-loading");
+      btn.innerHTML = '<span class="btn__spinner" aria-hidden="true"></span>Submitting…';
 
       try {
         const res = await fetch(`${API_BASE}/api/enrollments`, {
@@ -240,12 +241,14 @@
         statusEl.textContent = "✓ Submitted — we'll confirm your transfer and email you shortly.";
         statusEl.className = "transfer-status transfer-status--pending";
         statusEl.hidden = false;
+        btn.classList.remove("is-loading");
         btn.textContent = "Submitted ✓";
       } catch (err) {
         statusEl.textContent = "Something went wrong submitting this — please try again or contact support.";
         statusEl.className = "transfer-status transfer-status--error";
         statusEl.hidden = false;
         btn.disabled = false;
+        btn.classList.remove("is-loading");
         btn.textContent = "I've made this transfer →";
       }
     });
