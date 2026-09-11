@@ -83,7 +83,7 @@ misconfigured. The user is still saved. The frontend should treat `200` as
 soft warning if `email_sent` is `false`.
 
 **Error - `400 Bad Request`** (duplicate email)
-
+ 
 ```json
 {
   "detail": "This email is already registered."
