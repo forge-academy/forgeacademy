@@ -1,0 +1,195 @@
+/* ==========================================================================
+   Forge Academy — Content pages (Contact, Testimonials)
+   Extends base/layout/components. Uses the same design tokens.
+   ========================================================================== */
+
+.page-hero {
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-4);
+}
+
+.page-hero__intro {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.page-hero__intro p {
+  margin-top: var(--space-2);
+  font-size: var(--fs-lead);
+  color: var(--color-muted);
+}
+
+/* ---- Contact page ---- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.contact-card {
+  display: block;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+
+a.contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-float);
+}
+
+.contact-card--static {
+  cursor: default;
+}
+
+.contact-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-2);
+}
+
+.contact-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+
+.contact-card p {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.contact-card__value {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--color-teal-700);
+}
+
+.contact-socials {
+  margin-top: var(--space-5);
+  text-align: center;
+}
+
+.contact-socials h3 {
+  font-size: 1rem;
+  margin-bottom: var(--space-2);
+}
+
+.social-links--dark {
+  justify-content: center;
+}
+
+.social-links--dark svg {
+  fill: var(--color-teal-900);
+}
+
+.social-links--dark a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-teal-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s var(--ease);
+}
+
+.social-links--dark a:hover {
+  background: var(--color-teal-500);
+}
+
+.social-links--dark a:hover svg {
+  fill: #fff;
+}
+
+@media (max-width: 720px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Testimonials page ---- */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.testimonial-tile {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+
+.testimonial-tile--accent {
+  background: var(--color-teal-700);
+  color: #fff;
+}
+
+.testimonial-tile--accent .testimonial-tile__person span span {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.testimonial-tile__quote {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.testimonial-tile__person {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: var(--space-3);
+}
+
+.testimonial-tile__person img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-tile__person strong {
+  display: block;
+  font-size: 0.88rem;
+}
+
+.testimonial-tile__person span span {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.page-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-5);
+}
+
+@media (max-width: 960px) {
+  .testimonial-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-hero {
+    padding-top: var(--space-3);
+  }
+}

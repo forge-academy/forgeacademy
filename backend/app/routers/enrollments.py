@@ -30,8 +30,8 @@ def create_enrollment(payload: EnrollmentCreateRequest, background_tasks: Backgr
             """
             INSERT INTO enrollments
               (full_name, email, phone, programme_key, programme_label,
-               amount_expected, referral_code, discount_pct, transfer_reference)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+               amount_expected, referral_code, discount_pct, ambassador_code, transfer_reference)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id, full_name, email, programme_label, amount_expected, status, created_at
             """,
             (
@@ -43,6 +43,7 @@ def create_enrollment(payload: EnrollmentCreateRequest, background_tasks: Backgr
                 payload.amount_expected,
                 payload.referral_code,
                 payload.discount_pct,
+                payload.ambassador_code,
                 payload.transfer_reference,
             ),
         )
@@ -82,7 +83,7 @@ def list_enrollments(x_admin_key: str = Header(...)):
         cur.execute(
             """
             SELECT id, full_name, email, phone, programme_key, programme_label,
-                   amount_expected, referral_code, discount_pct, transfer_reference,
+                   amount_expected, referral_code, discount_pct, ambassador_code, transfer_reference,
                    status, created_at, verified_at
             FROM enrollments
             ORDER BY created_at DESC

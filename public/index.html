@@ -104,7 +104,10 @@
             </div>
             <h3>UI/UX Design</h3>
             <p>Learn to design intuitive digital experiences, from user research and wireframes to high-fidelity prototypes and design systems.</p>
-            <a href="src/pages/register.html" class="skill-card__link">Register →</a>
+            <div class="skill-card__actions">
+              <button type="button" class="skill-card__link skill-card__link--btn" data-curriculum-trigger="uiux">View curriculum</button>
+              <a href="src/pages/register.html" class="skill-card__link">Register →</a>
+            </div>
           </article>
 
           <article class="skill-card">
@@ -113,7 +116,10 @@
             </div>
             <h3>Software Engineering</h3>
             <p>Build modern web and software application while developing strong frontend, backend, database and API skills.</p>
-            <a href="src/pages/register.html" class="skill-card__link">Register →</a>
+            <div class="skill-card__actions">
+              <button type="button" class="skill-card__link skill-card__link--btn" data-curriculum-trigger="swe">View curriculum</button>
+              <a href="src/pages/register.html" class="skill-card__link">Register →</a>
+            </div>
           </article>
 
           <article class="skill-card">
@@ -122,7 +128,10 @@
             </div>
             <h3>Data Science</h3>
             <p>Turn raw data into meaningful insights using tools and techniques for analysis, visualization and data-driven decision-making.</p>
-            <a href="src/pages/register.html" class="skill-card__link">Register →</a>
+            <div class="skill-card__actions">
+              <button type="button" class="skill-card__link skill-card__link--btn" data-curriculum-trigger="data">View curriculum</button>
+              <a href="src/pages/register.html" class="skill-card__link">Register →</a>
+            </div>
           </article>
 
           <article class="skill-card skill-card--upcoming">
@@ -131,7 +140,10 @@
             </div>
             <h3>AI & Automation</h3>
             <p>Learn how to use AI and automation tools to streamline workflow, solve business problems, and build intelligent solutions.</p>
-            <span class="skill-card__link">Coming soon</span>
+            <div class="skill-card__actions">
+              <button type="button" class="skill-card__link skill-card__link--btn" data-curriculum-trigger="ai">View curriculum</button>
+              <span class="skill-card__link">Coming soon</span>
+            </div>
           </article>
         </div>
       </div>
@@ -370,7 +382,7 @@
               <li><a href="#why">About Us</a></li>
               <li><a href="#community">Community</a></li>
               <li><a href="#faq">FAQ</a></li>
-              <li><a href="#">Testimonial</a></li>
+              <li><a href="src/pages/testimonials.html">Testimonial</a></li>
             </ul>
           </div>
 
@@ -379,7 +391,8 @@
             <ul>
                             <li><a href="mailto:hello@forgeacademy.ng">hello@forgeacademy.ng</a></li>
               <li><a href="https://chat.whatsapp.com/KqZxL8T1g2zLrvJWHeB2tC?mode=gi_t" target="_blank" rel="noopener">Whatsapp community</a></li>
-              <li><a href="#">Lagos, Nigeria</a></li>
+              <li><a href="src/pages/contact.html">Lagos, Nigeria</a></li>
+              <li><a href="src/pages/admin.html">Admin</a></li>
             </ul>
           </div>
 
@@ -426,6 +439,26 @@
           </svg>
         </a>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- Curriculum modal: opened by each programme's "View curriculum" button -->
+  <div class="curriculum-modal" id="curriculum-modal" hidden>
+    <div class="curriculum-modal__backdrop" data-curriculum-close></div>
+    <div class="curriculum-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="curriculum-modal-title" tabindex="-1">
+      <button type="button" class="curriculum-modal__close" data-curriculum-close aria-label="Close curriculum">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="curriculum-modal__head">
+        <h2 id="curriculum-modal-title">—</h2>
+        <p id="curriculum-modal-tags">—</p>
+      </div>
+      <div class="curriculum-modal__body" id="curriculum-modal-body"></div>
+      <div class="curriculum-modal__footer">
+        <a href="src/pages/register.html" class="btn btn--primary" id="curriculum-modal-register">Register for this programme →</a>
       </div>
     </div>
   </div>

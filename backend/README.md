@@ -33,8 +33,11 @@ Runs at `http://localhost:8000` by default.
 ### Database schema
 
 `init_db()` runs on startup and creates `users` and `enrollments` **only if they
-don't already exist** — it never `ALTER`s an existing table. This change adds no
-new columns, so no manual migration is needed on Neon.
+don't already exist**. The one exception is `enrollments.ambassador_code`,
+added via an idempotent `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` that runs on
+every startup — safe to re-run, and it backfills the column on a Neon database
+that already had the table before ambassador codes existed. No manual
+migration step is needed.
 
 ---
 
@@ -115,6 +118,7 @@ following the first too closely.
   "amount_expected": 35000,
   "referral_code": "VICTORIA",
   "discount_pct": 0.067,
+  "ambassador_code": null,
   "transfer_reference": "TRF-8842"
 }
 ```
@@ -127,8 +131,9 @@ following the first too closely.
 | programme_key | string | yes | Machine key, e.g. `swe` |
 | programme_label | string | yes | Display name, e.g. `Software Engineering` |
 | amount_expected | number | yes | Naira, after any discount |
-| referral_code | string | no | |
+| referral_code | string | no | A discount code (see `VALID_REFERRAL_CODES` in `register.js`) — reduces `amount_expected` |
 | discount_pct | number | no | Fraction (e.g. `0.067`), defaults to `0` |
+| ambassador_code | string | no | An ambassador code (see `AMBASSADOR_CODES` in `register.js`) — **carries no discount**, recorded purely so admins can see who signed up through which ambassador. Mutually exclusive with `referral_code` in the current UI (one input field, one or the other applies). |
 | transfer_reference | string | yes | The student's bank transfer reference/narration |
 
 **Success response - `200 OK`**
@@ -172,6 +177,7 @@ site.
   "amount_expected": 35000.0,
   "referral_code": "VICTORIA",
   "discount_pct": 0.067,
+  "ambassador_code": null,
   "transfer_reference": "TRF-8842",
   "status": "pending_verification",
   "created_at": "2026-09-10T09:52:00.123456",

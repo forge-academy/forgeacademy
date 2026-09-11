@@ -371,6 +371,202 @@
   font-size: 0.9rem;
 }
 
+.skill-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.skill-card__actions .skill-card__link {
+  margin-top: var(--space-2);
+}
+
+.skill-card__link--btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-base);
+  cursor: pointer;
+}
+
+/* ---- Curriculum modal ---- */
+.curriculum-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+/* Author rules always beat the UA stylesheet's [hidden]{display:none}, even
+   with equal specificity — so `display: flex` above wins and the modal shows
+   on load. This raises specificity to force it hidden when the attribute is
+   set, and JS toggles the attribute (not a class) to open/close it. */
+.curriculum-modal[hidden] {
+  display: none;
+}
+
+.curriculum-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 26, 25, 0.55);
+}
+
+.curriculum-modal__dialog {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  width: min(560px, 100%);
+  max-height: min(80vh, 720px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: curriculum-in 0.25s var(--ease);
+}
+
+@keyframes curriculum-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes curriculum-in-mobile {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.curriculum-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-teal-50);
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.15s var(--ease);
+}
+
+.curriculum-modal__close:hover {
+  background: var(--color-teal-100);
+}
+
+.curriculum-modal__head {
+  padding: var(--space-3) var(--space-4) var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.curriculum-modal__head h2 {
+  font-size: 1.3rem;
+}
+
+.curriculum-modal__head p {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.curriculum-modal__body {
+  padding: var(--space-3);
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.curriculum-week {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0.85rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+}
+
+.curriculum-week__index {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-orange-100);
+  color: var(--color-orange-600);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.curriculum-week__content h4 {
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.curriculum-week__content ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.curriculum-week__content li {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.curriculum-week__content li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-teal-700);
+}
+
+.curriculum-modal__coming-soon {
+  text-align: center;
+  padding: var(--space-4) var(--space-2);
+  color: var(--color-muted);
+}
+
+.curriculum-modal__footer {
+  padding: var(--space-2) var(--space-3) var(--space-3);
+  border-top: 1px solid var(--color-line);
+}
+
+.curriculum-modal__footer .btn {
+  width: 100%;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .curriculum-modal {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .curriculum-modal__dialog {
+    width: 100%;
+    max-height: 85vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    animation: curriculum-in-mobile 0.25s var(--ease);
+  }
+}
+
 /* ---- Bento cards ---- */
 .bento-card {
   position: relative;

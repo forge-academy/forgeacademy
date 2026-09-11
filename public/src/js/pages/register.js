@@ -4,6 +4,14 @@
 
 (function () {
   const VALID_REFERRAL_CODES = { "VICTORIA": 0.067, "OYIN22": 0.067 }; // code -> discount %
+
+  // Ambassador codes carry no discount — they exist purely so the academy can
+  // see, on the admin dashboard, who registered through which ambassador.
+  const AMBASSADOR_CODES = [
+    "BLK", "ADEK", "DORA", "LIYYAA", "MELO", "TANWA", "TORIA",
+    "DAN05", "MARVEL", "AECH", "ASIWAJU", "AKIN", "OAT05",
+  ];
+
   const API_BASE = "https://forgeacademy.onrender.com";
 
   const state = {
@@ -12,6 +20,7 @@
     details: {},
     referralCode: null,
     discountPct: 0,
+    ambassadorCode: null,
   };
 
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -147,10 +156,22 @@
       const input = $("#referral-code");
       const code = input.value.trim().toUpperCase();
       const pct = VALID_REFERRAL_CODES[code];
+      const successText = $("#referral-success-text");
 
       if (pct) {
         state.referralCode = code;
         state.discountPct = pct;
+        state.ambassadorCode = null;
+        successText.textContent = `Code applied — ${(pct * 100).toFixed(1).replace(/\.0$/, "")}% off, courtesy of a Forge partner.`;
+        $("#referral-success").hidden = false;
+        input.disabled = true;
+        applyBtn.textContent = "Applied";
+        applyBtn.disabled = true;
+      } else if (AMBASSADOR_CODES.includes(code)) {
+        state.ambassadorCode = code;
+        state.referralCode = null;
+        state.discountPct = 0;
+        successText.textContent = "Ambassador code applied — thanks for the support! This doesn't change your price.";
         $("#referral-success").hidden = false;
         input.disabled = true;
         applyBtn.textContent = "Applied";
@@ -232,6 +253,7 @@
             amount_expected: currentTotal(),
             referral_code: state.referralCode,
             discount_pct: state.discountPct,
+            ambassador_code: state.ambassadorCode,
             transfer_reference: reference,
           }),
         });
@@ -251,6 +273,19 @@
         btn.classList.remove("is-loading");
         btn.textContent = "I've made this transfer →";
       }
+    });
+  }
+
+  /* ---------------- Mobile nav toggle (header hamburger) ---------------- */
+
+  function initMobileNav() {
+    const toggle = $(".nav-toggle");
+    const nav = $(".site-nav");
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("site-nav--open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
     });
   }
 
@@ -284,6 +319,7 @@
     initReferral();
     initPaymentMethods();
     initTransferSubmit();
+    initMobileNav();
     initNav();
     updateStepper();
     updateOrderSummary();

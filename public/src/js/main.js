@@ -246,6 +246,126 @@ function initProcessCurve() {
   window.addEventListener('load', draw); // re-measure once fonts/images finish settling
 }
 
+// ---- Curriculum modal ----
+const forgeCurricula = {
+  uiux: {
+    label: "UI/UX Design",
+    tags: "8 weeks • Live online • Beginner friendly",
+    weeks: [
+      { title: "Foundations of UX & Design Thinking", points: ["Design thinking process", "The product design lifecycle", "Intro to Figma"] },
+      { title: "User Research & Personas", points: ["Interviews & surveys", "Building personas", "Empathy mapping"] },
+      { title: "Information Architecture & Wireframing", points: ["User flows & sitemaps", "Low-fidelity wireframes", "Content structure"] },
+      { title: "Visual Design & Design Systems", points: ["Typography & color theory", "Components & design tokens", "Building a mini design system"] },
+      { title: "Prototyping in Figma", points: ["Interactive prototypes", "Micro-interactions", "Developer handoff basics"] },
+      { title: "Usability Testing & Iteration", points: ["Running usability tests", "Synthesizing feedback", "Iterating on designs"] },
+      { title: "Portfolio Case Study Project", points: ["End-to-end case study", "Mentor feedback", "Polish & documentation"] },
+      { title: "Presentation & Career Prep", points: ["Portfolio review", "Interview prep", "Certification"] },
+    ],
+  },
+  swe: {
+    label: "Software Engineering",
+    tags: "8 weeks • Live online • Beginner friendly",
+    weeks: [
+      { title: "Programming Fundamentals", points: ["HTML, CSS & JavaScript basics", "Logic & control flow", "Problem-solving practice"] },
+      { title: "Git, GitHub & Developer Tooling", points: ["Version control workflows", "Branching & pull requests", "Dev environment setup"] },
+      { title: "Frontend Development", points: ["Component-based UI", "State & props", "Building responsive interfaces"] },
+      { title: "Backend Development & APIs", points: ["Server basics", "REST API design", "Connecting frontend to backend"] },
+      { title: "Databases & Data Modeling", points: ["Relational databases", "Schema design", "CRUD operations"] },
+      { title: "Authentication, Testing & Debugging", points: ["User auth basics", "Writing tests", "Debugging techniques"] },
+      { title: "Capstone Project Build", points: ["Full-stack project", "Code reviews", "Mentor check-ins"] },
+      { title: "Deployment & Career Prep", points: ["Deploying to production", "Portfolio & GitHub polish", "Interview prep"] },
+    ],
+  },
+  data: {
+    label: "Data Science",
+    tags: "8 weeks • Live online • Beginner friendly",
+    weeks: [
+      { title: "Data Fundamentals & Statistics", points: ["Descriptive statistics", "Data types", "Analytical thinking"] },
+      { title: "Data Analysis with Python & Excel", points: ["Pandas basics", "Excel functions & pivot tables", "Cleaning real datasets"] },
+      { title: "Data Wrangling", points: ["Handling missing data", "Merging datasets", "Outlier detection"] },
+      { title: "SQL & Databases", points: ["Writing SQL queries", "Joins & aggregations", "Querying real datasets"] },
+      { title: "Data Visualization", points: ["Power BI / Tableau basics", "Building dashboards", "Telling a story with charts"] },
+      { title: "Intro to Machine Learning", points: ["Core ML concepts", "Simple predictive models", "Model evaluation basics"] },
+      { title: "Capstone Analytics Project", points: ["End-to-end analysis project", "Insights & recommendations", "Mentor feedback"] },
+      { title: "Storytelling & Career Prep", points: ["Presenting insights", "Portfolio polish", "Interview prep"] },
+    ],
+  },
+  ai: {
+    label: "AI & Automation",
+    tags: "Coming soon",
+    comingSoon: true,
+  },
+};
+
+function initCurriculumModal() {
+  const modal = document.getElementById('curriculum-modal');
+  const triggers = document.querySelectorAll('[data-curriculum-trigger]');
+  if (!modal || !triggers.length) return;
+
+  const dialog = modal.querySelector('.curriculum-modal__dialog');
+  const titleEl = document.getElementById('curriculum-modal-title');
+  const tagsEl = document.getElementById('curriculum-modal-tags');
+  const bodyEl = document.getElementById('curriculum-modal-body');
+  let lastFocused = null;
+
+  function renderCurriculum(key) {
+    const data = forgeCurricula[key];
+    if (!data) return;
+
+    titleEl.textContent = data.label;
+    tagsEl.textContent = data.tags;
+
+    if (data.comingSoon) {
+      bodyEl.innerHTML = `
+        <div class="curriculum-modal__coming-soon">
+          <p>We're putting the finishing touches on this curriculum. Join the community to be first to know when it's ready.</p>
+        </div>`;
+      return;
+    }
+
+    bodyEl.innerHTML = data.weeks
+      .map(
+        (week, i) => `
+        <div class="curriculum-week">
+          <span class="curriculum-week__index">${i + 1}</span>
+          <div class="curriculum-week__content">
+            <h4>${week.title}</h4>
+            <ul>${week.points.map((p) => `<li>${p}</li>`).join('')}</ul>
+          </div>
+        </div>`
+      )
+      .join('');
+  }
+
+  function openModal(key, trigger) {
+    lastFocused = trigger;
+    renderCurriculum(key);
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    dialog.focus();
+    document.addEventListener('keydown', onKeydown);
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    document.removeEventListener('keydown', onKeydown);
+    if (lastFocused) lastFocused.focus();
+  }
+
+  function onKeydown(e) {
+    if (e.key === 'Escape') closeModal();
+  }
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => openModal(trigger.dataset.curriculumTrigger, trigger));
+  });
+
+  modal.querySelectorAll('[data-curriculum-close]').forEach((el) => {
+    el.addEventListener('click', closeModal);
+  });
+}
+
 // ---- Mobile nav toggle ----
 function initNav() {
   const toggle = document.querySelector('.nav-toggle');
@@ -263,6 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTestimonials();
   initNav();
   initTypingEffect(); //
-  initProcessCurve(); // 
+  initProcessCurve(); //
+  initCurriculumModal();
 
 });

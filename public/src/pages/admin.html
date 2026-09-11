@@ -62,16 +62,26 @@
               <th>Programme</th>
               <th>Amount</th>
               <th>Transfer reference</th>
+              <th>Ambassador</th>
               <th>Status</th>
               <th>Date</th>
               <th></th>
             </tr>
           </thead>
           <tbody id="enrollments-body">
-            <tr><td colspan="8" class="admin-table__empty">Loading…</td></tr>
+            <tr><td colspan="9" class="admin-table__empty">Loading…</td></tr>
           </tbody>
         </table>
       </div>
+
+      <!-- Ambassador transparency panel: who's bringing in registrations -->
+      <section class="ambassador-panel" id="ambassador-panel" hidden>
+        <div class="ambassador-panel__head">
+          <h2>Ambassador signups</h2>
+          <p>Registrations by ambassador code — no discount applied, tracked for transparency.</p>
+        </div>
+        <div class="ambassador-grid" id="ambassador-grid"></div>
+      </section>
     </section>
 
   </main>

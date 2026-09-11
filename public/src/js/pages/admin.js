@@ -30,6 +30,8 @@
     meta: $("#dashboard-meta"),
     dashError: $("#dashboard-error"),
     dashStatus: $("#dashboard-status"),
+    ambassadorPanel: $("#ambassador-panel"),
+    ambassadorGrid: $("#ambassador-grid"),
   };
 
   let adminKey = null;
@@ -133,6 +135,7 @@
 
     const rows = await res.json();
     renderRows(rows);
+    renderAmbassadorSummary(rows);
     return true;
   }
 
@@ -153,7 +156,7 @@
       `${rows.length} enrollment${rows.length === 1 ? "" : "s"} · ${pending} awaiting verification`;
 
     if (!rows.length) {
-      els.body.innerHTML = `<tr><td colspan="8" class="admin-table__empty">No enrollments yet.</td></tr>`;
+      els.body.innerHTML = `<tr><td colspan="9" class="admin-table__empty">No enrollments yet.</td></tr>`;
       return;
     }
 
@@ -170,6 +173,10 @@
       ? `<button type="button" class="btn btn--primary confirm-btn" data-confirm-id="${r.id}">Confirm</button>`
       : "";
 
+    const ambassadorCell = r.ambassador_code
+      ? `<span class="ambassador-tag">${escapeHtml(r.ambassador_code)}</span>`
+      : `<span class="admin-table__dash">—</span>`;
+
     // data-label drives the stacked "card" layout on narrow screens (admin.css)
     return `
       <tr data-row-id="${r.id}">
@@ -178,10 +185,40 @@
         <td data-label="Programme">${escapeHtml(r.programme_label)}</td>
         <td data-label="Amount">${naira(r.amount_expected)}</td>
         <td data-label="Transfer reference" class="admin-ref">${escapeHtml(r.transfer_reference)}</td>
+        <td data-label="Ambassador">${ambassadorCell}</td>
         <td data-label="Status"><span class="status-badge status-badge--${escapeHtml(r.status)}">${escapeHtml(prettyStatus(r.status))}</span></td>
         <td data-label="Date">${formatDate(r.created_at)}</td>
         <td data-cell="action">${action}</td>
       </tr>`;
+  }
+
+  /* ---------------- Ambassador transparency summary ---------------- */
+
+  function renderAmbassadorSummary(rows) {
+    const counts = {};
+    rows.forEach((r) => {
+      if (!r.ambassador_code) return;
+      counts[r.ambassador_code] = (counts[r.ambassador_code] || 0) + 1;
+    });
+
+    const codes = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+    if (!codes.length) {
+      els.ambassadorPanel.hidden = true;
+      return;
+    }
+
+    els.ambassadorPanel.hidden = false;
+    els.ambassadorGrid.innerHTML = codes
+      .map(
+        (code) => `
+        <div class="ambassador-card">
+          <span class="ambassador-card__code">${escapeHtml(code)}</span>
+          <span class="ambassador-card__count">${counts[code]}</span>
+          <span class="ambassador-card__label">signup${counts[code] === 1 ? "" : "s"}</span>
+        </div>`
+      )
+      .join("");
   }
 
   async function confirmEnrollment(btn) {

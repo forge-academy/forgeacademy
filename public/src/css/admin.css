@@ -165,6 +165,74 @@
   font-size: 0.8rem;
 }
 
+.admin-table__dash {
+  color: var(--color-muted);
+}
+
+.ambassador-tag {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-orange-700);
+  background: var(--color-orange-100);
+}
+
+/* ---- Ambassador transparency panel ---- */
+.ambassador-panel {
+  margin-top: 2rem;
+}
+
+.ambassador-panel__head h2 {
+  font-size: 1.25rem;
+}
+
+.ambassador-panel__head p {
+  color: var(--color-muted);
+  font-size: var(--fs-small);
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.ambassador-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.85rem;
+}
+
+.ambassador-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+}
+
+.ambassador-card__code {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+  letter-spacing: 0.02em;
+}
+
+.ambassador-card__count {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-teal-700);
+  line-height: 1.1;
+}
+
+.ambassador-card__label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
 /* ---- Status badge ---- */
 .status-badge {
   display: inline-block;
