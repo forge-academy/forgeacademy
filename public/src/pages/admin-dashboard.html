@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enrollments — Forge Academy Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Forge Academy enrollment admin dashboard." />
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body>
+
+  <header class="admin-header">
+    <div class="admin-header__bar">
+      <a href="../../index.html" class="logo">
+        <img class="logo__mark" src="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" alt="Forge Academy logo" width="26" height="26" />
+        <span>Forge Academy</span>
+      </a>
+      <span class="admin-header__tag">Admin</span>
+      <div class="admin-header__actions" id="session-actions">
+        <button type="button" class="btn btn--outline-teal admin-btn-sm" data-action="refresh">Refresh</button>
+        <button type="button" class="btn btn--outline admin-btn-sm" data-action="signout">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-dashboard" id="dashboard">
+      <div class="admin-dashboard__head">
+        <h1>Enrollments</h1>
+        <p id="dashboard-meta"></p>
+      </div>
+
+      <p class="admin-error" id="dashboard-error" hidden></p>
+      <p class="admin-status" id="dashboard-status" hidden></p>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Programme</th>
+              <th>Amount</th>
+              <th>Transfer reference</th>
+              <th>Ambassador</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="enrollments-body">
+            <tr><td colspan="9" class="admin-table__empty">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ambassador transparency panel: who's bringing in registrations -->
+      <section class="ambassador-panel" id="ambassador-panel" hidden>
+        <div class="ambassador-panel__head">
+          <h2>Ambassador signups</h2>
+          <p>Registrations by ambassador code — no discount applied, tracked for transparency.</p>
+        </div>
+        <div class="ambassador-grid" id="ambassador-grid"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="../js/pages/admin.js"></script>
+</body>
+</html>

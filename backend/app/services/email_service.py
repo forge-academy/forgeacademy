@@ -120,6 +120,25 @@ def send_enrollment_verified_email(
     })
 
 
+def send_enrollment_declined_email(name: str, email: str, programme_label: str) -> bool:
+    """Sent when an admin permanently deletes a pending enrollment because the
+    transfer couldn't be confirmed (spam, no payment landed, wrong reference,
+    etc). Lets the student know their spot wasn't held and that they can
+    re-apply — never sent for an already-paid enrollment."""
+    return _send_via_resend({
+        "from": FROM_EMAIL,
+        "to": [email],
+        "subject": "Update on your Forge Academy enrollment",
+        "html": (
+            f"<p>Hi {name},</p>"
+            f"<p>Sorry — we weren't able to confirm your payment for "
+            f"<strong>{programme_label}</strong>, so this enrollment has been closed.</p>"
+            f"<p>If you'd still like to join, you're welcome to register again and "
+            f"we'll be glad to have you.</p>"
+        ),
+    })
+
+
 def send_academy_notification_email(
     student_name: str, student_email: str, programme_label: str, amount: float, reference: str
 ) -> bool:

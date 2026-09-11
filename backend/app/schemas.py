@@ -43,6 +43,13 @@ class EnrollmentResponse(BaseModel):
     created_at: datetime
 
 
+class EnrollmentDeleteResponse(BaseModel):
+    id: int
+    full_name: str
+    email: EmailStr
+    deleted: bool = True
+
+
 class EnrollmentAdminItem(BaseModel):
     """Full enrollment row for the admin dashboard."""
     id: int

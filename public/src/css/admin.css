@@ -253,13 +253,21 @@
   background: var(--color-teal-100);
 }
 
-/* ---- Confirm button ---- */
-.confirm-btn {
+/* ---- Row actions (Confirm / Delete) ---- */
+.row-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.confirm-btn,
+.delete-btn {
   padding: 0.45rem 0.9rem;
   font-size: 0.8rem;
 }
 
-.confirm-btn[disabled] {
+.confirm-btn[disabled],
+.delete-btn[disabled] {
   opacity: 0.55;
   cursor: default;
   transform: none;
@@ -396,7 +404,12 @@
     display: none;
   }
 
-  .confirm-btn {
+  .row-actions {
+    flex-direction: column;
+  }
+
+  .confirm-btn,
+  .delete-btn {
     width: 100%;
   }
 

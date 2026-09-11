@@ -202,6 +202,32 @@ to `PAID_STUDENTS_WHATSAPP_LINK`).
 **Error - `403 Forbidden`** — key missing/wrong.
 **Error - `404 Not Found`** — no enrollment with that id: `{"detail": "Enrollment not found."}`
 
+### `DELETE /api/enrollments/{id}`
+
+**Admin only.** Requires header `X-Admin-Key: <ADMIN_KEY>`. Permanently deletes
+an enrollment whose payment never got confirmed (spam, no transfer landed,
+wrong reference, etc.) and emails the student that they can re-apply.
+**Irreversible — there's no undo.** Scoped to `status: "pending_verification"`
+rows only: an already-`paid` enrollment can't be deleted this way, since the
+"payment wasn't confirmed" decline email would be false for it.
+
+**Success response - `200 OK`**
+
+```json
+{
+  "id": 10,
+  "full_name": "Jane Doe",
+  "email": "jane@example.com",
+  "deleted": true
+}
+```
+
+**Error - `403 Forbidden`** — key missing/wrong.
+**Error - `404 Not Found`** — no enrollment with that id.
+**Error - `400 Bad Request`** — the enrollment exists but isn't
+`pending_verification` (e.g. already `paid`): `{"detail": "Only a pending
+(unconfirmed) enrollment can be deleted this way."}`
+
 ---
 
 ### `GET /health`
