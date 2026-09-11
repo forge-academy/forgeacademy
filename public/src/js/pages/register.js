@@ -260,11 +260,10 @@
 
         if (!res.ok) throw new Error("Request failed");
 
-        statusEl.textContent = "✓ Submitted — we'll confirm your transfer and email you shortly.";
-        statusEl.className = "transfer-status transfer-status--pending";
-        statusEl.hidden = false;
+        const created = await res.json();
         btn.classList.remove("is-loading");
         btn.textContent = "Submitted ✓";
+        openSuccessModal(created.id);
       } catch (err) {
         statusEl.textContent = "Something went wrong submitting this — please try again or contact support.";
         statusEl.className = "transfer-status transfer-status--error";
@@ -273,6 +272,39 @@
         btn.classList.remove("is-loading");
         btn.textContent = "I've made this transfer →";
       }
+    });
+  }
+
+  /* ---------------- Step 4: success popup ---------------- */
+
+  // The academy's new-enrollment heads-up is deliberately its own request,
+  // triggered here instead of being queued alongside the student's
+  // confirmation email on the backend — the two weren't both reliably
+  // landing when bundled together. Best-effort: nothing to show the student
+  // if this fails, the enrollment itself already succeeded.
+  function notifyAcademy(enrollmentId) {
+    fetch(`${API_BASE}/api/enrollments/${enrollmentId}/notify-academy`, { method: "POST" }).catch(() => {});
+  }
+
+  function openSuccessModal(enrollmentId) {
+    const modal = $("#success-modal");
+    if (!modal) return;
+    modal.dataset.enrollmentId = enrollmentId;
+    modal.hidden = false;
+    document.body.classList.add("modal-open");
+    $("#success-modal-ok")?.focus();
+  }
+
+  function initSuccessModal() {
+    const modal = $("#success-modal");
+    const okBtn = $("#success-modal-ok");
+    if (!modal || !okBtn) return;
+
+    okBtn.addEventListener("click", () => {
+      modal.hidden = true;
+      document.body.classList.remove("modal-open");
+      const enrollmentId = modal.dataset.enrollmentId;
+      if (enrollmentId) notifyAcademy(enrollmentId);
     });
   }
 
@@ -319,6 +351,7 @@
     initReferral();
     initPaymentMethods();
     initTransferSubmit();
+    initSuccessModal();
     initMobileNav();
     initNav();
     updateStepper();

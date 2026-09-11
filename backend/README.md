@@ -100,11 +100,15 @@ missing field or malformed email) - standard FastAPI validation error shape.
 ### `POST /api/enrollments`
 
 Public. Records a pending enrollment together with the bank-transfer reference
-the student supplies. Sends two emails (both best-effort, dispatched as
-background tasks after the response): a "we've received it" email to the
-student, then a heads-up to `ACADEMY_NOTIFICATION_EMAIL`. The Resend call
-retries on `429` (free tier is ~2 req/s), so the second email isn't dropped for
-following the first too closely.
+the student supplies. Sends a "we've received it" email to the student
+(best-effort, dispatched as a background task after the response).
+
+This endpoint does **not** send the academy's new-enrollment heads-up — that's
+a separate call, see `POST /api/enrollments/{id}/notify-academy` below. The two
+used to be queued together as background tasks off this one request, but
+weren't both reliably landing, so the frontend now triggers them as two
+distinct request/response cycles: this one on submit, the other when the
+student dismisses the post-registration success popup.
 
 **Request body**
 
@@ -151,6 +155,22 @@ following the first too closely.
 ```
 
 New rows always start at `status: "pending_verification"`.
+
+### `POST /api/enrollments/{id}/notify-academy`
+
+Public. Sends the academy's new-enrollment heads-up (to
+`ACADEMY_NOTIFICATION_EMAIL`) for the given enrollment — best-effort,
+dispatched as a background task after the response, same as the student
+email. The frontend calls this once, right after the student dismisses the
+"submission successful" popup that follows `POST /api/enrollments`.
+
+**Success response - `200 OK`**
+
+```json
+{ "notified": true }
+```
+
+**Error - `404 Not Found`** — no enrollment with that id.
 
 ### `GET /api/enrollments`
 

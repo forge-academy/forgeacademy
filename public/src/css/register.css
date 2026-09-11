@@ -736,6 +736,79 @@
   }
 }
 
+/* ---- Success popup ---- */
+.reg-success-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+}
+
+/* Author rules always beat the UA stylesheet's [hidden]{display:none}, even
+   with equal specificity — so `display: flex` above would otherwise win and
+   the popup would show on load. This forces it hidden when the attribute is
+   set; JS only ever toggles the attribute, never a class, to open/close it. */
+.reg-success-modal[hidden] {
+  display: none;
+}
+
+.reg-success-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 26, 25, 0.55);
+}
+
+.reg-success-modal__dialog {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-float);
+  width: min(380px, 100%);
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+  animation: reg-success-in 0.25s var(--ease);
+}
+
+@keyframes reg-success-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.reg-success-modal__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-teal-100);
+  color: var(--color-teal-700);
+  margin-bottom: var(--space-2);
+}
+
+.reg-success-modal__dialog h2 {
+  font-size: 1.25rem;
+}
+
+.reg-success-modal__dialog p {
+  margin-top: 0.5rem;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.reg-success-modal__dialog .btn {
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 /* ==========================================================================
    Responsive — tablet & phone
    ========================================================================== */

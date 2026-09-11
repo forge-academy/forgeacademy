@@ -453,6 +453,22 @@
   </div>
 </div>
 
+  <!-- Success popup: shown after a transfer claim is submitted. The "Okay"
+       button both dismisses it and triggers the academy notification email. -->
+  <div class="reg-success-modal" id="success-modal" hidden>
+    <div class="reg-success-modal__backdrop"></div>
+    <div class="reg-success-modal__dialog" role="alertdialog" aria-modal="true" aria-labelledby="success-modal-title">
+      <span class="reg-success-modal__icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <h2 id="success-modal-title">Submission successful!</h2>
+      <p>We've received your enrollment and emailed you a confirmation. We'll verify your transfer and follow up shortly.</p>
+      <button type="button" class="btn btn--primary" id="success-modal-ok">Okay</button>
+    </div>
+  </div>
+
   <script src="../js/pages/register.js"></script>
 </body>
 </html>

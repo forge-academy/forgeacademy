@@ -1,4 +1,3 @@
-import threading
 from typing import List
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Header
@@ -26,27 +25,6 @@ def require_admin(x_admin_key: str) -> None:
     """Same gate the verify endpoint uses — the X-Admin-Key header must match ADMIN_KEY."""
     if x_admin_key != ADMIN_KEY:
         raise HTTPException(status_code=403, detail="Not authorized.")
-
-
-def _send_enrollment_emails(full_name, email, programme_label, amount_expected, transfer_reference):
-    """Fires the student's "received" email and the academy heads-up at the
-    same time, each on its own thread, instead of one after another. As two
-    sequential BackgroundTasks they'd block in order — so a Resend 429 retry
-    on the first (up to ~20s across 4 attempts) delayed the academy email
-    behind it. Starting both immediately means the academy notification goes
-    out right alongside the student confirmation, not after it."""
-    t1 = threading.Thread(
-        target=send_enrollment_received_email,
-        args=(full_name, email, programme_label, amount_expected, transfer_reference),
-    )
-    t2 = threading.Thread(
-        target=send_academy_notification_email,
-        args=(full_name, email, programme_label, amount_expected, transfer_reference),
-    )
-    t1.start()
-    t2.start()
-    t1.join()
-    t2.join()
 
 
 @router.post("/enrollments", response_model=EnrollmentResponse)
@@ -81,16 +59,55 @@ def create_enrollment(payload: EnrollmentCreateRequest, background_tasks: Backgr
         cur.close()
         conn.close()
 
-    # Both emails go out together, right after the response is returned —
-    # see _send_enrollment_emails for why this is one task with two threads
-    # rather than two sequential BackgroundTasks.
+    # Only the student's "received" email fires here. The academy heads-up
+    # used to be queued alongside it as a second background task, but the two
+    # weren't reliably both landing — so it's now its own request, triggered
+    # by the frontend from the "Okay" button on the success popup (see
+    # POST /enrollments/{id}/notify-academy below) instead of being bundled
+    # into this one's background work.
     background_tasks.add_task(
-        _send_enrollment_emails,
+        send_enrollment_received_email,
         row["full_name"], row["email"], row["programme_label"],
         row["amount_expected"], payload.transfer_reference,
     )
 
     return row
+
+
+@router.post("/enrollments/{enrollment_id}/notify-academy")
+def notify_academy(enrollment_id: int, background_tasks: BackgroundTasks):
+    """Public — called by the frontend when the student clicks "Okay" on the
+    post-registration success popup, as its own separate request/response
+    cycle from POST /enrollments. Sends the academy's new-enrollment heads-up
+    for that enrollment. Decoupled from the student's confirmation email on
+    purpose: queuing both as background tasks off a single request wasn't
+    reliably delivering both."""
+    conn = get_connection()
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cur.execute(
+            """
+            SELECT full_name, email, programme_label, amount_expected, transfer_reference
+            FROM enrollments
+            WHERE id = %s
+            """,
+            (enrollment_id,),
+        )
+        row = cur.fetchone()
+    finally:
+        cur.close()
+        conn.close()
+
+    if not row:
+        raise HTTPException(status_code=404, detail="Enrollment not found.")
+
+    background_tasks.add_task(
+        send_academy_notification_email,
+        row["full_name"], row["email"], row["programme_label"],
+        row["amount_expected"], row["transfer_reference"],
+    )
+
+    return {"notified": True}
 
 
 @router.get("/enrollments", response_model=List[EnrollmentAdminItem])
