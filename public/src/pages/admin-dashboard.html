@@ -76,8 +76,38 @@
         </div>
         <div class="ambassador-grid" id="referral-grid"></div>
       </section>
+
+      <!-- Dangerous section: data export + full database wipe. Admin-only,
+           irreversible for the wipe — kept visually separate (red) and at
+           the very bottom on purpose. -->
+      <section class="danger-zone" id="danger-zone">
+        <div class="danger-zone__head">
+          <h2>Dangerous section</h2>
+          <p>Actions below affect the whole enrollments table. The wipe cannot be undone — export a copy first if you need one.</p>
+        </div>
+        <div class="danger-zone__actions">
+          <button type="button" class="btn btn--outline-teal admin-btn-sm" id="download-data-btn">Download data (CSV)</button>
+          <button type="button" class="btn btn--danger-solid admin-btn-sm" id="clear-db-btn">Clear database</button>
+        </div>
+      </section>
     </section>
   </main>
+
+  <!-- Clear-database confirmation modal -->
+  <div class="confirm-modal" id="clear-db-modal" hidden>
+    <div class="confirm-modal__backdrop" id="clear-db-modal-backdrop"></div>
+    <div class="confirm-modal__dialog" role="alertdialog" aria-modal="true" aria-labelledby="clear-db-modal-title">
+      <h3 id="clear-db-modal-title">Wipe the entire enrollments table?</h3>
+      <p>This permanently deletes every enrollment record — pending and paid — so the dashboard starts completely empty. There is no undo.</p>
+      <label class="confirm-modal__label" for="clear-db-confirm-input">Type <strong>DELETE</strong> to confirm</label>
+      <input type="text" id="clear-db-confirm-input" autocomplete="off" spellcheck="false" />
+      <p class="confirm-modal__error" id="clear-db-modal-error" hidden></p>
+      <div class="confirm-modal__actions">
+        <button type="button" class="btn btn--outline" id="clear-db-cancel-btn">Cancel</button>
+        <button type="button" class="btn btn--danger-solid" id="clear-db-proceed-btn" disabled>Proceed</button>
+      </div>
+    </div>
+  </div>
 
   <script src="../js/pages/admin.js"></script>
 </body>

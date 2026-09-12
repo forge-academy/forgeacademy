@@ -248,6 +248,22 @@ rows only: an already-`paid` enrollment can't be deleted this way, since the
 `pending_verification` (e.g. already `paid`): `{"detail": "Only a pending
 (unconfirmed) enrollment can be deleted this way."}`
 
+### `DELETE /api/enrollments`
+
+**Admin only.** Requires header `X-Admin-Key: <ADMIN_KEY>`. Wipes **every**
+row in the `enrollments` table, regardless of status — the "Clear database"
+button on the admin dashboard's Dangerous section, for resetting to zero
+before launch. **Irreversible — there's no undo, and no emails are sent.**
+Does not touch the separate `users` table.
+
+**Success response - `200 OK`**
+
+```json
+{ "deleted": 42 }
+```
+
+**Error - `403 Forbidden`** — key missing/wrong.
+
 ---
 
 ### `GET /health`

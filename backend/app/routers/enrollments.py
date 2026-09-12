@@ -136,6 +136,28 @@ def list_enrollments(x_admin_key: str = Header(...)):
     return rows
 
 
+@router.delete("/enrollments")
+def clear_enrollments(x_admin_key: str = Header(...)):
+    """Admin-only, irreversible. Wipes every row in the enrollments table —
+    pending and paid alike — for a one-time reset before launch so real
+    registrations start from zero. Scoped to this table only; the separate
+    `users` table (from the basic landing-page signup form) is untouched.
+    No emails are sent — deleted rows just vanish."""
+    require_admin(x_admin_key)
+
+    conn = get_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute("DELETE FROM enrollments")
+        deleted = cur.rowcount
+        conn.commit()
+    finally:
+        cur.close()
+        conn.close()
+
+    return {"deleted": deleted}
+
+
 @router.patch("/enrollments/{enrollment_id}/verify", response_model=EnrollmentResponse)
 def verify_enrollment(enrollment_id: int, x_admin_key: str = Header(...)):
     """You (the admin) call this once you've manually checked your bank

@@ -233,6 +233,132 @@
   color: var(--color-muted);
 }
 
+/* ---- Dangerous section ---- */
+.danger-zone {
+  margin-top: 3rem;
+  border: 1.5px solid #C0392B;
+  border-radius: var(--radius-md);
+  background: #FDF2F1;
+  padding: 1.5rem;
+}
+
+.danger-zone__head h2 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #C0392B;
+}
+
+.danger-zone__head p {
+  color: #A93226;
+  font-size: var(--fs-small);
+  margin-top: 0.35rem;
+  margin-bottom: 1.25rem;
+}
+
+.danger-zone__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ---- Confirm modal (clear database) ---- */
+.confirm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.confirm-modal[hidden] {
+  display: none;
+}
+
+.confirm-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.5);
+}
+
+.confirm-modal__dialog {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border-top: 4px solid #C0392B;
+  box-shadow: var(--shadow-card);
+  padding: 1.75rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.confirm-modal__dialog h3 {
+  font-size: 1.15rem;
+  color: var(--color-ink);
+}
+
+.confirm-modal__dialog p {
+  font-size: var(--fs-small);
+  color: var(--color-muted);
+  margin-top: 0.6rem;
+}
+
+.confirm-modal__label {
+  display: block;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-top: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.confirm-modal__dialog input[type="text"] {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm, 8px);
+  border: 1.5px solid var(--color-line);
+  font-size: 0.95rem;
+}
+
+.confirm-modal__dialog input[type="text"]:focus {
+  outline: none;
+  border-color: #C0392B;
+}
+
+.confirm-modal__error {
+  color: #C0392B;
+  font-size: var(--fs-small);
+  margin-top: 0.5rem;
+}
+
+.confirm-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .danger-zone__actions {
+    flex-direction: column;
+  }
+
+  .danger-zone__actions .btn {
+    width: 100%;
+  }
+
+  .confirm-modal__actions {
+    flex-direction: column-reverse;
+  }
+
+  .confirm-modal__actions .btn {
+    width: 100%;
+  }
+}
+
 /* ---- Status badge ---- */
 .status-badge {
   display: inline-block;

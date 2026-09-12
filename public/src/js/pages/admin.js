@@ -148,7 +148,19 @@
       ambassadorGrid: $("#ambassador-grid"),
       referralPanel: $("#referral-panel"),
       referralGrid: $("#referral-grid"),
+      downloadBtn: $("#download-data-btn"),
+      clearDbBtn: $("#clear-db-btn"),
+      clearDbModal: $("#clear-db-modal"),
+      clearDbBackdrop: $("#clear-db-modal-backdrop"),
+      clearDbInput: $("#clear-db-confirm-input"),
+      clearDbError: $("#clear-db-modal-error"),
+      clearDbCancelBtn: $("#clear-db-cancel-btn"),
+      clearDbProceedBtn: $("#clear-db-proceed-btn"),
     };
+
+    // Latest rows fetched, kept around purely so the CSV download can export
+    // exactly what's on screen without a second network round trip.
+    let lastRows = [];
 
     function redirectToLogin(reason) {
       location.href = reason ? `admin.html?reason=${reason}` : "admin.html";
@@ -299,6 +311,7 @@
         return false;
       }
 
+      lastRows = result.rows;
       renderRows(result.rows);
       renderAmbassadorSummary(result.rows);
       renderReferralSummary(result.rows);
@@ -379,6 +392,108 @@
       flashStatus(`${deleted.full_name} deleted — they've been emailed that their payment wasn't confirmed.`);
       refresh({ silent: true });
     }
+
+    /* ---- Dangerous section: CSV export + clear database ---- */
+
+    const CSV_COLUMNS = [
+      ["id", "ID"],
+      ["full_name", "Name"],
+      ["email", "Email"],
+      ["phone", "Phone"],
+      ["programme_label", "Programme"],
+      ["amount_expected", "Amount"],
+      ["transfer_reference", "Transfer reference"],
+      ["referral_code", "Referral code"],
+      ["ambassador_code", "Ambassador"],
+      ["status", "Status"],
+      ["created_at", "Created at"],
+      ["verified_at", "Verified at"],
+    ];
+
+    function csvField(value) {
+      const str = value == null ? "" : String(value);
+      return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+    }
+
+    function downloadEnrollmentsCsv(rows) {
+      const header = CSV_COLUMNS.map(([, label]) => csvField(label)).join(",");
+      const lines = rows.map((r) => CSV_COLUMNS.map(([key]) => csvField(r[key])).join(","));
+      const csv = [header, ...lines].join("\r\n");
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `forgeacademy-enrollments-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    els.downloadBtn?.addEventListener("click", () => {
+      if (!lastRows.length) {
+        flashStatus("Nothing to download yet — there are no enrollments.");
+        return;
+      }
+      downloadEnrollmentsCsv(lastRows);
+    });
+
+    function openClearDbModal() {
+      els.clearDbInput.value = "";
+      els.clearDbProceedBtn.disabled = true;
+      els.clearDbError.hidden = true;
+      els.clearDbModal.hidden = false;
+      els.clearDbInput.focus();
+    }
+
+    function closeClearDbModal() {
+      els.clearDbModal.hidden = true;
+    }
+
+    els.clearDbBtn?.addEventListener("click", openClearDbModal);
+    els.clearDbCancelBtn?.addEventListener("click", closeClearDbModal);
+    els.clearDbBackdrop?.addEventListener("click", closeClearDbModal);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !els.clearDbModal.hidden) closeClearDbModal();
+    });
+
+    els.clearDbInput?.addEventListener("input", () => {
+      els.clearDbProceedBtn.disabled = els.clearDbInput.value.trim() !== "DELETE";
+    });
+
+    els.clearDbProceedBtn?.addEventListener("click", async () => {
+      if (els.clearDbInput.value.trim() !== "DELETE") return;
+
+      els.clearDbProceedBtn.disabled = true;
+      els.clearDbProceedBtn.textContent = "Clearing…";
+      els.clearDbError.hidden = true;
+
+      let res;
+      try {
+        res = await apiFetch("/api/enrollments", { method: "DELETE" });
+      } catch (err) {
+        els.clearDbProceedBtn.disabled = false;
+        els.clearDbProceedBtn.textContent = "Proceed";
+        els.clearDbError.textContent = "Could not reach the server. Try again.";
+        els.clearDbError.hidden = false;
+        return;
+      }
+
+      if (!res.ok) {
+        els.clearDbProceedBtn.disabled = false;
+        els.clearDbProceedBtn.textContent = "Proceed";
+        els.clearDbError.textContent = `Clear failed (HTTP ${res.status}).`;
+        els.clearDbError.hidden = false;
+        return;
+      }
+
+      const result = await res.json();
+      els.clearDbProceedBtn.textContent = "Proceed";
+      closeClearDbModal();
+      flashStatus(`Database cleared — ${result.deleted} enrollment${result.deleted === 1 ? "" : "s"} deleted.`);
+      refresh({ silent: true });
+    });
 
     els.sessionActions.addEventListener("click", (e) => {
       const action = e.target.closest("[data-action]")?.dataset.action;

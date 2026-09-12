@@ -104,6 +104,27 @@
   background: #FDE8E8;
 }
 
+/* Filled variant of .btn--danger, for the highest-stakes destructive actions
+   (e.g. the admin "clear database" button) where an outline reads too mild. */
+.btn--danger-solid {
+  background: #C0392B;
+  border-color: #C0392B;
+  color: #fff;
+}
+
+.btn--danger-solid:hover {
+  background: #A93226;
+  border-color: #A93226;
+}
+
+.btn--danger-solid:disabled {
+  background: #E8B4AE;
+  border-color: #E8B4AE;
+  color: #fff;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ---- Logo ---- */
 .logo {
   display: flex;
