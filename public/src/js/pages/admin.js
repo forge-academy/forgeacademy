@@ -179,6 +179,10 @@
         ? `<span class="ambassador-tag">${escapeHtml(r.ambassador_code)}</span>`
         : `<span class="admin-table__dash">—</span>`;
 
+      const referralCell = r.referral_code
+        ? `<span class="ambassador-tag">${escapeHtml(r.referral_code)}</span>`
+        : `<span class="admin-table__dash">—</span>`;
+
       // data-label drives the stacked "card" layout on narrow screens (admin.css)
       return `
         <tr data-row-id="${r.id}">
@@ -187,6 +191,7 @@
           <td data-label="Programme">${escapeHtml(r.programme_label)}</td>
           <td data-label="Amount">${naira(r.amount_expected)}</td>
           <td data-label="Transfer reference" class="admin-ref">${escapeHtml(r.transfer_reference)}</td>
+          <td data-label="Referral code">${referralCell}</td>
           <td data-label="Ambassador">${ambassadorCell}</td>
           <td data-label="Status"><span class="status-badge status-badge--${escapeHtml(r.status)}">${escapeHtml(prettyStatus(r.status))}</span></td>
           <td data-label="Date">${formatDate(r.created_at)}</td>
@@ -200,7 +205,7 @@
         `${rows.length} enrollment${rows.length === 1 ? "" : "s"} · ${pending} awaiting verification`;
 
       if (!rows.length) {
-        els.body.innerHTML = `<tr><td colspan="9" class="admin-table__empty">No enrollments yet.</td></tr>`;
+        els.body.innerHTML = `<tr><td colspan="10" class="admin-table__empty">No enrollments yet.</td></tr>`;
         return;
       }
 
@@ -243,7 +248,7 @@
 
     async function refresh({ silent = false } = {}) {
       if (!silent) {
-        els.body.innerHTML = `<tr><td colspan="9" class="admin-table__empty">Loading…</td></tr>`;
+        els.body.innerHTML = `<tr><td colspan="10" class="admin-table__empty">Loading…</td></tr>`;
       }
       els.dashError.hidden = true;
 
