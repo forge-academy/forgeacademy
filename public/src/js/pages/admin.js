@@ -146,6 +146,8 @@
       dashStatus: $("#dashboard-status"),
       ambassadorPanel: $("#ambassador-panel"),
       ambassadorGrid: $("#ambassador-grid"),
+      referralPanel: $("#referral-panel"),
+      referralGrid: $("#referral-grid"),
     };
 
     function redirectToLogin(reason) {
@@ -246,6 +248,33 @@
         .join("");
     }
 
+    function renderReferralSummary(rows) {
+      const counts = {};
+      rows.forEach((r) => {
+        if (!r.referral_code) return;
+        counts[r.referral_code] = (counts[r.referral_code] || 0) + 1;
+      });
+
+      const codes = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+      if (!codes.length) {
+        els.referralPanel.hidden = true;
+        return;
+      }
+
+      els.referralPanel.hidden = false;
+      els.referralGrid.innerHTML = codes
+        .map(
+          (code) => `
+          <div class="ambassador-card">
+            <span class="ambassador-card__code">${escapeHtml(code)}</span>
+            <span class="ambassador-card__count">${counts[code]}</span>
+            <span class="ambassador-card__label">signup${counts[code] === 1 ? "" : "s"}</span>
+          </div>`
+        )
+        .join("");
+    }
+
     async function refresh({ silent = false } = {}) {
       if (!silent) {
         els.body.innerHTML = `<tr><td colspan="10" class="admin-table__empty">Loading…</td></tr>`;
@@ -272,6 +301,7 @@
 
       renderRows(result.rows);
       renderAmbassadorSummary(result.rows);
+      renderReferralSummary(result.rows);
       return true;
     }
 
