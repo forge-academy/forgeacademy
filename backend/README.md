@@ -121,7 +121,7 @@ student dismisses the post-registration success popup.
   "programme_label": "Software Engineering",
   "amount_expected": 35000,
   "referral_code": "VICTORIA",
-  "discount_pct": 0.067,
+  "discount_amount": 2000,
   "ambassador_code": null,
   "transfer_reference": "TRF-8842"
 }
@@ -136,7 +136,7 @@ student dismisses the post-registration success popup.
 | programme_label | string | yes | Display name, e.g. `Software Engineering` |
 | amount_expected | number | yes | Naira, after any discount |
 | referral_code | string | no | A discount code (see `VALID_REFERRAL_CODES` in `register.js`) — reduces `amount_expected` |
-| discount_pct | number | no | Fraction (e.g. `0.067`), defaults to `0` |
+| discount_amount | number | no | Flat naira amount (e.g. `2000`), defaults to `0` |
 | ambassador_code | string | no | An ambassador code (see `AMBASSADOR_CODES` in `register.js`) — **carries no discount**, recorded purely so admins can see who signed up through which ambassador. Mutually exclusive with `referral_code` in the current UI (one input field, one or the other applies). |
 | transfer_reference | string | yes | The student's bank transfer reference/narration |
 
@@ -196,7 +196,7 @@ site.
   "programme_label": "Software Engineering",
   "amount_expected": 35000.0,
   "referral_code": "VICTORIA",
-  "discount_pct": 0.067,
+  "discount_amount": 2000,
   "ambassador_code": null,
   "transfer_reference": "TRF-8842",
   "status": "pending_verification",

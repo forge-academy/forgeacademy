@@ -32,7 +32,7 @@ def init_db():
             programme_label TEXT NOT NULL,
             amount_expected NUMERIC NOT NULL,
             referral_code TEXT,
-            discount_pct NUMERIC DEFAULT 0,
+            discount_amount NUMERIC DEFAULT 0,
             ambassador_code TEXT,
             transfer_reference TEXT NOT NULL,
             status TEXT NOT NULL DEFAULT 'pending_verification',
@@ -47,6 +47,22 @@ def init_db():
     # on existing databases without touching any other table state.
     cur.execute(
         "ALTER TABLE enrollments ADD COLUMN IF NOT EXISTS ambassador_code TEXT"
+    )
+    # Referral discounts used to be a percentage (discount_pct); they're now a
+    # flat naira amount. Rename the existing column in place on databases that
+    # still have the old one, so historical discount values aren't lost.
+    cur.execute(
+        """
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1 FROM information_schema.columns
+                WHERE table_name = 'enrollments' AND column_name = 'discount_pct'
+            ) THEN
+                ALTER TABLE enrollments RENAME COLUMN discount_pct TO discount_amount;
+            END IF;
+        END $$;
+        """
     )
     conn.commit()
     cur.close()

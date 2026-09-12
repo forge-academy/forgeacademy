@@ -28,7 +28,7 @@ class EnrollmentCreateRequest(BaseModel):
     programme_label: str
     amount_expected: float
     referral_code: Optional[str] = None
-    discount_pct: float = 0
+    discount_amount: float = 0
     ambassador_code: Optional[str] = None
     transfer_reference: str
 
@@ -60,7 +60,7 @@ class EnrollmentAdminItem(BaseModel):
     programme_label: str
     amount_expected: float
     referral_code: Optional[str] = None
-    discount_pct: float = 0
+    discount_amount: float = 0
     ambassador_code: Optional[str] = None
     transfer_reference: str
     status: str

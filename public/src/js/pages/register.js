@@ -3,7 +3,7 @@
    ========================================================================== */
 
 (function () {
-  const VALID_REFERRAL_CODES = { "VICTORIA": 0.067, "OYIN22": 0.067 }; // code -> discount %
+  const VALID_REFERRAL_CODES = { "VICTORIA": 2000, "OYIN22": 2000 }; // code -> flat naira discount
 
   // Ambassador codes carry no discount — they exist purely so the academy can
   // see, on the admin dashboard, who registered through which ambassador.
@@ -19,7 +19,7 @@
     programme: null, // { key, label, tags, price, icon }
     details: {},
     referralCode: null,
-    discountPct: 0,
+    discountAmount: 0,
     ambassadorCode: null,
   };
 
@@ -83,7 +83,7 @@
 
   function currentDiscountAmount() {
     if (!state.programme) return 0;
-    return state.programme.price * state.discountPct;
+    return state.discountAmount;
   }
 
   function currentTotal() {
@@ -155,14 +155,14 @@
     applyBtn.addEventListener("click", () => {
       const input = $("#referral-code");
       const code = input.value.trim().toUpperCase();
-      const pct = VALID_REFERRAL_CODES[code];
+      const amount = VALID_REFERRAL_CODES[code];
       const successText = $("#referral-success-text");
 
-      if (pct) {
+      if (amount) {
         state.referralCode = code;
-        state.discountPct = pct;
+        state.discountAmount = amount;
         state.ambassadorCode = null;
-        successText.textContent = `Code applied — ${(pct * 100).toFixed(1).replace(/\.0$/, "")}% off, courtesy of a Forge partner.`;
+        successText.textContent = `Code applied — ${nairaFmt(amount)} off, courtesy of a Forge partner.`;
         $("#referral-success").hidden = false;
         input.disabled = true;
         applyBtn.textContent = "Applied";
@@ -170,7 +170,7 @@
       } else if (AMBASSADOR_CODES.includes(code)) {
         state.ambassadorCode = code;
         state.referralCode = null;
-        state.discountPct = 0;
+        state.discountAmount = 0;
         successText.textContent = "Ambassador code applied — thanks for the support! This doesn't change your price.";
         $("#referral-success").hidden = false;
         input.disabled = true;
@@ -252,7 +252,7 @@
             programme_label: state.programme.label,
             amount_expected: currentTotal(),
             referral_code: state.referralCode,
-            discount_pct: state.discountPct,
+            discount_amount: state.discountAmount,
             ambassador_code: state.ambassadorCode,
             transfer_reference: reference,
           }),
