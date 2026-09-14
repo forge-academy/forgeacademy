@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics sign in — Forge Academy</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Sign in to the Forge Academy site analytics dashboard." />
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" />
+  <link rel="stylesheet" href="../src/css/base.css" />
+  <link rel="stylesheet" href="../src/css/components.css" />
+  <link rel="stylesheet" href="../src/css/admin.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+  <header class="admin-header">
+    <div class="admin-header__bar">
+      <a href="../index.html" class="logo">
+        <img class="logo__mark" src="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" alt="Forge Academy logo" width="26" height="26" />
+        <span>Forge Academy</span>
+      </a>
+      <span class="admin-header__tag">Analytics</span>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-gate" id="login-gate">
+      <div class="admin-gate__card">
+        <h1>Analytics sign in</h1>
+        <p>Enter the admin key to view site analytics.</p>
+        <form id="login-form">
+          <label for="admin-key">Admin key</label>
+          <input type="password" id="admin-key" name="admin-key" autocomplete="off" required />
+          <p class="admin-error" id="login-error" hidden></p>
+          <button type="submit" class="btn btn--primary" id="login-btn">Sign in</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

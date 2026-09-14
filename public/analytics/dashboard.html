@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Analytics — Forge Academy Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Forge Academy site analytics dashboard." />
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" />
+  <link rel="stylesheet" href="../src/css/base.css" />
+  <link rel="stylesheet" href="../src/css/components.css" />
+  <link rel="stylesheet" href="../src/css/admin.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+  <header class="admin-header">
+    <div class="admin-header__bar">
+      <a href="../index.html" class="logo">
+        <img class="logo__mark" src="https://res.cloudinary.com/denaqakxw/image/upload/v1788440601/logo_bviflp.png" alt="Forge Academy logo" width="26" height="26" />
+        <span>Forge Academy</span>
+      </a>
+      <span class="admin-header__tag">Analytics</span>
+      <div class="admin-header__actions" id="session-actions">
+        <button type="button" class="btn btn--outline-teal admin-btn-sm" data-action="refresh">Refresh</button>
+        <button type="button" class="btn btn--outline admin-btn-sm" data-action="signout">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-dashboard" id="analytics-dashboard">
+      <div class="admin-dashboard__head">
+        <h1>Site Analytics</h1>
+        <p id="dashboard-meta">Loading…</p>
+      </div>
+
+      <p class="admin-error" id="dashboard-error" hidden></p>
+      <p class="admin-status" id="dashboard-status" hidden></p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-card__value" id="stat-total-views">—</span>
+          <span class="stat-card__label">Total views</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__value" id="stat-unique-visitors">—</span>
+          <span class="stat-card__label">Unique visitors</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
