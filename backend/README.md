@@ -266,6 +266,82 @@ Does not touch the separate `users` table.
 
 ---
 
+## Analytics (self-built, no third-party script)
+
+### `POST /api/track`
+
+Public. Logs one pageview: `path`, `referrer`, and a client-generated
+`visitor_id`. Fired by the fire-and-forget beacon in
+`public/analytics/track.js` on every page load. Best-effort — any failure
+(including a malformed body) is swallowed server-side and this still
+responds `200`, so a broken tracking call can never surface as an error to a
+visitor.
+
+**Request body**
+
+```json
+{
+  "path": "/index.html",
+  "referrer": "https://www.google.com/",
+  "visitor_id": "a1b2c3d4-..."
+}
+```
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| path | string | yes | The page path the beacon was sent from |
+| referrer | string | no | `document.referrer`, or omitted for a direct visit |
+| visitor_id | string | no | Random id the client generates once and keeps in `localStorage`, used only to approximate unique visitors |
+
+**Response - `200 OK`**
+
+```json
+{ "ok": true }
+```
+
+`ok` can be `false` on a silent server-side failure — the beacon doesn't
+read the response, so this is informational only.
+
+### `GET /api/analytics`
+
+**Admin only.** Requires header `X-Admin-Key: <ADMIN_KEY>` (same gate as the
+enrollments endpoints). Feeds `public/analytics/dashboard.html`.
+
+**Query params**
+
+| Param | Type | Required | Notes |
+|---|---|---|---|
+| days | integer | no | Lookback window, default `30`, min `1`, max `90` |
+
+**Success response - `200 OK`**
+
+```json
+{
+  "total_views": 482,
+  "unique_visitors": 133,
+  "views_by_page": [
+    { "path": "/index.html", "views": 210 },
+    { "path": "/src/pages/register.html", "views": 96 }
+  ],
+  "views_by_day": [
+    { "date": "2026-09-01", "views": 12 },
+    { "date": "2026-09-02", "views": 18 }
+  ],
+  "top_referrers": [
+    { "referrer": "Direct", "views": 300 },
+    { "referrer": "https://www.google.com/", "views": 90 }
+  ]
+}
+```
+
+`views_by_day` only includes days that had at least one view — the frontend
+fills in the zero days itself when charting. `top_referrers` groups an empty
+referrer under `"Direct"`.
+
+**Error - `403 Forbidden`** — key missing/wrong.
+
+---
+
 ### `GET /health`
 
 Health check. No auth, no params.

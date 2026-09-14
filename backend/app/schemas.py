@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import List, Optional
 
 class UserRegisterRequest(BaseModel):
     name: str = Field(..., min_length=1, max_length=200)
@@ -58,6 +58,29 @@ class PageViewCreate(BaseModel):
 
 class TrackResponse(BaseModel):
     ok: bool
+
+
+class PageViewStat(BaseModel):
+    path: str
+    views: int
+
+
+class DailyViewStat(BaseModel):
+    date: str
+    views: int
+
+
+class ReferrerStat(BaseModel):
+    referrer: str
+    views: int
+
+
+class AnalyticsSummary(BaseModel):
+    total_views: int
+    unique_visitors: int
+    views_by_page: List[PageViewStat]
+    views_by_day: List[DailyViewStat]
+    top_referrers: List[ReferrerStat]
 
 
 class EnrollmentAdminItem(BaseModel):
