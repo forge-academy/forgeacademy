@@ -64,6 +64,17 @@ def init_db():
         END $$;
         """
     )
+    cur.execute(
+        """
+        CREATE TABLE IF NOT EXISTS page_views (
+            id SERIAL PRIMARY KEY,
+            path TEXT NOT NULL,
+            referrer TEXT,
+            visitor_id TEXT,
+            created_at TIMESTAMP DEFAULT now()
+        )
+        """
+    )
     conn.commit()
     cur.close()
     conn.close()

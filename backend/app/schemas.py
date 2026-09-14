@@ -50,6 +50,16 @@ class EnrollmentDeleteResponse(BaseModel):
     deleted: bool = True
 
 
+class PageViewCreate(BaseModel):
+    path: str = Field(..., min_length=1, max_length=300)
+    referrer: Optional[str] = Field(None, max_length=500)
+    visitor_id: Optional[str] = Field(None, max_length=100)
+
+
+class TrackResponse(BaseModel):
+    ok: bool
+
+
 class EnrollmentAdminItem(BaseModel):
     """Full enrollment row for the admin dashboard."""
     id: int

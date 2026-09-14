@@ -6,7 +6,7 @@ from slowapi.middleware import SlowAPIMiddleware
 
 from app.database import init_db
 from app.rate_limit import limiter
-from app.routers import users, enrollments
+from app.routers import users, enrollments, analytics
 
 app = FastAPI(title="ForgeAcademy API", version="0.1.0")
 
@@ -47,6 +47,7 @@ def startup():
 
 app.include_router(users.router)
 app.include_router(enrollments.router)
+app.include_router(analytics.router)
 
 @app.get("/health")
 def health():
