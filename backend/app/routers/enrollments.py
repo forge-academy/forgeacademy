@@ -1,9 +1,11 @@
+import secrets
 from typing import List
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Header
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Header, Request
 from psycopg2.extras import RealDictCursor
 
 from app.database import get_connection
+from app.rate_limit import limiter
 from app.schemas import (
     EnrollmentAdminItem,
     EnrollmentCreateRequest,
@@ -22,13 +24,18 @@ router = APIRouter(prefix="/api", tags=["enrollments"])
 
 
 def require_admin(x_admin_key: str) -> None:
-    """Same gate the verify endpoint uses — the X-Admin-Key header must match ADMIN_KEY."""
-    if x_admin_key != ADMIN_KEY:
+    """Same gate the verify endpoint uses — the X-Admin-Key header must match
+    ADMIN_KEY. Constant-time compare (avoids leaking the key one byte at a
+    time via response-time differences) and fails closed if ADMIN_KEY was
+    never configured, instead of every key (including an empty one) matching
+    an empty ADMIN_KEY."""
+    if not ADMIN_KEY or not secrets.compare_digest(x_admin_key, ADMIN_KEY):
         raise HTTPException(status_code=403, detail="Not authorized.")
 
 
 @router.post("/enrollments", response_model=EnrollmentResponse)
-def create_enrollment(payload: EnrollmentCreateRequest, background_tasks: BackgroundTasks):
+@limiter.limit("5/minute")
+def create_enrollment(request: Request, payload: EnrollmentCreateRequest, background_tasks: BackgroundTasks):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
     try:
@@ -75,7 +82,8 @@ def create_enrollment(payload: EnrollmentCreateRequest, background_tasks: Backgr
 
 
 @router.post("/enrollments/{enrollment_id}/notify-academy")
-def notify_academy(enrollment_id: int, background_tasks: BackgroundTasks):
+@limiter.limit("10/minute")
+def notify_academy(request: Request, enrollment_id: int, background_tasks: BackgroundTasks):
     """Public — called by the frontend when the student clicks "Okay" on the
     post-registration success popup, as its own separate request/response
     cycle from POST /enrollments. Sends the academy's new-enrollment heads-up
@@ -111,7 +119,8 @@ def notify_academy(enrollment_id: int, background_tasks: BackgroundTasks):
 
 
 @router.get("/enrollments", response_model=List[EnrollmentAdminItem])
-def list_enrollments(x_admin_key: str = Header(...)):
+@limiter.limit("30/minute")
+def list_enrollments(request: Request, x_admin_key: str = Header(...)):
     """Admin dashboard feed — every enrollment, newest first. Admin-key gated,
     same as the verify endpoint. Not called by the public site."""
     require_admin(x_admin_key)
@@ -137,7 +146,8 @@ def list_enrollments(x_admin_key: str = Header(...)):
 
 
 @router.delete("/enrollments")
-def clear_enrollments(x_admin_key: str = Header(...)):
+@limiter.limit("3/minute")
+def clear_enrollments(request: Request, x_admin_key: str = Header(...)):
     """Admin-only, irreversible. Wipes every row in the enrollments table —
     pending and paid alike — for a one-time reset before launch so real
     registrations start from zero. Scoped to this table only; the separate
@@ -159,11 +169,11 @@ def clear_enrollments(x_admin_key: str = Header(...)):
 
 
 @router.patch("/enrollments/{enrollment_id}/verify", response_model=EnrollmentResponse)
-def verify_enrollment(enrollment_id: int, x_admin_key: str = Header(...)):
+@limiter.limit("30/minute")
+def verify_enrollment(request: Request, enrollment_id: int, x_admin_key: str = Header(...)):
     """You (the admin) call this once you've manually checked your bank
     account and seen the transfer land. Not called by the frontend."""
-    if x_admin_key != ADMIN_KEY:
-        raise HTTPException(status_code=403, detail="Not authorized.")
+    require_admin(x_admin_key)
 
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -191,8 +201,9 @@ def verify_enrollment(enrollment_id: int, x_admin_key: str = Header(...)):
 
 
 @router.delete("/enrollments/{enrollment_id}", response_model=EnrollmentDeleteResponse)
+@limiter.limit("30/minute")
 def delete_enrollment(
-    enrollment_id: int, background_tasks: BackgroundTasks, x_admin_key: str = Header(...)
+    request: Request, enrollment_id: int, background_tasks: BackgroundTasks, x_admin_key: str = Header(...)
 ):
     """Admin-only. Permanently deletes an enrollment whose payment never got
     confirmed (spam, no transfer landed, wrong reference, etc.) and emails the

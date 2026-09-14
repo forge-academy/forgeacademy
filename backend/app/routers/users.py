@@ -1,8 +1,9 @@
 import psycopg2
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from psycopg2.extras import RealDictCursor
 
 from app.database import get_connection
+from app.rate_limit import limiter
 from app.schemas import ErrorResponse, UserRegisterRequest, UserRegisterResponse
 from app.services.email_service import send_welcome_email
 
@@ -14,7 +15,8 @@ router = APIRouter(prefix="/api", tags=["users"])
     response_model=UserRegisterResponse,
     responses={400: {"model": ErrorResponse}},
 )
-def register_user(payload: UserRegisterRequest):
+@limiter.limit("5/minute")
+def register_user(request: Request, payload: UserRegisterRequest):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
     try:

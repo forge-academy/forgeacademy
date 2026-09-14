@@ -1,0 +1,25 @@
+name: Security watch
+
+# Standalone watchdog — not part of the deploy pipeline. It only ever reads
+# from / probes the already-deployed backend, so it can't hold up or break
+# shipping. Runs entirely on GitHub's free Actions runners; nothing to host.
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours
+  workflow_dispatch: {} # lets you trigger a run manually from the Actions tab
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.21"
+
+      - name: Run security probes against the live backend
+        working-directory: security-watch
+        env:
+          TARGET_URL: ${{ vars.SECURITY_WATCH_TARGET_URL }}
+        run: go run .
