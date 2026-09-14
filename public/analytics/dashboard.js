@@ -26,6 +26,14 @@
 
   var adminKey = null;
 
+  /* ---------------- Formatting helpers ---------------- */
+
+  var escapeHtml = function (str) {
+    return String(str == null ? "" : str).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+
   /* ---------------- Session storage ---------------- */
 
   function getStoredKey() {
@@ -121,12 +129,17 @@
      ================================================================ */
 
   function initDashboardPage() {
+    var DAYS = 30;
+
     var els = {
       meta: $("#dashboard-meta"),
       dashError: $("#dashboard-error"),
       dashStatus: $("#dashboard-status"),
       totalViews: $("#stat-total-views"),
       uniqueVisitors: $("#stat-unique-visitors"),
+      dailyChart: $("#daily-chart"),
+      topPagesList: $("#top-pages-list"),
+      topReferrersList: $("#top-referrers-list"),
       sessionActions: $("#session-actions"),
     };
 
@@ -142,12 +155,69 @@
     function renderStats(data) {
       els.totalViews.textContent = data.total_views.toLocaleString();
       els.uniqueVisitors.textContent = data.unique_visitors.toLocaleString();
-      els.meta.textContent = "Last 30 days";
+      els.meta.textContent = "Last " + DAYS + " days";
+    }
+
+    // Renders a ranked list (top pages / top referrers) with a proportional
+    // bar next to each row so the biggest items are visually obvious.
+    function renderList(el, items, labelKey) {
+      if (!items.length) {
+        el.innerHTML = '<li class="analytics-list__empty">No data yet.</li>';
+        return;
+      }
+      var max = items.reduce(function (m, i) { return Math.max(m, i.views); }, 1);
+      el.innerHTML = items
+        .map(function (item) {
+          var pct = Math.round((item.views / max) * 100);
+          var label = escapeHtml(item[labelKey]);
+          return (
+            '<li class="analytics-list__row">' +
+              '<div class="analytics-list__bar-track"><div class="analytics-list__bar" style="width:' + pct + '%"></div></div>' +
+              '<span class="analytics-list__name" title="' + label + '">' + label + "</span>" +
+              '<span class="analytics-list__count">' + item.views.toLocaleString() + "</span>" +
+            "</li>"
+          );
+        })
+        .join("");
+    }
+
+    // views_by_day from the API only includes days with at least one view —
+    // this fills in the zero days so the chart covers a continuous range.
+    function buildDailySeries(viewsByDay, days) {
+      var map = {};
+      viewsByDay.forEach(function (d) { map[d.date] = d.views; });
+
+      var series = [];
+      var today = new Date();
+      for (var i = days - 1; i >= 0; i--) {
+        var d = new Date(today);
+        d.setDate(d.getDate() - i);
+        var key = d.toISOString().slice(0, 10);
+        series.push({ date: key, views: map[key] || 0 });
+      }
+      return series;
+    }
+
+    function renderDailyChart(el, viewsByDay, days) {
+      var series = buildDailySeries(viewsByDay, days);
+      var max = series.reduce(function (m, d) { return Math.max(m, d.views); }, 1);
+
+      el.innerHTML = series
+        .map(function (d) {
+          var pct = Math.round((d.views / max) * 100);
+          var tooltip = d.date + ": " + d.views + " view" + (d.views === 1 ? "" : "s");
+          return (
+            '<div class="daily-chart__col" title="' + escapeHtml(tooltip) + '">' +
+              '<div class="daily-chart__bar" style="height:' + Math.max(pct, 2) + '%"></div>' +
+            "</div>"
+          );
+        })
+        .join("");
     }
 
     async function refresh() {
       els.dashError.hidden = true;
-      var result = await fetchAnalytics(adminKey, 30);
+      var result = await fetchAnalytics(adminKey, DAYS);
 
       if (!result.ok) {
         if (result.status === 403) {
@@ -166,6 +236,9 @@
       }
 
       renderStats(result.data);
+      renderDailyChart(els.dailyChart, result.data.views_by_day, DAYS);
+      renderList(els.topPagesList, result.data.views_by_page, "path");
+      renderList(els.topReferrersList, result.data.top_referrers, "referrer");
     }
 
     els.sessionActions.addEventListener("click", function (e) {
