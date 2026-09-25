@@ -7,10 +7,10 @@
 
   // Ambassador codes carry no discount — they exist purely so the academy can
   // see, on the admin dashboard, who registered through which ambassador.
-  const AMBASSADOR_CODES = [
-    "BLK", "ADEK", "DORA", "LIYYAA", "MELO", "TANWA", "TORIA",
-    "DAN05", "MARVEL", "AECH", "ASIWAJU", "AKIN", "OAT05",
-  ];
+    const AMBASSADOR_CODES = [
+    "BLK", "ADEK", "DORA", "LIYYAA", "MELO", "TANWA",
+    "TORIA", "DAN05", "MARVEL", "AECH", "ASIWAJU", "AKIN", "OAT05", "BUK79"
+  ]; 
 
   const API_BASE = "https://forgeacademy.onrender.com";
 
