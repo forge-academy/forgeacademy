@@ -24,6 +24,17 @@ import (
 
 const wrongAdminKey = "definitely-not-the-real-admin-key-security-watch-probe"
 
+// newWrongAdminKeyRequest builds a request carrying a deliberately wrong
+// X-Admin-Key, shared by every check that expects the server to fail closed.
+func newWrongAdminKeyRequest(method, url string) (*http.Request, error) {
+	req, err := http.NewRequest(method, url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("X-Admin-Key", wrongAdminKey)
+	return req, nil
+}
+
 type check struct {
 	name string
 	run  func(client *http.Client, baseURL string) error
@@ -102,11 +113,10 @@ func checkSecurityHeaders(client *http.Client, baseURL string) error {
 }
 
 func checkAdminReadFailsClosed(client *http.Client, baseURL string) error {
-	req, err := http.NewRequest(http.MethodGet, baseURL+"/api/enrollments", nil)
+	req, err := newWrongAdminKeyRequest(http.MethodGet, baseURL+"/api/enrollments")
 	if err != nil {
 		return err
 	}
-	req.Header.Set("X-Admin-Key", wrongAdminKey)
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -121,11 +131,10 @@ func checkAdminReadFailsClosed(client *http.Client, baseURL string) error {
 }
 
 func checkWipeFailsClosed(client *http.Client, baseURL string) error {
-	req, err := http.NewRequest(http.MethodDelete, baseURL+"/api/enrollments", nil)
+	req, err := newWrongAdminKeyRequest(http.MethodDelete, baseURL+"/api/enrollments")
 	if err != nil {
 		return err
 	}
-	req.Header.Set("X-Admin-Key", wrongAdminKey)
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -184,11 +193,10 @@ func checkRateLimitEngages(client *http.Client, baseURL string) error {
 	saw429 := false
 
 	for i := 0; i < burst; i++ {
-		req, err := http.NewRequest(http.MethodGet, baseURL+"/api/enrollments", nil)
+		req, err := newWrongAdminKeyRequest(http.MethodGet, baseURL+"/api/enrollments")
 		if err != nil {
 			return err
 		}
-		req.Header.Set("X-Admin-Key", wrongAdminKey)
 
 		resp, err := client.Do(req)
 		if err != nil {
