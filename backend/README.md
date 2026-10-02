@@ -360,8 +360,8 @@ Health check. No auth, no params.
 
 - CORS `allow_origins` is an explicit allowlist in `app/main.py`:
   `https://forgeacademy.name.ng` (prod) plus `http://localhost:5501` /
-  `http://127.0.0.1:5501` for the admin dashboard under VS Code Live Server.
-  Add any other origin you serve the frontend from.
+  `http://127.0.0.1:5501` and `:5502` for the frontend under VS Code Live
+  Server. Add any other origin you serve the frontend from.
 - The only auth is the `X-Admin-Key` shared secret, gating `GET /api/enrollments`,
   `PATCH .../verify`, both `DELETE` enrollment endpoints, and `GET /api/analytics`.
   `/api/register`, `POST /api/enrollments`, and `POST /api/track` are unauthenticated.
