@@ -44,7 +44,7 @@ migration step is needed.
 ## API Documentation
 
 Base URL (local dev): `http://localhost:8000`
-Base URL (production): _TBD once deployed - will update here_
+Base URL (production): `https://forgeacademy.onrender.com`
 
 ### `POST /api/register`
 
