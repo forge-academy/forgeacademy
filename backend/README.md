@@ -368,3 +368,10 @@ Health check. No auth, no params.
 - Payment verification is **manual**: an admin confirms each transfer via the
   admin dashboard / `PATCH .../verify`. Automated confirmation (Monnify webhook)
   is still a future piece.
+- Every endpoint is per-IP rate-limited (`app/rate_limit.py`, in-memory, so
+  only safe for a single-instance deployment); a request over the limit gets
+  `429 Too Many Requests`. Current limits: `POST /api/register` 5/min,
+  `POST /api/enrollments` 5/min, `.../notify-academy` 10/min,
+  `GET /api/enrollments` 30/min, `DELETE /api/enrollments` (wipe) 3/min,
+  `DELETE /api/enrollments/{id}` 30/min, `PATCH .../verify` 30/min,
+  `POST /api/track` 60/min, `GET /api/analytics` 30/min.
